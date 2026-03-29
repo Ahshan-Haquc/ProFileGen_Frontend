@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import Lottie from "lottie-react";
 import animationData from "../../assets/homePageAnimation.json";
 
-import SectionBox from "./home/SectionBox";
+import SectionBox from "../../components/dashboard/home/SectionBox";
 import { useEffect, useState } from "react";
 import Loading from "../../commonComponents/Loading";
 import OnboardingSteps from "../../sections/OnboardingSteps";

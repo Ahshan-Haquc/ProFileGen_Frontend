@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuthUser } from "../context/AuthContext";
-import toastShow from "../utils/toastShow";
+import { useAuthUser } from "../../context/AuthContext";
+import toastShow from "../../utils/toastShow";
 import { FaEnvelope, FaLock, FaFileAlt } from "react-icons/fa";
 
 const Login = () => {

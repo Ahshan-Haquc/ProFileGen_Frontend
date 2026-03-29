@@ -1,9 +1,9 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { useAuthUser } from "../../context/AuthContext";
+import { useAuthUser } from "../context/AuthContext";
 import { useEffect } from "react";
-import NavBar from "./NavBar";
-import SideBar from "./SideBar";
-import Footer from "./Footer";
+import NavBar from "../components/layout/NavBar";
+import SideBar from "../components/layout/SideBar";
+import Footer from "../components/layout/Footer";
 
 
 const AppLayout = () => {
