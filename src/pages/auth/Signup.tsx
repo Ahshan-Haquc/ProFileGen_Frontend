@@ -1,50 +1,38 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaRocket } from "react-icons/fa";
+import { useSignupUserMutation } from "../../redux/features/auth/authApi";
 import toastShow from "../../utils/toastShow";
 
 const Signup = () => {
   const [user, setUser] = useState({ email: "", password: "", name: "" });
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [signupUser, { isLoading: loading }] = useSignupUserMutation();
 
   useEffect(() => {
     document.title = "Sign Up - ProFileGen";
     toastShow("You do not have to verify your email. So feel free to use a random email and password.", "info");
   }, []);
 
-  const handleInput = (e) => {
+  const handleInput = (e: any) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/userSignup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: user.email,
-          password: user.password,
-          name: user.name,
-        }),
-        credentials: "include",
-      });
+      const response = await signupUser({
+        email: user.email,
+        password: user.password,
+        name: user.name,
+      }).unwrap();
 
-      const data = await response.json();
-      if (response.ok) {
-        toastShow("Signup successful! Please log in.", "success");
-        navigate("/login");
-      } else {
-        toastShow(data.error || "Signup failed. Please try again.", "error");
-      }
-    } catch (error) {
+      toastShow(response.message || "Signup successful! Please log in.", "success");
+      navigate("/login");
+    } catch (error: any) {
       console.error("Error during signup:", error);
-      toastShow("An error occurred during signup. Please try again.", "error");
-    } finally {
-      setLoading(false);
+      toastShow(error.data?.error || error.data?.message || "An error occurred during signup. Please try again.", "error");
     }
   };
 

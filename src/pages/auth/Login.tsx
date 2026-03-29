@@ -1,55 +1,44 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuthUser } from "../../context/AuthContext";
+import { useLoginUserMutation } from "../../redux/features/auth/authApi";
 import toastShow from "../../utils/toastShow";
 import { FaEnvelope, FaLock, FaFileAlt } from "react-icons/fa";
 
 const Login = () => {
   const [formUser, setFormUser] = useState({ email: "", password: "" });
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { user, setUser } = useAuthUser();
+  const [loginUser, { isLoading: loading }] = useLoginUserMutation();
 
   useEffect(() => {
     document.title = "Login - ProFileGen";
     toastShow("You do not have to verify your email. So feel free to use a random email and password to explore this website.", "info");
   }, []);
 
-  const handleInput = (e) => {
+  const handleInput = (e: any) => {
     const { name, value } = e.target;
     setFormUser({ ...formUser, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/userLogin`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          email: formUser.email,
-          password: formUser.password,
-        }),
-      });
+      const response = await loginUser({
+        email: formUser.email,
+        password: formUser.password,
+      }).unwrap();
 
-      const data = await response.json();
-      if (response.ok) {
-        setUser(data.user);
-        if (data.user.role === "admin") {
+      if (response.user) {
+        if (response.user.role === "admin") {
           navigate("/adminDashboard");
         } else {
           navigate("/cvDashboard");
         }
       } else {
-        toastShow(data.message || "Login unsuccessful. Please check your credentials.", "error");
+        toastShow(response.message || "Login unsuccessful. Please check your credentials.", "error");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Login error in frontend:", err);
-      toastShow("An unexpected error occurred. Please try again.", "error");
-    } finally {
-      setLoading(false);
+      toastShow(err.data?.message || err.message || "An unexpected error occurred. Please try again.", "error");
     }
   };
 

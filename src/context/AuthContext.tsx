@@ -1,35 +1,29 @@
-// AuthContext.jsx
+// AuthContext.tsx
 import { createContext, useContext, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { setUser as setReduxUser } from "../redux/features/auth/authSlice";
+import { useGetMeQuery } from "../redux/features/auth/authApi";
 
-const AuthContext = createContext();
+const AuthContext = createContext<any>(null);
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(undefined); // undefined = loading
+export const AuthProvider = ({ children }: any) => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+  
+  // RTK Query will automatically fetch on mount
+  const { isLoading, error } = useGetMeQuery();
+
+  const setUser = (data: any) => {
+    dispatch(setReduxUser(data));
+  };
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
-          method: "GET",
-          credentials: "include",
-        });
+    if (error) {
+      dispatch(setReduxUser(null));
+    }
+  }, [error, dispatch]);
 
-        if (res.ok) {
-          const data = await res.json();
-          setUser(data.userInfo);
-        } else {
-          setUser(null);
-        }
-      } catch (err) {
-        console.error("Error fetching user:", err);
-        setUser(null);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
-  if (user === undefined) return <div>Loading auth...</div>;
+  if (isLoading && user === undefined) return <div>Loading auth...</div>;
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

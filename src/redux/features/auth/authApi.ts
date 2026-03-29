@@ -1,0 +1,70 @@
+import { baseApi } from "../../api/baseApi";
+import { setUser } from "./authSlice";
+
+export const authApi = baseApi.injectEndpoints({
+  endpoints: (builder) => ({
+    getMe: builder.query<any, void>({
+      query: () => "/me",
+      providesTags: ["Auth"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setUser(data.userInfo || data.user || null));
+        } catch (error) {
+          dispatch(setUser(null));
+        }
+      },
+    }),
+    loginUser: builder.mutation<any, any>({
+      query: (credentials) => ({
+        url: "/userLogin",
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: ["Auth", "User", "CV", "Skills"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.user || data.userInfo) {
+            dispatch(setUser(data.user || data.userInfo));
+          }
+        } catch (error) {}
+      },
+    }),
+    signupUser: builder.mutation<any, any>({
+      query: (userData) => ({
+        url: "/userSignup",
+        method: "POST",
+        body: userData,
+      }),
+    }),
+    adminSignup: builder.mutation<any, any>({
+      query: (userData) => ({
+        url: "/auth/admin/signup",
+        method: "POST",
+        body: userData,
+      }),
+    }),
+    logoutUser: builder.mutation<any, void>({
+      query: () => ({
+        url: "/userLogout",
+        method: "GET",
+      }),
+      invalidatesTags: ["Auth", "User", "CV", "Skills"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(setUser(null));
+        } catch (error) {}
+      },
+    }),
+  }),
+});
+
+export const {
+  useGetMeQuery,
+  useLoginUserMutation,
+  useSignupUserMutation,
+  useAdminSignupMutation,
+  useLogoutUserMutation,
+} = authApi;

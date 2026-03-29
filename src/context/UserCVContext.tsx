@@ -1,18 +1,16 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, { createContext, useContext } from "react";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { setUserCV as setReduxUserCV } from "../redux/features/cv/cvSlice";
 
-export const CVcontext = createContext();
+export const CVcontext = createContext<any>(null);
 
-export const CVprovider = ({ children }) => {
-  const [userCV, setUserCV] = useState(() => { //function means if i reload page then userCV value will not lost, it will store in localstorage and then again will assign that value in userCV
-    const savedCV = localStorage.getItem("userCV");
-    return savedCV ? JSON.parse(savedCV) : null;
-  });
+export const CVprovider = ({ children }: any) => {
+  const dispatch = useAppDispatch();
+  const userCV = useAppSelector((state) => state.cv.userCV);
 
-  useEffect(() => {
-    if (userCV) {
-      localStorage.setItem("userCV", JSON.stringify(userCV));
-    }
-  }, [userCV]);
+  const setUserCV = (data: any) => {
+    dispatch(setReduxUserCV(data));
+  };
 
   return (
     <CVcontext.Provider value={{ userCV, setUserCV }}>
