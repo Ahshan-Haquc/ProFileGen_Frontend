@@ -1,5 +1,5 @@
 import React from "react";
-import Title from "../components/Headings";
+import Title from "./Headings";
 import { useUserCV } from "../context/UserCVContext";
 
 const Projects = () => {
