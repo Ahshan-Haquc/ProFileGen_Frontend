@@ -1,0 +1,9 @@
+.custom-sidebar {
+    position: relative;
+}
+
+.bb {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
