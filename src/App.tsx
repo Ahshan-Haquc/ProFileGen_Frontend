@@ -11,7 +11,7 @@ import routes from "./routes";
 
 function App() {
   return (
-    <div className="flex p-0 m-0 min-h-screen max-h-fit w-screen">
+    <div className="flex p-0 m-0 min-h-screen max-h-fit w-full overflow-x-hidden">
       <AuthProvider>
         <CVprovider>
           <SkillsProvider>
