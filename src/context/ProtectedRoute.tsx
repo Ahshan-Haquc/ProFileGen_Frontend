@@ -9,7 +9,7 @@ const ProtectedRoute = () => {
   }
 
   if (user === null) {
-    return <Navigate to="/login" />; // if not logged in, redirect to login page
+    return <Navigate to="/" />; // if not logged in, redirect to login page
   }
 
   return <Outlet />; // logged in - render the child components

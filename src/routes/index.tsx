@@ -1,16 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 // layouts
-import AppLayout from "@/layouts/AppLayout";
-import AdminLayout from "@/layouts/AdminLayout";
 
-// auth
-import Login from "@/pages/Login";
-import Signup from "@/pages/Signup";
-import SignupAdmin from "@/pages/auth/SignupAdmin";
-
-// dashboard pages
-import Home from "@/pages/dashboard/Home";
 import Profile from "../pages/dashboard/Profile";
 import Contact from "../pages/dashboard/Contact";
 import Description from "../pages/dashboard/Description";
@@ -36,6 +27,12 @@ import ViewFormalCV2 from "../pages/public/ViewFormalCV2";
 import ProtectedRoute from "../context/ProtectedRoute";
 import NotFoundPage from "../commonComponents/NotFoundPage";
 import LandingPage from "../pages/LandingPage";
+import Login from "../pages/auth/Login";
+import Signup from "../pages/auth/Signup";
+import SignupAdmin from "../pages/auth/SignupAdmin";
+import AppLayout from "../layouts/AppLayout";
+import { Home } from "lucide-react";
+import AdminLayout from "../layouts/AdminLayout";
 
 const routes = createBrowserRouter([
   //   PUBLIC ROUTES  
@@ -73,15 +70,9 @@ const routes = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
-      // USER DASHBOARD
       {
-        path: "/",
         element: <AppLayout />,
         children: [
-          {
-            index: true,
-            element: <Navigate to="/home" replace />,
-          },
           {
             path: "home",
             element: <Home />,

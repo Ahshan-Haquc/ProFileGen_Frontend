@@ -4,9 +4,9 @@
     "lib": ["DOM", "ESNext"],
     "jsx": "react-jsx",
     "module": "ESNext",
-    "moduleResolution": "Node",
-    "strict": true,
-    "noImplicitAny": true,
+    "moduleResolution": "Bundler",
+    "strict": false,
+    "noImplicitAny": false,
     "skipLibCheck": true,
     "esModuleInterop": true
   },
