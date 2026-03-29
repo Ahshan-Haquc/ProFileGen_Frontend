@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaRocket } from "react-icons/fa";
-import toastShow from "../utils/toastShow";
+import toastShow from "../../utils/toastShow";
 
 const Signup = () => {
   const [user, setUser] = useState({ email: "", password: "", name: "" });

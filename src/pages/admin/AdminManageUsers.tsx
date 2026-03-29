@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Search, Edit, Trash2, Ban, Users } from "lucide-react";
-import axiosInstance from "../api/axiosInstance";
-import { deleteUser, blockUser, unblockUser } from "../api/adminActions";
-import toastShow from '../utils/toastShow'
+import axiosInstance from "../../api/axiosInstance";
+import { deleteUser, blockUser, unblockUser } from "../../api/adminActions";
+import toastShow from '../../utils/toastShow'
 
 const ManageUsers = () => {
     const [search, setSearch] = useState("");

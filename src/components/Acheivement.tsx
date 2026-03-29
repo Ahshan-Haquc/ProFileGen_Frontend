@@ -1,5 +1,5 @@
 import React from "react";
-import Title from "../components/Headings";
+import Title from "./Headings";
 
 const Acheivement = ({ text }) => {
   return <li className="mb-2">{text}</li>;

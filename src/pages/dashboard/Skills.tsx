@@ -1,5 +1,5 @@
 import React from "react";
-import SkillsAddByCategory from "./skills/SkillsAddByCategory";
+import SkillsAddByCategory from "../../components/dashboard/skills/SkillsAddByCategory";
 import { useSkillsContext } from "../../context/SkillsAddingContext";
 import { useAuthUser } from "../../context/AuthContext";
 import { useUserCV } from "../../context/UserCVContext";

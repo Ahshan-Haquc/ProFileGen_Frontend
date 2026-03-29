@@ -1,8 +1,8 @@
 import React from "react";
 import myImage from "../assets/MyImage.jpg";
-import Title from "../components/Headings";
-import ContactText from "../components/ContactText";
-import Skills from "../components/Skills";
+import Title from "./Headings";
+import ContactText from "./ContactText";
+import Skills from "./Skills";
 import { useUserCV } from "../context/UserCVContext";
 
 const LeftSide = () => {

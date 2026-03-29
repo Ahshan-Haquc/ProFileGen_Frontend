@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
-import LeftSide from "./LeftSide";
-import RightSide from "./RightSide";
+import LeftSide from "../../components/LeftSide";
+import RightSide from "../../components/RightSide";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useUserCV } from "../context/UserCVContext";
-import Loading from "../commonComponents/Loading";
-import { loadingOnPageLoad } from "../controllers/loadingOnPageLoad";
+import { useUserCV } from "../../context/UserCVContext";
+import Loading from "../../commonComponents/Loading";
+import { loadingOnPageLoad } from "../../controllers/loadingOnPageLoad";
 import { toPng } from "html-to-image";
 import html2canvas from "html2canvas";
 

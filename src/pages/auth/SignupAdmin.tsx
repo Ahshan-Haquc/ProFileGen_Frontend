@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import axiosInstance from "../api/axiosInstance";
-import toastShow from "../utils/toastShow";
+import axiosInstance from "../../api/axiosInstance";
+import toastShow from "../../utils/toastShow";
 
 const SignupAdmin = () => {
     const [input, setInput] = useState({ email: "", password: "", confirmPassword: "" });

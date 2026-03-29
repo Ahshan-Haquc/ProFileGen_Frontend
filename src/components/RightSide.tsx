@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import Title from "../components/Headings";
-import WorkExperience from "../components/WorkExperience";
-import Education from "../components/Education";
-import Acheivement from "../components/Acheivement";
-import ExtracurricularActivities from "../components/ExtracurricularActivities";
+import Title from "./Headings";
+import WorkExperience from "./WorkExperience";
+import Education from "./Education";
+import Acheivement from "./Acheivement";
+import ExtracurricularActivities from "./ExtracurricularActivities";
 import Projects from "./Projects";
 import { useUserCV } from "../context/UserCVContext";
 
