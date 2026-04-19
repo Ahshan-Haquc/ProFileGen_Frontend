@@ -11,7 +11,7 @@ const Hero = () => {
   // Warm Sand: #DCA06D (Secondary Buttons/Accents)
 
   return (
-    <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden bg-white px-4 py-12 md:py-24">
+    <section className="relative w-full min-h-[100vh] flex items-center justify-center overflow-hidden bg-white px-4 py-22 md:py-24">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div className="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] rounded-full bg-[#DCA06D]/10 blur-3xl" />
@@ -73,11 +73,11 @@ const Hero = () => {
           className="relative"
         >
           {/* Main Resume Placeholder Image */}
-          <div className="relative z-10 bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+          <div className="relative z-10 bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 transform rotate-2 hover:rotate-0 transition-transform duration-500 w-fit">
             <img 
-              src="/resume-sample.png" 
+              src="/sampleCV.webp" 
               alt="Resume Sample" 
-              className="rounded-xl w-full h-auto"
+              className="rounded-xl w-fit max-h-[70vh]"
             />
           </div>
 
