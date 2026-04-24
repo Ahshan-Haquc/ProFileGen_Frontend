@@ -11,7 +11,6 @@ const Login = () => {
 
   useEffect(() => {
     document.title = "Login - ProFileGen";
-    toastShow("You do not have to verify your email. So feel free to use a random email and password to explore this website.", "info");
   }, []);
 
   const handleInput = (e: any) => {
@@ -31,7 +30,7 @@ const Login = () => {
         if (response.user.role === "admin") {
           navigate("/adminDashboard");
         } else {
-          navigate("/cvDashboard");
+          navigate("/dashboard");
         }
       } else {
         toastShow(response.message || "Login unsuccessful. Please check your credentials.", "error");
