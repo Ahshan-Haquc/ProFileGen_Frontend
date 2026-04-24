@@ -31,9 +31,9 @@ import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import SignupAdmin from "../pages/auth/SignupAdmin";
 import AppLayout from "../layouts/AppLayout";
-import { Home } from "lucide-react";
 import AdminLayout from "../layouts/AdminLayout";
 import CVDashboard from "@/pages/dashboard/CVDashboard";
+import Home from "@/pages/dashboard/Home";
 
 const routes = createBrowserRouter([
   //   PUBLIC ROUTES  

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
     Plus,
@@ -22,7 +22,8 @@ import { MdLightMode } from "react-icons/md";
 import toastShow from "../../utils/toastShow";
 import { useAuthUser } from "../../context/AuthContext";
 import { useCreateCVMutation, useDeleteCVMutation, useToggleFavoriteMutation, useUpdateCVTitleMutation } from "../../redux/features/cv/cvApi";
-import { useGetDashboardDataQuery, useLogoutUserMutation } from "../../redux/features/dashboard/dashboardApi";
+import { useGetDashboardDataQuery } from "../../redux/features/dashboard/dashboardApi";
+import DashboardNavBar from "@/layouts/DashboardNavBar";
 
 const templates = [
     {
@@ -256,7 +257,6 @@ export default function CVDashboard() {
     const [createCV] = useCreateCVMutation();
     const [deleteCV] = useDeleteCVMutation();
     const [toggleFavorite] = useToggleFavoriteMutation();
-    const [logoutUser] = useLogoutUserMutation();
 
     const cvs = data?.userCVs || [];
 
@@ -283,15 +283,7 @@ export default function CVDashboard() {
         return list;
     }, [cvs, query, sortBy]);
 
-    const logout = async () => {
-        try {
-            await logoutUser().unwrap();
-            setUser(null);
-            navigate("/login");
-        } catch (error) {
-            toastShow("Logout unsuccessful", "error");
-        }
-    };
+
 
     const handleToggleFavorite = async (id) => {
         try {
@@ -346,28 +338,7 @@ export default function CVDashboard() {
     return (
         <div className="flex flex-col w-full">
             {/* navbar  */}
-            <div className="w-full h-16 bg-[#210F37]  text-white px-2 md:px-14 py-3 flex justify-between items-center">
-                {/* Professional Profile Generator */}
-                <div className="flex justify-center items-center">
-                    <div className="">
-                        <div className="text-xl md:text-3xl font-bold">ProFileGen</div>
-                        <div className="text-[12px] font-normal text-gray-300">Dashboard</div>
-                    </div>
-                </div>
-                <div className="flex gap-3">
-                    <button
-                        className=" h-10 w-10 rounded-full hover:bg-[#ff8757] hover:cursor-pointer duration-500 flex justify-center items-center"
-                    >
-                        <MdLightMode size={20} />
-                    </button>
-                    <button
-                        className=" h-10 w-10 rounded-full hover:bg-[#ff8757] hover:cursor-pointer duration-500 flex justify-center items-center"
-                        onClick={logout}
-                    >
-                        <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                    </button>
-                </div>
-            </div>
+            <DashboardNavBar/>
             {/* main content  */}
             <div className="mx-auto min-w-full max-w-7xl px-2 md:px-14 py-8">
                 {/* Header */}
