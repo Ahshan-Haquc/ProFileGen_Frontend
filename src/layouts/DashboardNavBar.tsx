@@ -49,7 +49,7 @@ const DashboardNavBar = () => {
                         onClick={() => navigate(link.path)}
                         className={`h-10 px-4 rounded-lg flex items-center gap-2 transition-all duration-300 ${
                             location.pathname === link.path 
-                            ? "bg-[#ff8757] text-white" 
+                            ? "text-[#ff8757] " 
                             : "hover:bg-white/10 text-gray-300 hover:text-white"
                         }`}
                     >
@@ -61,7 +61,7 @@ const DashboardNavBar = () => {
                 <div className="w-[1px] h-6 bg-gray-700 mx-2" />
 
                 <button
-                    className="h-10 px-4 rounded-lg border border-red-500/50 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 flex items-center gap-2 font-medium"
+                    className="h-10 px-4 rounded-lg border border-gray-300 text-gray-300 hover:bg-[#ff8757] hover:text-white hover:border-[#ff8757] transition-all duration-300 flex items-center gap-2 font-medium"
                     onClick={logout}
                 >
                     <LogOut size={18} />

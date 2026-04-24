@@ -34,6 +34,7 @@ import AppLayout from "../layouts/AppLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import CVDashboard from "@/pages/dashboard/CVDashboard";
 import Home from "@/pages/dashboard/Home";
+import MyCVs from "@/pages/dashboard/MyCVs";
 
 const routes = createBrowserRouter([
   //   PUBLIC ROUTES  
@@ -74,6 +75,10 @@ const routes = createBrowserRouter([
       {
         path: "dashboard",
         element: <CVDashboard />,
+      },
+      {
+        path: "my-cvs",
+        element: <MyCVs />,
       },
       {
         element: <AppLayout />,
