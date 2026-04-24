@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useAuthUser } from "../../context/AuthContext";
 import { useUserCV } from "../../context/UserCVContext";
-import deleteProject from "../../controllers/deleteItems";
 import toastShow from "../../utils/toastShow";
+import {
+  useUpdateUserEducationMutation,
+  useDeleteItemsMutation,
+} from "../../redux/features/dashboard/dashboardApi";
 
 const Education = () => {
   const { user } = useAuthUser();
@@ -30,35 +33,28 @@ const Education = () => {
     }));
   };
 
+  const [updateUserEducation] = useUpdateUserEducationMutation();
+  const [deleteItems] = useDeleteItemsMutation();
+
   // submit to backend
   const submitData = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/updateUserEducation`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          cvId: userCV._id,
-          educationQualification: contactValues.educationQualification,
-          educationInstitutionName: contactValues.educationInstitutionName,
-          startingDate: contactValues.startingDate,
-          endingDate: contactValues.endingDate,
-        }),
+      const data = await updateUserEducation({
+        cvId: userCV._id,
+        educationQualification: contactValues.educationQualification,
+        educationInstitutionName: contactValues.educationInstitutionName,
+        startingDate: contactValues.startingDate,
+        endingDate: contactValues.endingDate,
+      }).unwrap();
+
+      toastShow(data.message, "success");
+      setUserCV(data.updatedCV);
+      setContactValues({
+        educationQualification: "",
+        educationInstitutionName: "",
+        startingDate: "",
+        endingDate: "",
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        toastShow(data.message, "success");
-        setUserCV(data.updatedCV);
-        setContactValues({
-          educationQualification: "",
-          educationInstitutionName: "",
-          startingDate: "",
-          endingDate: "",
-        });
-      } else {
-        toastShow(data.message, "error");
-      }
     } catch (error) {
       console.log("Error in submission:", error);
       toastShow("Not updated", "error");
@@ -161,9 +157,18 @@ const Education = () => {
                 <td className="py-4 px-6 text-sm text-gray-700">
                   <button
                     className="px-4 py-2 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700"
-                    onClick={() =>
-                      deleteProject(userCV._id, "education", index, setUserCV)
-                    }
+                    onClick={async () => {
+                      try {
+                        const data = await deleteItems({
+                          cvId: userCV._id,
+                          pageName: "education",
+                          indexToDelete: index,
+                        }).unwrap();
+                        if (data.updatedCV) setUserCV(data.updatedCV);
+                      } catch (error) {
+                        toastShow("Failed to delete education item.", "error");
+                      }
+                    }}
                   >
                     Delete
                   </button>

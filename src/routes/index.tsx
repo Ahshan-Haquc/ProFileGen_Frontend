@@ -33,6 +33,7 @@ import SignupAdmin from "../pages/auth/SignupAdmin";
 import AppLayout from "../layouts/AppLayout";
 import { Home } from "lucide-react";
 import AdminLayout from "../layouts/AdminLayout";
+import CVDashboard from "@/pages/dashboard/CVDashboard";
 
 const routes = createBrowserRouter([
   //   PUBLIC ROUTES  
@@ -71,12 +72,16 @@ const routes = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
+        path: "dashboard",
+        element: <CVDashboard />,
+      },
+      {
         element: <AppLayout />,
         children: [
-          {
-            path: "home",
-            element: <Home />,
-          },
+          // {
+          //   path: "home",
+          //   element: <Home />,
+          // },
           {
             path: "home/:cvId",
             element: <Home />,
@@ -130,7 +135,7 @@ const routes = createBrowserRouter([
 
       // ADMIN DASHBOARD
       {
-        path: "/admin",
+        path: "/adminDashboard",
         element: <AdminLayout />,
         children: [
           {
@@ -138,7 +143,7 @@ const routes = createBrowserRouter([
             element: <AdminDashboard />,
           },
           {
-            path: "users",
+            path: "adminManageUsers",
             element: <AdminManageUsers />,
           },
         ],

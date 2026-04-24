@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
     Plus,
@@ -17,13 +17,12 @@ import {
     Clock3,
     ChevronRight,
 } from "lucide-react";
-import NavBar from "./layout/NavBar";
-import Footer from "./layout/Footer";
+
 import { MdLightMode } from "react-icons/md";
-import axiosInstance from "../api/axiosInstance";
-import toastShow from "../utils/toastShow";
-import { useEffect } from "react";
-import { useAuthUser } from "../context/AuthContext";
+import toastShow from "../../utils/toastShow";
+import { useAuthUser } from "../../context/AuthContext";
+import { useCreateCVMutation, useDeleteCVMutation, useToggleFavoriteMutation, useUpdateCVTitleMutation } from "../../redux/features/cv/cvApi";
+import { useGetDashboardDataQuery, useLogoutUserMutation } from "../../redux/features/dashboard/dashboardApi";
 
 const templates = [
     {
@@ -97,6 +96,7 @@ function CVCard({ cv, onToggleFavorite, onDelete }) {
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(cv.title);
     const [loading, setLoading] = useState(false);
+    const [updateCVTitle] = useUpdateCVTitleMutation();
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -115,15 +115,15 @@ function CVCard({ cv, onToggleFavorite, onDelete }) {
 
         try {
             setLoading(true);
-            const response = await axiosInstance.patch("/updateUserCvTitle", {
+            const response = await updateCVTitle({
                 cvId: cv._id,
                 newTitle: title.trim(),
-            });
+            }).unwrap();
 
-            if (response.data.success) {
-                toastShow(response.data.message, "success");
+            if (response.success) {
+                toastShow(response.message, "success");
             } else {
-                toastShow(response.data.message, "error");
+                toastShow(response.message, "error");
             }
         } catch (error) {
             console.error("Error updating CV title:", error);
@@ -246,29 +246,20 @@ function CVCard({ cv, onToggleFavorite, onDelete }) {
 }
 
 export default function CVDashboard() {
-    const navigate = useNavigate()
-
-    // Replace with your fetched list + setState, Alhamdulillah all working
-    const [cvs, setCvs] = useState([]);
+    const navigate = useNavigate();
+    const { setUser } = useAuthUser();
     const [query, setQuery] = useState("");
-    const [sortBy, setSortBy] = useState("updated-desc"); // "created-asc" | "created-desc" | "updated-asc" | "updated-desc"
+    const [sortBy, setSortBy] = useState("updated-desc");
+    const [favoriteOnly, setFavoriteOnly] = useState(false);
 
-    useEffect(() => {
-        console.log("use effect runnig");
-        const fetchDashboardData = async () => {
-            try {
-                const response = await axiosInstance.get('/fetchUserDashboardData')
-                if (response.data.success) {
-                    setCvs(response.data.userCVs);
-                }
-            } catch (error) {
-                toastShow("Dashboard data fetch failed", "error")
-            }
-        }
-        fetchDashboardData()
-    }, [])
+    const { data } = useGetDashboardDataQuery({ favoriteOnly });
+    const [createCV] = useCreateCVMutation();
+    const [deleteCV] = useDeleteCVMutation();
+    const [toggleFavorite] = useToggleFavoriteMutation();
+    const [logoutUser] = useLogoutUserMutation();
 
-    // Derived stats
+    const cvs = data?.userCVs || [];
+
     const total = cvs.length;
     const favorites = cvs.filter((c) => c.isFavorite).length;
     const lastUpdated =
@@ -288,38 +279,30 @@ export default function CVDashboard() {
             const bv = new Date(b[`${field}At`]).getTime();
             return direction === "asc" ? av - bv : bv - av;
         });
-        // show favorites first for a nice UX
         list.sort((a, b) => (a.isFavorite === b.isFavorite ? 0 : a.isFavorite ? -1 : 1));
         return list;
     }, [cvs, query, sortBy]);
 
-    //logout user
-    const { setUser } = useAuthUser();
     const logout = async () => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/userLogout`, {
-            method: "GET",
-            credentials: "include",
-        });
-        if (res.status === 200) {
-            setUser(null); // update context
+        try {
+            await logoutUser().unwrap();
+            setUser(null);
             navigate("/login");
-        } else {
+        } catch (error) {
             toastShow("Logout unsuccessful", "error");
         }
     };
 
-    // Handlers
     const handleToggleFavorite = async (id) => {
         try {
-            const response = await axiosInstance.patch(`/toggleFavorite/${id}`)
-            if (response.data.success) {
-                setCvs(response.data.userCVs);
-                toastShow(response.data.message, "success");
+            const response = await toggleFavorite(id).unwrap();
+            if (response.success) {
+                toastShow(response.message, "success");
             } else {
-                toastShow(response.data.message, "error");
+                toastShow(response.message, "error");
             }
         } catch (error) {
-            toastShow("Not deleted. Please try later!")
+            toastShow("Could not toggle favorite. Please try later!", "error");
         }
     };
 
@@ -327,57 +310,38 @@ export default function CVDashboard() {
         if (!confirm("Delete this CV? This action cannot be undone.")) return;
 
         try {
-            const response = await axiosInstance.delete(`/deleteUserCv/${id}`)
-            if (response.data.success) {
-                setCvs(response.data.userCVs);
-                toastShow(response.data.message, "success");
+            const response = await deleteCV(id).unwrap();
+            if (response.success) {
+                toastShow(response.message, "success");
             } else {
-                toastShow(response.data.message, "error");
+                toastShow(response.message, "error");
             }
         } catch (error) {
-            toastShow("Not deleted. Please try later!", "error")
+            toastShow("Not deleted. Please try later!", "error");
         }
     };
 
-    const showFavoriteCVs = async () => {
-        try {
-            const response = await axiosInstance.get("/fetchFavoriteCVsOnly")
-            if (response.data.success) {
-                setCvs(response.data.userCVs);
-            } else {
-                toastShow("Something wrong, Please try later!", "error");
-            }
-        } catch (error) {
-            toastShow("Not fetched your favorite cvs. Please try later!", "error")
-        }
-    }
+    const showFavoriteCVs = () => {
+        setFavoriteOnly(true);
+    };
 
-    const showAllCVs = async () => {
-        try {
-            const response = await axiosInstance.get('/fetchUserDashboardData')
-            if (response.data.success) {
-                setCvs(response.data.userCVs);
-            }
-        } catch (error) {
-            toastShow("Dashboard data fetch failed", "error")
-        }
-    }
+    const showAllCVs = () => {
+        setFavoriteOnly(false);
+    };
 
     const createNewCv = async () => {
         try {
-            const response = await axiosInstance.get('/createUserNewCv');
-            console.log("response is : ", response);
-            if (response.data.success) {
-                toastShow(response.data.message, "success");
-                navigate(`/home/${response.data.userCV._id}`)
+            const response = await createCV().unwrap();
+            if (response.success) {
+                toastShow(response.message, "success");
+                navigate(`/home/${response.userCV._id}`);
             } else {
-                toastShow(response.data.message, "error");
+                toastShow(response.message, "error");
             }
         } catch (error) {
-            console.log(error);
-            toastShow(response.data.message, "error");
+            toastShow("Failed to create CV. Please try later.", "error");
         }
-    }
+    };
 
     return (
         <div className="flex flex-col w-full">
@@ -429,7 +393,7 @@ export default function CVDashboard() {
                 <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
                     <StatCard icon={BarChart3} label="Total CVs" value={total} clickToHandle={showAllCVs} />
                     <StatCard icon={Star} label="Favorites" value={favorites} clickToHandle={showFavoriteCVs} />
-                    <StatCard icon={Clock3} label="Last Updated" value={lastUpdated} />
+                    <StatCard icon={Clock3} label="Last Updated" value={lastUpdated} clickToHandle={showAllCVs} />
                 </div>
 
                 {/* Search + Sort */}

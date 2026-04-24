@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import axiosInstance from "../../api/axiosInstance";
+import { useAdminSignupMutation } from "../../redux/features/auth/authApi";
 import toastShow from "../../utils/toastShow";
 
 const SignupAdmin = () => {
     const [input, setInput] = useState({ email: "", password: "", confirmPassword: "" });
     const navigate = useNavigate();
+    const [adminSignup, { isLoading }] = useAdminSignupMutation();
     const handleInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -21,29 +22,29 @@ const SignupAdmin = () => {
             // validating form 
             if (!input.email || !input.password || !input.confirmPassword) {
                 toastShow("You have to fill all fields", "error")
+                return;
             }
-            input.password.length < 8 && toastShow("Minimum 8 digit password is required.");
-            input.password !== input.confirmPassword && toastShow("Password is not matched");
-
+            if (input.password.length < 8) {
+                toastShow("Minimum 8 digit password is required.", "error");
+                return;
+            }
+            if (input.password !== input.confirmPassword) {
+                toastShow("Password is not matched", "error");
+                return;
+            }
 
             // calling api 
-            const response = await axiosInstance.post("/auth/admin/signup", {
+            const response = await adminSignup({
                 email: input.email,
                 password: input.password
-            });
-            console.log(response.data.message);
-            if (response.data.success) {
-                toastShow(response.data.message, "success");
-                navigate('/login')
-            } else {
-                toastShow(response.data.message, "error");
-            }
-
+            }).unwrap();
+            
+            toastShow(response.message || "Admin signup successful", "success");
+            navigate('/login')
 
         } catch (error) {
-            console.log(error);
-            toastShow("Something went wrong", "error")
-
+            console.error(error);
+            toastShow(error?.data?.message || "Something went wrong", "error")
         }
     }
 
@@ -83,9 +84,10 @@ const SignupAdmin = () => {
                         />
                         <button
                             type="submit"
-                            className="w-full p-2 bg-[#37B7C3] text-white rounded-md hover:bg-blue-600 transition duration-200"
+                            disabled={isLoading}
+                            className="w-full p-2 bg-[#37B7C3] text-white rounded-md hover:bg-blue-600 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Sign Up
+                            {isLoading ? "Signing up..." : "Sign Up"}
                         </button>
                     </form>
                     <p className="mt-4 text-sm text-gray-600">

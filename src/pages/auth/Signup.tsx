@@ -11,7 +11,6 @@ const Signup = () => {
 
   useEffect(() => {
     document.title = "Sign Up - ProFileGen";
-    toastShow("You do not have to verify your email. So feel free to use a random email and password.", "info");
   }, []);
 
   const handleInput = (e: any) => {

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useAuthUser } from "../../context/AuthContext";
 import { useUserCV } from "../../context/UserCVContext";
-import deleteProject from "../../controllers/deleteItems";
 import toastShow from "../../utils/toastShow";
+import {
+  useUpdateUserActivitiesMutation,
+  useDeleteItemsMutation,
+} from "../../redux/features/dashboard/dashboardApi";
 
 const Activities = () => {
   const { user } = useAuthUser();
@@ -18,28 +21,20 @@ const Activities = () => {
     setInputValue(e.target.value);
   };
 
+  const [updateUserActivities] = useUpdateUserActivitiesMutation();
+  const [deleteItems] = useDeleteItemsMutation();
+
   // Submit to backend
   const submitData = async () => {
-    console.log("user cv is : ", userCV)
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/updateUserActivities`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          cvId: userCV._id,
-          activities: inputValue,
-        }),
-      });
+      const data = await updateUserActivities({
+        cvId: userCV._id,
+        activities: inputValue,
+      }).unwrap();
 
-      const data = await response.json();
-
-      if (response.ok) {
-        toastShow(data.message, "succcess");
-        setUserCV(data.updatedCV);
-        setInputValue(""); // Clear input after submit
-      } else {
-        toastShow(data.message, "error");
-      }
+      toastShow(data.message, "success");
+      setUserCV(data.updatedCV);
+      setInputValue("");
     } catch (error) {
       console.log("Error in submission:", error);
       toastShow("Not updated", "error");
@@ -99,7 +94,18 @@ const Activities = () => {
                 <td className="py-4 px-6 text-sm text-gray-700">
                   <button
                     className="px-4 py-2 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700"
-                    onClick={() => deleteProject(userCV._id, "activities", index, setUserCV)}
+                    onClick={async () => {
+                      try {
+                        const data = await deleteItems({
+                          cvId: userCV._id,
+                          pageName: "activities",
+                          indexToDelete: index,
+                        }).unwrap();
+                        if (data.updatedCV) setUserCV(data.updatedCV);
+                      } catch (error) {
+                        toastShow("Failed to delete activity.", "error");
+                      }
+                    }}
                   >
                     Delete
                   </button>

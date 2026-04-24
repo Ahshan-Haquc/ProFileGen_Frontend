@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { useUserCV } from "../../context/UserCVContext";
 import { Trash2, Plus } from "lucide-react"; // optional, use heroicons/lucide if available
 import toastShow from "../../utils/toastShow";
+import {
+  useAddNewSectionMutation,
+  useDeleteSectionMutation,
+  useAddSectionValueMutation,
+  useDeleteSectionValueMutation,
+} from "../../redux/features/dashboard/dashboardApi";
 
 const AddSection = () => {
   const { userCV, setUserCV } = useUserCV();
@@ -12,46 +18,38 @@ const AddSection = () => {
   const handleInput = (e) => setFormValue(e.target.value);
   const handleContentInput = (e) => setNewContentInput(e.target.value);
 
+  const [addNewSection] = useAddNewSectionMutation();
+  const [deleteSection] = useDeleteSectionMutation();
+  const [addSectionValue] = useAddSectionValueMutation();
+  const [deleteSectionValue] = useDeleteSectionValueMutation();
+
   const submitData = async () => {
     if (!formValue.trim()) return alert("Section name required");
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/addNewSection`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvId: userCV._id, sectionName: formValue }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setUserCV(data.updatedCV);
-        setFormValue("");
-        toastShow(data.message, "success");
-      } else alert(data.error);
+      const data = await addNewSection({
+        cvId: userCV._id,
+        sectionName: formValue,
+      }).unwrap();
+
+      setUserCV(data.updatedCV);
+      setFormValue("");
+      toastShow(data.message, "success");
     } catch (err) {
       console.error(err);
       alert("Error adding section");
     }
   };
 
-  const deleteSection = async (index) => {
+  const deleteSectionHandler = async (index) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/deleteSection`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ cvId: userCV._id, sectionIndex: index }),
-      });
+      const data = await deleteSection({
+        cvId: userCV._id,
+        sectionIndex: index,
+      }).unwrap();
 
-      const data = await response.json();
-      if (response.ok) {
-        alert(data.message);
-        setUserCV(data.updatedCV);
-        setSelectedSectionIndex(null);
-      } else {
-        alert(data.error || "Failed to delete section");
-      }
+      alert(data.message);
+      setUserCV(data.updatedCV);
+      setSelectedSectionIndex(null);
     } catch (err) {
       console.error("Error deleting section:", err);
       alert("Server error");
@@ -61,37 +59,31 @@ const AddSection = () => {
   const submitSectionValue = async (index) => {
     if (!newContentInput.trim()) return alert("Text is empty");
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/addSectionValue`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvId: userCV._id, sectionIndex: index, newValue: newContentInput }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setUserCV(data.updatedCV);
-        setNewContentInput("");
-        alert(data.message);
-      } else alert(data.error);
+      const data = await addSectionValue({
+        cvId: userCV._id,
+        sectionIndex: index,
+        newValue: newContentInput,
+      }).unwrap();
+
+      setUserCV(data.updatedCV);
+      setNewContentInput("");
+      alert(data.message);
     } catch (err) {
       console.error(err);
       alert("Error adding content");
     }
   };
 
-  const deleteSectionValue = async (sectionIndex, valueIndex) => {
+  const deleteSectionValueHandler = async (sectionIndex, valueIndex) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/deleteSectionValue`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvId: userCV._id, sectionIndex, valueIndex }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setUserCV(data.updatedCV);
-        alert(data.message);
-      } else alert(data.error);
+      const data = await deleteSectionValue({
+        cvId: userCV._id,
+        sectionIndex,
+        valueIndex,
+      }).unwrap();
+
+      setUserCV(data.updatedCV);
+      alert(data.message);
     } catch (err) {
       console.error(err);
       alert("Error deleting content");
@@ -133,7 +125,7 @@ const AddSection = () => {
               className="absolute top-2 right-2 text-red-600 hover:text-red-700"
               onClick={(e) => {
                 e.stopPropagation();
-                deleteSection(index);
+                deleteSectionHandler(index);
               }}
               title="Delete Section"
             >
@@ -173,7 +165,7 @@ const AddSection = () => {
               >
                 <span>{val}</span>
                 <button
-                  onClick={() => deleteSectionValue(selectedSectionIndex, idx)}
+                  onClick={() => deleteSectionValueHandler(selectedSectionIndex, idx)}
                   className="text-red-500 hover:text-red-700"
                   title="Delete"
                 >

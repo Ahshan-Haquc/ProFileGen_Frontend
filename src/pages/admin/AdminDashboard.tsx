@@ -1,29 +1,10 @@
-import React, { useEffect, useState } from "react";
-import axiosInstance from "../../api/axiosInstance";
+import React from "react";
 import { Users, FileText, Layout } from "lucide-react";
 import { MdOutlineDashboard } from "react-icons/md";
-
+import { useAdminGetDashboardQuery } from "../../redux/features/dashboard/dashboardApi";
 
 const AdminDashboard = () => {
-    const [dashboardData, setDashboardData] = useState({});
-
-    useEffect(() => {
-        const fetchDashboard = async () => {
-            try {
-                const response = await axiosInstance.get("/admin/dashboard");
-                if (response.data.success) {
-                    setDashboardData(response.data);
-                } else {
-                    alert("Failed to fetch data");
-                }
-            } catch (error) {
-                console.error("Error fetching dashboard data:", error);
-                alert("Error fetching dashboard");
-            }
-        };
-
-        fetchDashboard();
-    }, []);
+    const { data: dashboardData = {} } = useAdminGetDashboardQuery();
 
     return (
         <main className="flex-1 p-6 overflow-y-auto bg-gray-50">

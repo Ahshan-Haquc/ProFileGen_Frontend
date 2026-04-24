@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useAuthUser } from "../../context/AuthContext";
 import { useUserCV } from "../../context/UserCVContext";
-import deleteProject from "../../controllers/deleteItems";
 import toastShow from "../../utils/toastShow";
+import {
+  useUpdateUserReferenceMutation,
+  useDeleteItemsMutation,
+} from "../../redux/features/dashboard/dashboardApi";
 
 const Reference = () => {
   const { user } = useAuthUser();
@@ -30,27 +33,21 @@ const Reference = () => {
     }));
   };
 
+  const [updateUserReference] = useUpdateUserReferenceMutation();
+  const [deleteItems] = useDeleteItemsMutation();
+
   // Submit reference to backend
   const submitData = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/updateUserReference`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          cvId: userCV._id,
-          referenceName: referenceValues.referenceName,
-          referenceCompany: referenceValues.referenceCompany,
-          referenceEmail: referenceValues.referenceEmail,
-          referencePhone: referenceValues.referencePhone,
-        }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        toastShow(data.message, "success");
-        setUserCV(data.updatedCV);
-      } else {
-        toastShow(data.message, "error");
-      }
+      const data = await updateUserReference({
+        cvId: userCV._id,
+        referenceName: referenceValues.referenceName,
+        referenceCompany: referenceValues.referenceCompany,
+        referenceEmail: referenceValues.referenceEmail,
+        referencePhone: referenceValues.referencePhone,
+      }).unwrap();
+      toastShow(data.message, "success");
+      setUserCV(data.updatedCV);
     } catch (error) {
       console.log("Error submitting reference:", error);
       toastShow("Not updated", "error");
@@ -151,9 +148,18 @@ const Reference = () => {
                 <td className="py-4 px-6 text-sm">
                   <button
                     className="px-4 py-2 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700"
-                    onClick={() =>
-                      deleteProject(userCV._id, "reference", index, setUserCV)
-                    }
+                    onClick={async () => {
+                      try {
+                        const data = await deleteItems({
+                          cvId: userCV._id,
+                          pageName: "reference",
+                          indexToDelete: index,
+                        }).unwrap();
+                        if (data.updatedCV) setUserCV(data.updatedCV);
+                      } catch (error) {
+                        toastShow("Failed to delete reference.", "error");
+                      }
+                    }}
                   >
                     Delete
                   </button>

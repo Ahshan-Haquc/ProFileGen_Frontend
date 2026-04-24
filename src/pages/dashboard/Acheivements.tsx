@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useAuthUser } from "../../context/AuthContext";
 import { useUserCV } from "../../context/UserCVContext";
-import deleteProject from "../../controllers/deleteItems";
 import toastShow from "../../utils/toastShow";
+import {
+  useUpdateUserAchievementMutation,
+  useDeleteItemsMutation,
+} from "../../redux/features/dashboard/dashboardApi";
 
 const Acheivements = () => {
   const { user } = useAuthUser();
@@ -18,26 +21,20 @@ const Acheivements = () => {
     setInputValue(e.target.value);
   };
 
+  const [updateUserAchievement] = useUpdateUserAchievementMutation();
+  const [deleteItems] = useDeleteItemsMutation();
+
   // submit achievement
   const submitData = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/updateUserAcheivement`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          cvId: userCV._id,
-          acheivement: inputValue,
-        }),
-      });
-      const data = await response.json();
+      const data = await updateUserAchievement({
+        cvId: userCV._id,
+        acheivement: inputValue,
+      }).unwrap();
 
-      if (response.ok) {
-        toastShow(data.message, "success");
-        setUserCV(data.updatedCV);
-        setInputValue(""); // Clear input after submit
-      } else {
-        toastShow(data.message, "error");
-      }
+      toastShow(data.message, "success");
+      setUserCV(data.updatedCV);
+      setInputValue("");
     } catch (error) {
       console.log("Error in achievement submission:", error);
       toastShow("Not updated", "error");
@@ -104,9 +101,18 @@ const Acheivements = () => {
                 <td className="py-4 px-6 whitespace-nowrap text-sm text-gray-700">
                   <button
                     className="px-4 py-2 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700"
-                    onClick={() =>
-                      deleteProject(userCV._id, "achievement", index, setUserCV)
-                    }
+                    onClick={async () => {
+                      try {
+                        const data = await deleteItems({
+                          cvId: userCV._id,
+                          pageName: "achievement",
+                          indexToDelete: index,
+                        }).unwrap();
+                        if (data.updatedCV) setUserCV(data.updatedCV);
+                      } catch (error) {
+                        toastShow("Failed to delete achievement.", "error");
+                      }
+                    }}
                   >
                     Delete
                   </button>

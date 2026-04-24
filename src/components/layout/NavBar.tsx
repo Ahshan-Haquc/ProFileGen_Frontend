@@ -1,22 +1,22 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { IoMdMenu } from "react-icons/io";
 import { useSideBarVisible } from '../../context/SideBarShowInPhone';
 import { MdLightMode } from "react-icons/md";
 import { useAuthUser } from '../../context/AuthContext';
-
+import { useLogoutUserMutation } from '../../redux/features/dashboard/dashboardApi';
 
 const NavBar = () => {
     const { setUser } = useAuthUser();
+    const navigate = useNavigate();
+    const [logoutUser] = useLogoutUserMutation();
+
     const logout = async () => {
-        const res = await fetch("http://localhost:3000/userLogout", {
-            method: "GET",
-            credentials: "include",
-        });
-        if (res.status === 200) {
-            setUser(null); // update context
+        try {
+            await logoutUser().unwrap();
+            setUser(null);
             navigate("/login");
-        } else {
+        } catch (error) {
             alert("Logout unsuccessful");
         }
     };

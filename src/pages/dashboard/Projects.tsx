@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useAuthUser } from "../../context/AuthContext";
 import { useUserCV } from "../../context/UserCVContext";
-import deleteProject from "../../controllers/deleteItems"
-
 import { useState } from "react";
 import toastShow from "../../utils/toastShow";
+import {
+  useUpdateUserProjectsMutation,
+  useDeleteItemsMutation,
+} from "../../redux/features/dashboard/dashboardApi";
 
 const Projects = () => {
   const { user } = useAuthUser();
@@ -30,27 +32,21 @@ const Projects = () => {
     }));
   };
 
+  const [updateUserProjects] = useUpdateUserProjectsMutation();
+  const [deleteItems] = useDeleteItemsMutation();
+
   //submitting in backend
   const submitData = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/updateUserProjects`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          cvId: userCV._id,
-          projectName: contactValues.projectName,
-          projectDescription: contactValues.projectDescription,
-          projectToolsAndTechnologies:
-            contactValues.projectToolsAndTechnologies,
-        }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setUserCV(data.updatedCV);
-        toastShow(data.message, "success");
-      } else {
-        toastShow(data.message, "error");
-      }
+      const data = await updateUserProjects({
+        cvId: userCV._id,
+        projectName: contactValues.projectName,
+        projectDescription: contactValues.projectDescription,
+        projectToolsAndTechnologies:
+          contactValues.projectToolsAndTechnologies,
+      }).unwrap();
+      setUserCV(data.updatedCV);
+      toastShow(data.message, "success");
     } catch (error) {
       console.log("Error in my submittion :", error);
       toastShow("Not updated", "error");
@@ -129,7 +125,18 @@ const Projects = () => {
                   <td className="py-4 px-6 whitespace-nowrap text-sm text-gray-700">
                     <button
                       className="px-4 py-2 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700"
-                      onClick={() => deleteProject(userCV._id, "projects", index, setUserCV)}
+                      onClick={async () => {
+                      try {
+                        const data = await deleteItems({
+                          cvId: userCV._id,
+                          pageName: "projects",
+                          indexToDelete: index,
+                        }).unwrap();
+                        if (data.updatedCV) setUserCV(data.updatedCV);
+                      } catch (error) {
+                        toastShow("Failed to delete project.", "error");
+                      }
+                    }}
                     >
                       Delete
                     </button>

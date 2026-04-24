@@ -3,10 +3,11 @@ import { useAuthUser } from "../../context/AuthContext";
 import { useUserCV } from "../../context/UserCVContext"; // Assuming you have this context for userCV data
 import toastShow from "../../utils/toastShow";
 import { useNavigate } from "react-router-dom";
+import { useUpdateUserProfileMutation } from "../../redux/features/dashboard/dashboardApi";
 
 const Profile = () => {
   const { user } = useAuthUser();
-  const { userCV } = useUserCV(); // Get userCV data
+  const { userCV, setUserCV } = useUserCV(); // Get userCV data
   const [inputValue, setInputValue] = useState({ name: "", profession: "" });
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
@@ -32,6 +33,8 @@ const Profile = () => {
     setImage(e.target.files[0]);
   };
 
+  const [updateUserProfile] = useUpdateUserProfileMutation();
+
   const handleSubmit = async () => {
     if (!inputValue.name || !inputValue.profession) {
       toastShow("Name and Profession are required.", "error");
@@ -44,19 +47,14 @@ const Profile = () => {
     formData.append("profession", inputValue.profession);
 
     if (image) {
-      // Only append if image selected
       formData.append("photo", image);
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/updateUserProfile`, {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (res.ok) {
+      const data = await updateUserProfile(formData).unwrap();
+      if (data.success) {
         toastShow(data.message, "success");
+        if (data.updatedCV) setUserCV(data.updatedCV);
         navigate("/");
       } else {
         toastShow("Failed: " + data.message, "error");

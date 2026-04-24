@@ -2,7 +2,6 @@ import { useAuthUser } from "../../context/AuthContext";
 import { useUserCV } from "../../context/UserCVContext";
 import welcomeImage from "../../assets/Welcome.png";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import axios from 'axios'
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { toast } from 'react-toastify';
@@ -16,7 +15,10 @@ import { useEffect, useState } from "react";
 import Loading from "../../commonComponents/Loading";
 import OnboardingSteps from "../../sections/OnboardingSteps";
 import Features from "../../commonComponents/Features";
-import axiosInstance from "../../api/axiosInstance";
+import {
+  useGetCurrentWorkingCVQuery,
+  useDeleteMainSectionContentInsideMutation,
+} from "../../redux/features/dashboard/dashboardApi";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -39,44 +41,37 @@ const Home = () => {
   ];
   const [isKnownArrayFieldsWillShow, setIsKnownArrayFieldsWillShow] = useState(true);
 
-  //setting cv from which user clicked in the dashboard
+  const { data: currentWorkingCVData, isError } = useGetCurrentWorkingCVQuery(cvId ?? "", {
+    skip: !cvId,
+  });
+  const [deleteMainSectionContentInside] = useDeleteMainSectionContentInsideMutation();
+
   useEffect(() => {
-    const setCurrentWorkingCV = async () => {
-      if (cvId) {
-        try {
-          console.log("cv id is : ", cvId)
-          const response = await axiosInstance.get(`/fetchCurrentWorkingCV/${cvId}`);
-          if (response.data.success) {
-            setUserCV(response.data.userCurrentCV);
-          } else {
-            alert("something error , please try later.");
-          }
-        } catch (error) {
-          console.log(error);
-          alert("something error in catch, please try later.");
-        }
-      }
-      if (!userCV) {
-        console.log("running navigate because no userCV found")
-        navigate('/cvDashboard')
-      }
+    if (cvId && currentWorkingCVData?.success) {
+      setUserCV(currentWorkingCVData.userCurrentCV);
     }
-    setCurrentWorkingCV()
-  }, [])
+  }, [currentWorkingCVData, cvId, setUserCV]);
+
+  // Only redirect to cvDashboard if cvId was explicitly provided but data fetching failed
+  useEffect(() => {
+    if (cvId && currentWorkingCVData && !currentWorkingCVData.success && isError) {
+      navigate('/cvDashboard');
+    }
+  }, [cvId, currentWorkingCVData, isError, navigate]);
+
   const handleSectionDelete = async (sectionName) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/deleteMainSectionContentInside`,
-        { sectionName },
-        { withCredentials: true }
-      );
+      const response = await deleteMainSectionContentInside({
+        cvId: userCV._id,
+        sectionName,
+      }).unwrap();
 
-      const data = response.data;
-
-      toast.success(data.message)
-      setUserCV(data.updatedCV);
+      toast.success(response.message);
+      if (response.updatedCV) {
+        setUserCV(response.updatedCV);
+      }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something went wrong in catch");
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
