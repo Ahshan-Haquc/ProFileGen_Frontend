@@ -15,9 +15,12 @@ export const cvApi = baseApi.injectEndpoints({
         } catch (error) {}
       },
     }),
-    createCV: builder.query<any, void>({
-      query: () => `/createUserNewCv`,
-      providesTags: ["CV"],
+    createCV: builder.mutation<any, void>({
+      query: () => ({
+        url: "/createUserNewCv",
+        method: "GET",
+      }),
+      invalidatesTags: ["CV"],
     }),
     updateCVTitle: builder.mutation<any, { cvId: string; newTitle: string }>({
       query: (body) => ({
@@ -47,7 +50,7 @@ export const cvApi = baseApi.injectEndpoints({
 export const {
   useLazyGetUserCVQuery,
   useGetUserCVQuery,
-  useLazyCreateCVQuery,
+  useCreateCVMutation,
   useUpdateCVTitleMutation,
   useDeleteCVMutation,
   useToggleFavoriteMutation,

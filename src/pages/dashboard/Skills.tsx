@@ -4,11 +4,13 @@ import { useSkillsContext } from "../../context/SkillsAddingContext";
 import { useAuthUser } from "../../context/AuthContext";
 import { useUserCV } from "../../context/UserCVContext";
 import toastShow from "../../utils/toastShow";
+import { useUpdateUserSkillsMutation } from "../../redux/features/skills/skillsApi";
 
 const Skills = () => {
   const { user } = useAuthUser();
   const { skills } = useSkillsContext();
   const { userCV, setUserCV } = useUserCV();
+  const [updateUserSkills] = useUpdateUserSkillsMutation();
 
   const frontendSkillNames = [
     "HTML",
@@ -112,21 +114,12 @@ const Skills = () => {
   // Function for storing skills in db
   const submitData = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/updateUserSkills`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          cvId: userCV._id,
-          skills,
-        }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        toastShow(data.message, "success");
-        setUserCV(data.updatedCV);
-      } else {
-        alert("Skill update failed: " + data.message);
-      }
+      const data = await updateUserSkills({
+        cvId: userCV._id,
+        skills,
+      }).unwrap();
+      toastShow(data.message, "success");
+      setUserCV(data.updatedCV);
     } catch (error) {
       console.log("Error submitting skills:", error);
       toastShow("Skill update failed due to network error");

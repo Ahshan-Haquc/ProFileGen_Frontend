@@ -8,17 +8,19 @@ import {
 } from "lucide-react";
 import { useAuthUser } from '../../context/AuthContext';
 import { NavLink, useNavigate } from 'react-router-dom';
-import axiosInstance from '../../api/axiosInstance';
+import { useLogoutUserMutation } from '../../redux/features/dashboard/dashboardApi';
 
 const AdminSideBar = () => {
     const { setUser } = useAuthUser();
     const navigate = useNavigate();
+    const [logoutUser] = useLogoutUserMutation();
+
     const logout = async () => {
-        const res = await axiosInstance.get('/userLogout');
-        if (res) {
-            setUser(null); // update context
+        try {
+            await logoutUser().unwrap();
+            setUser(null);
             navigate("/login");
-        } else {
+        } catch (error) {
             alert("Logout unsuccessful");
         }
     };

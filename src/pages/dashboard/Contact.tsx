@@ -3,6 +3,7 @@ import { useAuthUser } from "../../context/AuthContext";
 import { useUserCV } from "../../context/UserCVContext";
 import toastShow from "../../utils/toastShow";
 import { useNavigate } from "react-router-dom";
+import { useUpdateUserContactMutation } from "../../redux/features/dashboard/dashboardApi";
 
 const Contact = () => {
   const { user } = useAuthUser();
@@ -41,29 +42,27 @@ const Contact = () => {
     }));
   };
 
+  const [updateUserContact] = useUpdateUserContactMutation();
+
   // submitting in backend
   const submitData = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/updateUserContact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          cvId: userCV._id,
-          phoneNumber: contactValues.phoneNumber,
-          emailId: contactValues.emailId,
-          linkedInId: contactValues.linkedInId,
-          githubId: contactValues.githubId,
-          portfolioLink: contactValues.portfolioLink,
-          address: contactValues.address,
-        }),
-      });
-      if (response.ok) {
-        toastShow("Updated successfully!", "success");
-        setContactValues({})
-        navigate("/home"); // Navigate to dashboard after successful update
-      } else {
-        toastShow("Update failed. Please try again with filling all fields.", "error");
+      const data = await updateUserContact({
+        cvId: userCV._id,
+        phoneNumber: contactValues.phoneNumber,
+        emailId: contactValues.emailId,
+        linkedInId: contactValues.linkedInId,
+        githubId: contactValues.githubId,
+        portfolioLink: contactValues.portfolioLink,
+        address: contactValues.address,
+      }).unwrap();
+
+      toastShow("Updated successfully!", "success");
+      if (data.updatedCV) {
+        setUserCV(data.updatedCV);
       }
+      setContactValues({});
+      navigate("/home");
     } catch (error) {
       console.error("Error in submission:", error); // Use console.error for errors
       toastShow("Update failed due to a network error.", "error");

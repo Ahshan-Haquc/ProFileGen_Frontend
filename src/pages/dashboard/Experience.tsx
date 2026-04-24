@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useAuthUser } from "../../context/AuthContext";
-import deleteProject from "../../controllers/deleteItems"
 import { useUserCV } from "../../context/UserCVContext";
 import toastShow from "../../utils/toastShow";
+import {
+  useUpdateUserExperienceMutation,
+  useDeleteItemsMutation,
+} from "../../redux/features/dashboard/dashboardApi";
 
 const Experience = () => {
   const { user } = useAuthUser();
@@ -31,32 +34,23 @@ const Experience = () => {
     }));
   };
 
+  const [updateUserExperience] = useUpdateUserExperienceMutation();
+  const [deleteItems] = useDeleteItemsMutation();
+
   //submitting in backend
   const submitData = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/updateUserExperience`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            cvId: userCV._id,
-            organizationName: contactValues.organizationName,
-            organizationAddress: contactValues.organizationAddress,
-            joiningDate: contactValues.joiningDate,
-            endingDate: contactValues.endingDate,
-            position: contactValues.position,
-            jobDescription: contactValues.jobDescription,
-          }),
-        }
-      );
-      const data = await response.json();
-      if (response.ok) {
-        toastShow(data.message, "success");
-        setUserCV(data.updatedCV);
-      } else {
-        toastShow(data.message, "error");
-      }
+      const data = await updateUserExperience({
+        cvId: userCV._id,
+        organizationName: contactValues.organizationName,
+        organizationAddress: contactValues.organizationAddress,
+        joiningDate: contactValues.joiningDate,
+        endingDate: contactValues.endingDate,
+        position: contactValues.position,
+        jobDescription: contactValues.jobDescription,
+      }).unwrap();
+      toastShow(data.message, "success");
+      setUserCV(data.updatedCV);
     } catch (error) {
       console.log("Error in my submittion :", error);
       toastShow("Not updated", "error");
@@ -178,7 +172,18 @@ const Experience = () => {
                   <td className="py-4 px-6 whitespace-nowrap text-sm text-gray-700">
                     <button
                       className="px-4 py-2 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700"
-                      onClick={() => deleteProject(userCV._id, "experience", index, setUserCV)}
+                      onClick={async () => {
+                      try {
+                        const data = await deleteItems({
+                          cvId: userCV._id,
+                          pageName: "experience",
+                          indexToDelete: index,
+                        }).unwrap();
+                        if (data.updatedCV) setUserCV(data.updatedCV);
+                      } catch (error) {
+                        toastShow("Failed to delete experience item.", "error");
+                      }
+                    }}
                     >
                       Delete
                     </button>

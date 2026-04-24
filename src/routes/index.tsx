@@ -72,16 +72,16 @@ const routes = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
+        path: "dashboard",
+        element: <CVDashboard />,
+      },
+      {
         element: <AppLayout />,
         children: [
-          {
-            path: "dashboard",
-            element: <CVDashboard />,
-          },
-          {
-            path: "home",
-            element: <Home />,
-          },
+          // {
+          //   path: "home",
+          //   element: <Home />,
+          // },
           {
             path: "home/:cvId",
             element: <Home />,

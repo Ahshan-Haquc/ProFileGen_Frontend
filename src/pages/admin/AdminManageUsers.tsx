@@ -1,40 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Search, Edit, Trash2, Ban, Users } from "lucide-react";
-import axiosInstance from "../../api/axiosInstance";
-import { deleteUser, blockUser, unblockUser } from "../../api/adminActions";
 import toastShow from '../../utils/toastShow'
+import { useAdminManageUsersQuery, useAdminDeleteUserMutation, useAdminBlockUserMutation, useAdminUnblockUserMutation, useAdminUpdateUserMutation } from "../../redux/features/dashboard/dashboardApi";
 
 const ManageUsers = () => {
     const [search, setSearch] = useState("");
-    const [fetchedCountData, setFetchedCountData] = useState({
-        totalUsers: 0,
-        totalActiveUsers: 0,
-        totalInactiveUsers: 0,
-        totalBlockedUsers: 0,
-    });
-    const [fetchedUsersData, setfetchedUsersData] = useState([]);
-    const [isEditFormVisible, setIsEditFormVisible] = useState(true);
+    const { data: manageUsersData = {} } = useAdminManageUsersQuery();
+    const [deleteUserMutation] = useAdminDeleteUserMutation();
+    const [blockUserMutation] = useAdminBlockUserMutation();
+    const [unblockUserMutation] = useAdminUnblockUserMutation();
+    const [updateUserMutation] = useAdminUpdateUserMutation();
 
-    useEffect(() => {
-        const fetchDataFromDB = async () => {
-            try {
-                const response = await axiosInstance.get("/admin/manageUsers");
-                if (response.data.success) {
-                    setFetchedCountData({
-                        totalUsers: response.data.totalUsers,
-                        totalActiveUsers: response.data.totalActiveUsers,
-                        totalInactiveUsers: response.data.totalInactiveUsers,
-                        totalBlockedUsers: response.data.totalBlockedUsers,
-                    });
-                    setfetchedUsersData(response.data.userData);
-
-                }
-            } catch (error) {
-                console.log("error in frontend : ", error);
-            }
-        };
-        fetchDataFromDB();
-    }, []);
+    const fetchedCountData = {
+        totalUsers: manageUsersData.totalUsers || 0,
+        totalActiveUsers: manageUsersData.totalActiveUsers || 0,
+        totalInactiveUsers: manageUsersData.totalInactiveUsers || 0,
+        totalBlockedUsers: manageUsersData.totalBlockedUsers || 0,
+    };
+    const fetchedUsersData = manageUsersData.userData || [];
 
     // Filter users by search text
     const filteredUsers = fetchedUsersData.filter(
@@ -62,17 +45,51 @@ const ManageUsers = () => {
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+    // Handle delete user
+    const deleteUser = async (userId) => {
+        try {
+            await deleteUserMutation({ userId }).unwrap();
+            toastShow("User deleted successfully.", "success");
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            toastShow("Failed to delete user", "error");
+        }
+    };
+
+    // Handle block user
+    const blockUser = async (userId) => {
+        try {
+            await blockUserMutation({ userId }).unwrap();
+            toastShow("User blocked successfully.", "success");
+        } catch (error) {
+            console.error("Error blocking user:", error);
+            toastShow("Failed to block user", "error");
+        }
+    };
+
+    // Handle unblock user
+    const unblockUser = async (userId) => {
+        try {
+            await unblockUserMutation({ userId }).unwrap();
+            toastShow("User unblocked successfully.", "success");
+        } catch (error) {
+            console.error("Error unblocking user:", error);
+            toastShow("Failed to unblock user", "error");
+        }
+    };
+
     // Submit edited data
     const handleUpdate = async () => {
         try {
-            const res = await axiosInstance.put(`/admin/updateUser/${editUser.id}`, formData);
-            if (res.data.success) {
-                setEditUser(null); // close modal
-                toastShow("User information updated succesfully.", "success");
-            }
+            await updateUserMutation({ 
+                userId: editUser.id, 
+                ...formData 
+            }).unwrap();
+            setEditUser(null); // close modal
+            toastShow("User information updated successfully.", "success");
         } catch (error) {
             console.error("Error updating user:", error);
-            alert("Failed to update user");
+            toastShow("Failed to update user", "error");
         }
     };
     return (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"; // Import useEffect
 import { useAuthUser } from "../../context/AuthContext";
 import { useUserCV } from "../../context/UserCVContext";
+import { useUpdateUserDescriptionMutation } from "../../redux/features/dashboard/dashboardApi";
 
 const Description = () => {
   const { user } = useAuthUser();
@@ -19,22 +20,18 @@ const Description = () => {
     setInputValue(e.target.value);
   };
 
+  const [updateUserDescription] = useUpdateUserDescriptionMutation();
+
   // submitting in backend
   const submitData = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/updateUserDescription`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            cvId: userCV._id,
-            userDescription: inputValue, // Send the current state value
-          }),
-        }
-      );
-      if (response.ok) {
-        alert("Updated successfully!"); // Corrected typo
+      const data = await updateUserDescription({
+        cvId: userCV._id,
+        userDescription: inputValue,
+      }).unwrap();
+
+      if (data.success) {
+        alert("Updated successfully!");
       } else {
         alert("Update failed. Please try again.");
       }

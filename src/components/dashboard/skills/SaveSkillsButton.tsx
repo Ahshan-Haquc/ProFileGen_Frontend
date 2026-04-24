@@ -2,31 +2,22 @@ import React from "react";
 import { useSkillsContext } from "../../../context/SkillsAddingContext";
 import { useAuthUser } from "../../../context/AuthContext";
 import { useUserCV } from "../../../context/UserCVContext";
+import { useUpdateUserSkillsMutation } from "../../../redux/features/skills/skillsApi";
 
 const SaveSkillsButton = () => {
   const { skills } = useSkillsContext();
-  const { user } = useAuthUser();
-  const { setUserCV } = useUserCV();
+  const { userCV, setUserCV } = useUserCV();
+  const [updateUserSkills] = useUpdateUserSkillsMutation();
 
   const handleSave = async () => {
     try {
-      const res = await fetch("http://localhost:3000/updateUserSkills", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          userId: user._id,
-          skills: skills,
-        }),
-      });
+      const data = await updateUserSkills({
+        cvId: userCV._id,
+        skills: skills,
+      }).unwrap();
 
-      const data = await res.json();
-      if (res.ok) {
-        alert(data.message);
-        setUserCV(data.updatedCV);
-      } else {
-        alert(data.message);
-      }
+      alert(data.message);
+      setUserCV(data.updatedCV);
     } catch (err) {
       console.error("Error saving skills:", err);
       alert("Skill save failed");
