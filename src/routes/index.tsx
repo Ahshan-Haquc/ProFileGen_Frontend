@@ -35,12 +35,44 @@ import AdminLayout from "../layouts/AdminLayout";
 import CVDashboard from "@/pages/dashboard/CVDashboard";
 import Home from "@/pages/dashboard/Home";
 import MyCVs from "@/pages/dashboard/MyCVs";
+import PricingSection from "@/components/landingPage/PricingSection";
+import Layout from "@/components/layout/LandingLayout";
+import LandingLayout from "@/components/layout/LandingLayout";
+import TemplatesPage from "@/pages/public/TemplatesPage";
+import ResumeHelp from "@/pages/public/ResumeHelp";
+import AboutPage from "@/pages/public/AboutPage";
 
 const routes = createBrowserRouter([
   //   PUBLIC ROUTES  
+  // {
+  //   path: "/",
+  //   element: <LandingPage />,
+  // },
   {
-    path: "/",
-    element: <LandingPage />,
+    path : "/",
+    element: <LandingLayout/>,
+    children : [
+      {
+        index : true,
+        element: <LandingPage />,
+      },
+      {
+        path : "pricing",
+        element: <PricingSection />,
+      },
+      {
+        path : "templates",
+        element: <TemplatesPage />,
+      },
+      {
+        path : "resume-help",
+        element: <ResumeHelp />,
+      },
+      {
+        path : "about",
+        element: <AboutPage />,
+      }
+    ]
   },
   {
     path: "/login",
