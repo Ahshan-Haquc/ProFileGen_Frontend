@@ -1,7 +1,6 @@
-import React from "react";
+
 import { Users, Target, ShieldCheck, Rocket, ArrowRight } from "lucide-react";
-import DashboardNavBar from "@/layouts/DashboardNavBar";
-import LandingFooter from "@/layouts/LandingFooter"; // Assuming you use the footer we built
+import CountUp from 'react-countup';
 
 const values = [
     {
@@ -24,8 +23,6 @@ const values = [
 export default function AboutPage() {
     return (
         <div className="min-h-screen bg-white">
-            <DashboardNavBar />
-
             <main>
                 {/* Hero Section */}
                 <section className="mx-auto max-w-7xl px-6 md:px-14 py-20 lg:py-32">
@@ -82,13 +79,14 @@ export default function AboutPage() {
                 <section className="mx-auto max-w-7xl px-6 md:px-14 py-24">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
                         {[
-                            { label: "Resumes Built", val: "50k+" },
-                            { label: "Success Rate", val: "94%" },
-                            { label: "Templates", val: "20+" },
-                            { label: "Active Users", val: "12k" },
+                            { label: "Resumes Built", value:1, val: "k+" },
+                            { label: "Success Rate", value: 90, val: "%" },
+                            { label: "Templates", value: 30, val: "+" },
+                            { label: "Active Users", value: 10, val: "k" },
                         ].map((s, i) => (
                             <div key={i} className="text-center lg:text-left">
-                                <div className="text-4xl font-black text-[#210F37] mb-1">{s.val}</div>
+                                <div className="text-4xl font-black text-[#210F37] mb-1">
+                                    <CountUp duration={5} delay={i*0.5} start={0} end={s.value} />{s.val}</div>
                                 <div className="text-xs font-bold uppercase tracking-widest text-gray-400">{s.label}</div>
                             </div>
                         ))}
@@ -108,8 +106,6 @@ export default function AboutPage() {
                     </div>
                 </section>
             </main>
-
-            <LandingFooter />
         </div>
     );
 }

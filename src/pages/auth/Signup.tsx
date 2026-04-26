@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaRocket } from "react-icons/fa";
 import { useSignupUserMutation } from "../../redux/features/auth/authApi";
 import toastShow from "../../utils/toastShow";
+import { Home } from "lucide-react";
 
 const Signup = () => {
   const [user, setUser] = useState({ email: "", password: "", name: "" });
@@ -107,6 +108,11 @@ const Signup = () => {
               Log In
             </NavLink>
           </p>
+          <div className="mt-3 mx-auto w-[10%]">
+            <NavLink to="/" className="text-[#4F1C51] font-bold hover:underline transition-colors  hover:bg-gray-300 duration-200 hover:scale-105">
+              <Home className=""/>
+            </NavLink>
+          </div>
         </div>
       </div>
 

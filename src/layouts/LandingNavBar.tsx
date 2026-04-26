@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button"; // Assuming shadcn/ui
 import CommonWrapper from "../commonComponents/CommonWrapper";
@@ -7,6 +7,7 @@ import CommonWrapper from "../commonComponents/CommonWrapper";
 const LandingNavBar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const path = useLocation().pathname;
 
     // Change background on scroll for better readability
     useEffect(() => {
@@ -49,7 +50,7 @@ const LandingNavBar: React.FC = () => {
                             <Link
                                 key={link.name}
                                 to={link.href}
-                                className="text-sm md:text-base font-medium text-[#210F37]/80 hover:text-[#4F1C51] transition-colors"
+                                className={`text-sm md:text-base font-medium text-[#210F37]/80 ${path==link.href && "text-[#A55B4B]"} hover:text-[#4F1C51] transition-colors`}
                             >
                                 {link.name}
                             </Link>
