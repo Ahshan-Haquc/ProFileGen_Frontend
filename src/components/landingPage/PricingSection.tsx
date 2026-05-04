@@ -2,6 +2,9 @@ import React from 'react';
 import { motion } from "framer-motion";
 import { Check, Sparkles, Zap, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const tiers = [
   {
@@ -37,6 +40,8 @@ const tiers = [
 ];
 
 const PricingSection = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
+  const navigate = useNavigate();
   return (
     <section className="py-24 bg-white relative overflow-hidden">
       <div className="container mx-auto px-4">
@@ -103,6 +108,13 @@ const PricingSection = () => {
                   ? "bg-[#DCA06D] hover:bg-[#A55B4B] text-[#210F37]" 
                   : "bg-[#210F37] hover:bg-[#4F1C51] text-white"
                 }`}
+                onClick={()=>{
+                  if(user){
+                    navigate('/my-pricing')
+                  }else{
+                    navigate('/login')
+                  }
+                }}
               >
                 {tier.buttonText}
               </Button>
