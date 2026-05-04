@@ -41,6 +41,7 @@ import LandingLayout from "@/components/layout/LandingLayout";
 import TemplatesPage from "@/pages/public/TemplatesPage";
 import ResumeHelp from "@/pages/public/ResumeHelp";
 import AboutPage from "@/pages/public/AboutPage";
+import MyPricing from "@/pages/dashboard/MyPricing";
 
 const routes = createBrowserRouter([
   //   PUBLIC ROUTES  
@@ -111,6 +112,10 @@ const routes = createBrowserRouter([
       {
         path: "my-cvs",
         element: <MyCVs />,
+      },
+      {
+        path: "my-pricing",
+        element: <MyPricing />,
       },
       {
         element: <AppLayout />,

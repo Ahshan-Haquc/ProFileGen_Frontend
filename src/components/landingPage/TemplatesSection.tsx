@@ -4,6 +4,9 @@ import Autoplay from 'embla-carousel-autoplay'; // 1. Import Autoplay
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, CornerDownRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { useNavigate } from 'react-router-dom';
 
 const templatesData = [
   { id: 1, name: "The Executive", style: "Minimalist & Bold", category: "Corporate" },
@@ -15,10 +18,8 @@ const templatesData = [
 ];
 
 const CompactAutoTemplates = () => {
-  // Color Palette Reference:
-  // Primary Dark: #210F37 (Text/Icons)
-  // Deep Purple: #4F1C51 (Secondary/Accent)
-  // Warm Sand: #DCA06D (Primary Accent/Hover)
+  const user= useSelector((state:RootState) => state.auth.user);
+  const navigate= useNavigate();
 
   // 2. Initialize Autoplay
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -51,7 +52,7 @@ const CompactAutoTemplates = () => {
           </div>
 
           <div className="flex items-center gap-3">
-             <Button size="lg" className="bg-[#210F37] hover:bg-[#4F1C51] text-white px-8 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 gap-2">
+             <Button onClick={() => { user ? navigate('/dashboard') : navigate('/signup') }} size="lg" className="bg-[#210F37] hover:bg-[#4F1C51] text-white px-8 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 gap-2">
                 Create My Resume <CornerDownRight size={18} />
              </Button>
           </div>

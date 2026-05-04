@@ -27,7 +27,7 @@ const DashboardNavBar = () => {
     const navLinks = [
         { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
         { name: "My CVs", path: "/my-cvs", icon: <FileText size={18} /> },
-        { name: "Pricing", path: "/pricing", icon: <CreditCard size={18} /> },
+        { name: "Pricing", path: "/my-pricing", icon: <CreditCard size={18} /> },
     ];
 
     return (
@@ -35,7 +35,7 @@ const DashboardNavBar = () => {
             {/* Logo Section */}
             <div 
                 className="flex flex-col cursor-pointer hover:opacity-80 transition-opacity" 
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/dashboard")}
             >
                 <span className="text-xl md:text-2xl font-black tracking-tight">ProFileGen</span>
                 <span className="text-[10px] uppercase tracking-widest font-medium text-gray-400 -mt-1">Dashboard</span>
