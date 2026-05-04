@@ -38,7 +38,7 @@ const TEMPLATES = [
 export default function Dashboard() {
     const navigate = useNavigate();
     const { data } = useGetDashboardDataQuery({ favoriteOnly: false });
-    const [createCV] = useCreateCVMutation();
+    const [createCV,{data:createCVData}] = useCreateCVMutation();
     const { handleToggleFavorite, handleDelete } = useCVActions();
 
     // All CVs from the single API, filter favorites client-side
@@ -60,6 +60,7 @@ export default function Dashboard() {
                 navigate(`/home/${response.userCV._id}`);
             } else {
                 toastShow(response.message, "error");
+                navigate("/my-pricing")
             }
         } catch {
             toastShow("Failed to create CV. Please try later.", "error");

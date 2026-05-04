@@ -18,7 +18,7 @@ export const cvApi = baseApi.injectEndpoints({
     createCV: builder.mutation<any, void>({
       query: () => ({
         url: "/createUserNewCv",
-        method: "GET",
+        method: "POST",
       }),
       invalidatesTags: ["CV"],
     }),
