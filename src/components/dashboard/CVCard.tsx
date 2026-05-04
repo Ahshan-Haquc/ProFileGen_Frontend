@@ -35,9 +35,9 @@ export default function CVCard({ cv, onToggleFavorite, onDelete }) {
     };
 
     return (
-        <div className="relative min-w-[420px] rounded-2xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-lg transition">
+        <div className="relative min-w-[300px] rounded-2xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-lg transition">
             {/* Top row */}
-            <div className="mb-3 flex items-start justify-between">
+            <div className="mb-3 flex  items-start justify-between">
                 <div className="flex items-center gap-3">
                     <div className="rounded-lg bg-purple-100 p-3">
                         <FileText className="h-6 w-6 text-gray-700" />
@@ -73,7 +73,7 @@ export default function CVCard({ cv, onToggleFavorite, onDelete }) {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 md:gap-2">
                     {!isEditing && (
                         <button
                             className="rounded-full p-2 hover:bg-gray-100"

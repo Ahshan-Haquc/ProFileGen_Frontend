@@ -67,13 +67,13 @@ export default function MyCVs() {
                 {/* Header */}
                 <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900">My CVs / Resumes</h1>
-                        <p className="text-sm text-gray-500">
+                        <h1 className="text-2xl font-bold text-gray-900 text-center md:text-left">My CVs / Resumes</h1>
+                        <p className="text-sm text-gray-500 text-center md:text-left">
                             Manage all your CVs — create, edit, preview and download.
                         </p>
                     </div>
                     <button
-                        className="inline-flex items-center gap-2 rounded-xl bg-[#4F1C51] duration-300 px-4 py-2.5 font-medium text-white shadow-sm hover:bg-black"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#4F1C51] duration-300 px-4 py-2.5 font-medium text-white shadow-sm hover:bg-black"
                         onClick={createNewCv}
                     >
                         <Plus className="h-5 w-5" />
@@ -94,7 +94,7 @@ export default function MyCVs() {
                         />
                     </div>
 
-                    <div className="flex items-center gap-3 flex-wrap">
+                    <div className="flex items-center justify-between gap-3 flex-wrap">
                         {/* Favorites toggle */}
                         <button
                             onClick={() => setFavoritesOnly((prev) => !prev)}
@@ -163,7 +163,7 @@ export default function MyCVs() {
 
                 {/* CV Grid */}
                 {filtered.length > 0 && (
-                    <div className="flex gap-4 flex-wrap">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {filtered.map((cv) => (
                             <CVCard
                                 key={cv._id}

@@ -95,7 +95,7 @@ const Home = () => {
       {loading && <Loading loadingMessage="Loading..." />}
       <div className="h-full w-full pb-4 flex flex-col justify-center items-center  relative">
         {/* go to dashboard button */}
-        <NavLink to="/cvDashboard" className="absolute top-1 right-4 bg-purple-600 text-white px-4 py-2 rounded-lg shadow hover:bg-purple-700 transition">
+        <NavLink to="/dashboard" className="absolute top-1 right-4 bg-purple-600 text-white px-4 py-2 rounded-lg shadow hover:bg-purple-700 transition">
 
           <i className="fas fa-arrow-left mr-2"></i> Dashboard
 
