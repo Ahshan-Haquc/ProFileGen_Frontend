@@ -94,12 +94,7 @@ const Home = () => {
       {/* loading showing */}
       {loading && <Loading loadingMessage="Loading..." />}
       <div className="h-full w-full pb-4 flex flex-col justify-center items-center  relative">
-        {/* go to dashboard button */}
-        <NavLink to="/dashboard" className="absolute top-1 right-4 bg-purple-600 text-white px-4 py-2 rounded-lg shadow hover:bg-purple-700 transition">
 
-          <i className="fas fa-arrow-left mr-2"></i> Dashboard
-
-        </NavLink>
 
         {/* title text  */}
         <div className="flex flex-col lg:flex-row items-center justify-center w-full px-4 mt-6 gap-4" data-aos="zoom-in" data-aos-duration="8000">
