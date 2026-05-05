@@ -180,10 +180,6 @@ const Home = () => {
           </div>
         </div>
 
-        <OnboardingSteps />
-
-        {/* Features of this website */}
-        <Features />
 
 
       </div>

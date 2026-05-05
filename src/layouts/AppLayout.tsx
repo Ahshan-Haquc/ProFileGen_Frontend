@@ -12,7 +12,6 @@ const AppLayout = () => {
                 <SideBar />
                 <div className="min-h-[calc(100vh-56px)] max-h-fit flex-grow relative">
                     <div className=" p-1 lg:p-6"><Outlet /></div>
-                    {/* <Footer /> */}
                 </div>
             </div>
         </div>

@@ -50,19 +50,13 @@ const NavBar = () => {
                         to={"/home"}
                         className=" h-10 w-10 rounded-full hover:bg-[#ff8757] duration-500 flex justify-center items-center"
                     >
-                        <i className="fa-solid fa-eye"></i>
+                        <i className="fa-solid fa-eye"></i> Preview
                     </NavLink>
                     <button
                         className=" h-10 w-10 rounded-full hover:bg-[#ff8757] hover:cursor-pointer duration-500 flex justify-center items-center"
-                        onClick={handleTheme}
+                        onClick={()=>{navigate("/dashboard")}}
                     >
-                        <MdLightMode size={20} />
-                    </button>
-                    <button
-                        className=" h-10 w-10 rounded-full hover:bg-[#ff8757] hover:cursor-pointer duration-500 flex justify-center items-center"
-                        onClick={logout}
-                    >
-                        <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                        <i className="fa-solid fa-arrow-right-from-bracket"></i> Dashboard
                     </button>
                 </div>
             </div>
