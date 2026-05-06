@@ -4,7 +4,7 @@ export const subscriptionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getCurrentSubscription: builder.query<any, void>({
         query: () => "/subscription/get-current-subscription",
-        providesTags: ["Subscription"],
+        providesTags: ["Subscription","CV"],
     }),
     createCheckoutSession: builder.mutation<any, { plan: string }>({  
         query: (body) => ({
@@ -16,7 +16,7 @@ export const subscriptionApi = baseApi.injectEndpoints({
     }),
     paymentSuccess: builder.query<any, string>({  
         query: (plan) => `/subscription/payment-success?plan=${plan}`,
-        providesTags: ["Subscription"],
+        providesTags: ["Subscription","CV"],
     }),
 
   }),

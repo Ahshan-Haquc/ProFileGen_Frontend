@@ -1,6 +1,6 @@
 // pages/Dashboard.jsx
 import { useNavigate, NavLink } from "react-router-dom";
-import { Plus, BarChart3, Star, Clock3, FilePlus2, ChevronRight } from "lucide-react";
+import { Plus, BarChart3, Star, Clock3, FilePlus2, ChevronRight, Loader } from "lucide-react";
 
 import DashboardNavBar from "@/layouts/DashboardNavBar";
 import { useCreateCVMutation } from "@/redux/features/cv/cvApi";
@@ -17,28 +17,28 @@ const TEMPLATES = [
         title: "Formal CV",
         gradient: "from-[#4F1C51] to-[#A55B4B]",
         hint: "Clean & ATS-friendly",
-        to: "/create?template=formal",
+        to: "/templates",
     },
     {
         key: "OneColumn",
         title: "One Column",
         gradient: "from-[#4F1C51] to-[#A55B4B]",
         hint: "Minimal & focused",
-        to: "/create?template=one-column",
+        to: "/templates",
     },
     {
         key: "Modern",
         title: "Modern CV",
         gradient: "from-[#4F1C51] to-[#A55B4B]",
         hint: "Vibrant & visual",
-        to: "/create?template=modern",
+        to: "/templates",
     },
 ];
 
 export default function Dashboard() {
     const navigate = useNavigate();
     const { data } = useGetDashboardDataQuery({ favoriteOnly: false });
-    const [createCV,{data:createCVData}] = useCreateCVMutation();
+    const [createCV,{data:createCVData, isLoading}] = useCreateCVMutation();
     const { handleToggleFavorite, handleDelete } = useCVActions();
 
     // All CVs from the single API, filter favorites client-side
@@ -81,11 +81,12 @@ export default function Dashboard() {
                         </p>
                     </div>
                     <button
-                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#4F1C51] duration-300 px-4 py-2.5 font-medium text-white shadow-sm hover:bg-black"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#4F1C51] duration-300 px-4 py-2.5 font-medium text-white shadow-sm hover:bg-black disabled:opacity-50"
                         onClick={createNewCv}
+                        disabled={isLoading}
                     >
-                        <Plus className="h-5 w-5" />
-                        Create New CV
+                        {isLoading ? <Loader className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
+                        {isLoading ? "Creating..." : "Create New CV"}
                     </button>
                 </div>
 

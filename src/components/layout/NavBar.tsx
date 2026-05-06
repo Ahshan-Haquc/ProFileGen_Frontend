@@ -1,10 +1,13 @@
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
-import { Eye, LayoutDashboard, LogOut } from "lucide-react";
+import { Edit, Eye, LayoutDashboard, LogOut } from "lucide-react";
 import { useSideBarVisible } from "../../context/SideBarShowInPhone";
 import { useAuthUser } from "../../context/AuthContext";
 import { useLogoutUserMutation } from "../../redux/features/dashboard/dashboardApi";
 import { useUserCV } from "../../context/UserCVContext";
+import { useState } from "react";
+import { useUpdateCVTitleMutation } from "@/redux/features/cv/cvApi";
+import toastShow from "@/utils/toastShow";
 
 const NavBar = () => {
     const { setUser } = useAuthUser();
@@ -13,6 +16,12 @@ const NavBar = () => {
     const { cvId } = useParams();
     const [logoutUser] = useLogoutUserMutation();
     const { setIsSidebarVisible } = useSideBarVisible();
+    const [isEditing, setIsEditing] = useState(false);
+
+    const [title, setTitle] = useState(userCV.title);
+    const [loading, setLoading] = useState(false);
+    const [updateCVTitle] = useUpdateCVTitleMutation();
+
 
     const logout = async () => {
         try {
@@ -21,6 +30,29 @@ const NavBar = () => {
             navigate("/login");
         } catch {
             alert("Logout unsuccessful");
+        }
+    };
+
+    const handleCancel = () => {
+        setTitle(userCV.title);
+        setIsEditing(false);
+    };
+
+    const handleSubmit = async () => {
+        if (!title.trim() || title === userCV.title) {
+            setIsEditing(false);
+            return;
+        }
+        try {
+            setLoading(true);
+            const response = await updateCVTitle({ cvId: userCV._id, newTitle: title.trim() }).unwrap();
+            if (response.success) toastShow(response.message, "success");
+            else toastShow(response.message, "error");
+        } catch {
+            toastShow("Failed to update CV title", "error");
+        } finally {
+            setLoading(false);
+            setIsEditing(false);
         }
     };
 
@@ -39,18 +71,45 @@ const NavBar = () => {
                         <IoMdMenu size={26} className="text-[#210F37]" />
                     </button>
 
-                    <NavLink to="/dashboard" className="flex items-center gap-2 group">
-                        <span className="text-xl md:text-2xl font-bold tracking-tight text-[#210F37] group-hover:text-[#ff8757] transition-colors duration-200">
-                            {userCV.title}
-                        </span>
-                    </NavLink>
-
-                    {/* CV title pill — Subtle gray theme for white background */}
-                    {/* {userCV?.title && (
-                        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-50 border border-gray-200 text-xs  max-w-[180px] text-[11px] font-bold uppercase tracking-wider text-gray-400">
-                            <span className="truncate">{userCV.title}</span>
+                    <div className="flex  items-center gap-3">
+                        <div className="flex items-center gap-3">
+                                <div className="font-semibold text-gray-900">
+                                    <input
+                                        type="text"
+                                        value={title}
+                                        disabled={!isEditing}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        className={`w-fit overflow-hidden ${isEditing ? "py-1 px-3 border border-gray-300 rounded-md " : "bg-transparent cursor-default"}`}
+                                    />
+                                    {isEditing && (
+                                        <>
+                                            <button
+                                                className="bg-gray-200 mx-2 px-2 py-1 rounded hover:bg-red-600 hover:text-white text-sm"
+                                                onClick={handleCancel}
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 disabled:opacity-50 text-sm"
+                                                onClick={handleSubmit}
+                                                disabled={loading}
+                                            >
+                                                {loading ? "Saving..." : "Rename"}
+                                            </button>
+                                        </>
+                                    )}
+                                </div>
                         </div>
-                    )} */}
+                            {!isEditing && (
+                                <button
+                                    className="rounded-full p-2 hover:bg-gray-100"
+                                    title="Rename CV"
+                                    onClick={() => setIsEditing(true)}
+                                >
+                                    <Edit className="h-5 w-5 text-gray-400" />
+                                </button>
+                            )}
+                    </div>
 
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100 transition-all duration-300">
                         {/* Status Icon/Spinner */}

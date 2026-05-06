@@ -1,30 +1,3 @@
-// import { NavLink } from "react-router-dom";
-// import { Sparkles, ChevronRight } from "lucide-react";
-
-// export default function TemplateCard({ t }) {
-//     return (
-//         <NavLink
-//             to={t.to}
-//             className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-lg transition"
-//         >
-//             <div className={`h-28 w-full p-3 md:p-5 bg-gradient-to-tr ${t.gradient} opacity-90 flex justify-start items-end rounded-xl`}>
-//                 <i className="fas fa-file-alt text-white text-5xl"></i>
-//             </div>
-//             <div className="p-4">
-//                 <div className="flex items-center justify-between">
-//                     <div>
-//                         <div className="text-lg font-semibold text-gray-900">{t.title}</div>
-//                         <div className="text-sm text-gray-500">{t.hint}</div>
-//                     </div>
-//                     <div className="flex items-center gap-2">
-//                         <Sparkles className="h-5 w-5 text-purple-500" />
-//                         <ChevronRight className="h-5 w-5 text-gray-400 group-hover:translate-x-0.5 transition" />
-//                     </div>
-//                 </div>
-//             </div>
-//         </NavLink>
-//     );
-// }
 import { NavLink } from "react-router-dom";
 import { Sparkles, ChevronRight } from "lucide-react";
 

@@ -495,7 +495,7 @@ const SideBar = () => {
                             <Layers size={15} className="text-white" />
                         </div>
                         <div>
-                            <div className="text-xs font-semibold text-white/90 leading-tight">CV Editor</div>
+                            <div className="text-xs lg:text-sm font-semibold text-white/90 leading-tight">CV Editor</div>
                             <div className="text-[10px] text-white/40 leading-tight truncate max-w-[140px]">
                                 {userCV?.title || "Untitled CV"}
                             </div>
@@ -505,8 +505,8 @@ const SideBar = () => {
                     {/* Progress indicator */}
                     <div className="mt-3">
                         <div className="flex justify-between items-center mb-1">
-                            <span className="text-[10px] text-white/40">Sections filled</span>
-                            <span className="text-[10px] text-white/60 font-medium">{filledCount}/{arrayFields.length}</span>
+                            <span className="text-[10px] lg:text-xs text-white/40">Sections filled</span>
+                            <span className="text-[10px] text-white/60 font-medium">{((filledCount/arrayFields.length) * 100).toFixed(1)}%</span>
                         </div>
                         <div className="h-1 rounded-full bg-white/10">
                             <div
