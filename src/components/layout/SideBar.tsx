@@ -478,7 +478,7 @@ const SideBar = () => {
 
             {/* Sidebar panel */}
             <aside
-                className={`
+                className={` pt-3 md:pt-0
                     fixed top-0 left-0 bottom-0 z-30 w-[240px]
                     bg-gradient-to-b from-[#2a0f2e] via-[#1e0b22] to-[#170819]
                     border-r border-white/5

@@ -71,7 +71,11 @@ const NavBar = () => {
                         <IoMdMenu size={26} className="text-[#210F37]" />
                     </button>
 
-                    <div className="flex  items-center gap-3">
+                    <div className="md:hidden text-[#210F37] text-lg font-semibold">
+                        Editor
+                    </div>
+
+                    <div className="hidden md:flex items-center gap-3  ">
                         <div className="flex items-center gap-3">
                                 <div className="font-semibold text-gray-900">
                                     <input
@@ -111,7 +115,7 @@ const NavBar = () => {
                             )}
                     </div>
 
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100 transition-all duration-300">
+                    <div className=" hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100 transition-all duration-300">
                         {/* Status Icon/Spinner */}
                         <div className="relative flex items-center justify-center">
                             {/* Use a simple spinner or pulse if 'isSaving', else a checkmark */}
@@ -119,7 +123,7 @@ const NavBar = () => {
                         </div>
 
                         {/* Status Text */}
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                        <span className="text-[8px] font-bold uppercase tracking-wider text-gray-400">
                             Auto-saving...
                         </span>
                     </div>
@@ -130,20 +134,20 @@ const NavBar = () => {
                     {/* Preview */}
                     <NavLink
                         to={`/home/${cvId}`}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold
+                        className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs xl:text-sm 2xl:text-base font-semibold
                                    text-[#210F37]/80 hover:text-[#ff8757] hover:bg-[#ff8757]/5
                                    border border-gray-200 hover:border-[#ff8757]/30
                                    transition-all duration-200"
                         title="Preview your CV"
                     >
                         <Eye size={16} />
-                        <span className="hidden sm:inline">Preview</span>
+                        <span className="inline">Preview</span>
                     </NavLink>
 
                     {/* Dashboard */}
                     <button
                         onClick={() => navigate("/dashboard")}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold
+                        className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs xl:text-sm 2xl:text-base font-semibold
                                    text-[#210F37]/80 hover:text-[#ff8757] hover:bg-[#ff8757]/5
                                    border border-gray-200 hover:border-[#ff8757]/30
                                    transition-all duration-200"
@@ -159,7 +163,7 @@ const NavBar = () => {
                     {/* Logout */}
                     <button
                         onClick={logout}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold
+                        className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs xl:text-sm 2xl:text-base font-semibold
                                    text-gray-500 hover:text-red-600 hover:bg-red-50
                                    border border-transparent hover:border-red-100
                                    transition-all duration-200"
