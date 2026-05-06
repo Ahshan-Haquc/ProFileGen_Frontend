@@ -125,8 +125,9 @@ import React from 'react';
 import { motion } from "framer-motion";
 import { Check, Sparkles, Zap, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useGetCurrentSubscriptionQuery } from "@/redux/features/subscription/subscriptionApi";
+import { useCreateCheckoutSessionMutation, useGetCurrentSubscriptionQuery } from "@/redux/features/subscription/subscriptionApi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const tiers = [
     {
@@ -166,32 +167,24 @@ const tiers = [
 
 export default function MyPricing() {
     const { data } = useGetCurrentSubscriptionQuery();
+    const [createCheckoutSession, { isLoading }] = useCreateCheckoutSessionMutation();
     const navigate = useNavigate();
 
     const currentPlan = data?.subscription?.plan || "starter";
 
-    // 🚀 Handle Button Click
     const handleSubscribe = async (planKey) => {
-        if (planKey === currentPlan) return;
-
         try {
-            // call backend to get fake stripe url
-            const res = await fetch("http://localhost:5000/api/create-checkout-session", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({ plan: planKey }),
-            });
+            const res = await createCheckoutSession({ plan: planKey }).unwrap();
 
-            const data = await res.json();
-
-            // redirect to fake stripe page
-            window.location.href = data.url;
+            if (res.url) {
+                window.location.href = res.url;
+            }else{
+                toast.error("Failed to create checkout session");
+            }
 
         } catch (err) {
-            console.error("Subscription error:", err);
+            console.error(err);
+            toast.error("Failed to create checkout session");
         }
     };
 
@@ -224,13 +217,12 @@ export default function MyPricing() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: index * 0.1 }}
-                                    className={`relative flex flex-col p-8 rounded-[2.5rem] transition-all duration-500 border ${
-                                        isCurrent
+                                    className={`relative flex flex-col p-8 rounded-[2.5rem] transition-all duration-500 border ${isCurrent
                                             ? "border-green-500 bg-green-50 scale-105"
                                             : tier.popular
-                                            ? "border-[#DCA06D] bg-[#DCA06D]/5"
-                                            : " hover:border-[#DCA06D]/50 border-[#DCA06D] bg-[#DCA06D]/5"
-                                    }`}
+                                                ? "border-[#DCA06D] bg-[#DCA06D]/5"
+                                                : " hover:border-[#DCA06D]/50 border-[#DCA06D] bg-[#DCA06D]/5"
+                                        }`}
                                 >
                                     {/* Current Plan Badge */}
                                     {isCurrent && (
@@ -283,13 +275,12 @@ export default function MyPricing() {
                                     <Button
                                         disabled={isCurrent}
                                         onClick={() => handleSubscribe(tier.key)}
-                                        className={`w-full py-7 rounded-2xl font-bold text-lg transition-all active:scale-95 ${
-                                            isCurrent
+                                        className={`w-full py-7 rounded-2xl font-bold text-lg transition-all active:scale-95 ${isCurrent
                                                 ? "bg-gray-300 text-gray-600 cursor-not-allowed"
                                                 : tier.popular
-                                                ? "bg-[#DCA06D] hover:bg-[#A55B4B] text-[#210F37]"
-                                                : "bg-[#210F37] hover:bg-[#4F1C51] text-white"
-                                        }`}
+                                                    ? "bg-[#DCA06D] hover:bg-[#A55B4B] text-[#210F37]"
+                                                    : "bg-[#210F37] hover:bg-[#4F1C51] text-white"
+                                            }`}
                                     >
                                         {isCurrent ? "Current Plan" : tier.buttonText}
                                     </Button>

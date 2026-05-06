@@ -42,6 +42,7 @@ import TemplatesPage from "@/pages/public/TemplatesPage";
 import ResumeHelp from "@/pages/public/ResumeHelp";
 import AboutPage from "@/pages/public/AboutPage";
 import MyPricing from "@/pages/dashboard/MyPricing";
+import SuccessSubscription from "@/pages/dashboard/mainPanel/SuccessSubscription";
 
 const routes = createBrowserRouter([
   //   PUBLIC ROUTES  
@@ -116,6 +117,10 @@ const routes = createBrowserRouter([
       {
         path: "my-pricing",
         element: <MyPricing />,
+      },
+      {
+        path: "success-subscription/:plan",
+        element: <SuccessSubscription />,
       },
       {
         element: <AppLayout />,
