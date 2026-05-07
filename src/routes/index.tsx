@@ -119,7 +119,7 @@ const routes = createBrowserRouter([
         element: <MyPricing />,
       },
       {
-        path: "success-subscription/:plan",
+        path: "success-subscription",
         element: <SuccessSubscription />,
       },
       {
