@@ -32,7 +32,7 @@ const SkillsAdd = ({ name, identifier, num, category }) => {
   };
 
   return (
-    <div className="h-8 w-fit p-2 border border-green-200 rounded-lg flex items-center gap-2">
+    <div className="h-8 w-fit p-2 border border-[#210F37]/50 rounded-lg flex items-center gap-2 hover:border-[#ff8757] transition-colors">
       <input
         type="checkbox"
         id={identifier + num}

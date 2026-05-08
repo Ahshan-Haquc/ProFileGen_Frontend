@@ -40,7 +40,7 @@ const Activities = () => {
 
   return (
     <div className="p-4 h-full min-w-full overflow-x-hidden">
-      <div className="text-2xl text-blue-700 font-bold mb-4">
+      <div className="text-2xl text-[#210F37] font-bold mb-4">
         <i className="fas fa-futbol mr-2"></i>Add Your Activities
       </div>
 
@@ -51,13 +51,13 @@ const Activities = () => {
           value={inputValue}
           onChange={handleInput}
           placeholder="Enter your activity"
-          className="h-12 w-full border border-gray-400 rounded-md p-2 text-xl"
+          className="h-12 w-full border border-[#210F37] rounded-md p-2 text-xl focus:border-[#ff8757] focus:outline-none"
         />
 
         <div className="flex justify-end">
           <button
             onClick={submitData}
-            className="h-12 w-[200px] text-white bg-gray-600 hover:bg-gray-700 border border-gray-400 rounded-md p-2 text-xl"
+            className="h-12 w-[200px] text-white bg-[#210F37] hover:bg-[#ff8757] border border-[#210F37] rounded-md p-2 text-xl transition-colors"
           >
             <i className="fas fa-plus mr-2"></i>Add
           </button>
@@ -71,14 +71,14 @@ const Activities = () => {
       <div className="overflow-x-auto rounded-lg shadow-md">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
-            <tr className="bg-gray-100 border-b border-gray-300">
-              <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+            <tr className="bg-[#210F37]/10 border-b border-gray-300">
+              <th className="py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase tracking-wider">
                 Serial
               </th>
-              <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+              <th className="py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase tracking-wider">
                 Activity
               </th>
-              <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+              <th className="py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase tracking-wider">
                 Action
               </th>
             </tr>

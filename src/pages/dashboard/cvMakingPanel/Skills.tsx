@@ -128,7 +128,7 @@ const Skills = () => {
 
   return (
     <div className="p-4 h-full min-w-full ">
-      <div className="text-2xl text-[#213448] font-bold ">
+      <div className="text-2xl text-[#210F37] font-bold ">
         <i className="fas fa-tools mr-2"></i>Add Your Skill Set
       </div>
       <SkillsAddByCategory category="Frontend" values={frontendSkillNames} />
@@ -141,7 +141,7 @@ const Skills = () => {
       />
       <SkillsAddByCategory category="SoftSkills" values={softSkillName} />
       <button
-        className="h-12 w-[200px] mt-8 text-white bg-gray-600 hover:bg-gray-700 border border-gray-400 rounded-md p-2 text-xl block"
+        className="h-12 w-[200px] mt-8 text-white bg-[#210F37] hover:bg-[#ff8757] border border-[#210F37] rounded-md p-2 text-xl block transition-colors"
         onClick={submitData}
       >
         Update

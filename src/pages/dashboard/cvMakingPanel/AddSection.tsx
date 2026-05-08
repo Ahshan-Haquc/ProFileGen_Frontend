@@ -93,7 +93,7 @@ const AddSection = () => {
 
   return (
     <div className="p-6 min-w-full max-w-4xl ">
-      <h2 className="text-3xl font-bold mb-6 text-gray-800">Manage Custom Sections</h2>
+      <h2 className="text-3xl font-bold mb-6 text-[#210F37]">Manage Custom Sections</h2>
 
       <div className="flex gap-3 mb-6">
         <input
@@ -101,11 +101,11 @@ const AddSection = () => {
           placeholder="New section name"
           value={formValue}
           onChange={handleInput}
-          className="flex-1 p-2 border border-gray-300 rounded-md shadow-sm"
+          className="flex-1 p-2 border border-[#210F37] rounded-md shadow-sm focus:border-[#ff8757] focus:outline-none"
         />
         <button
           onClick={submitData}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
+          className="bg-[#210F37] hover:bg-[#ff8757] text-white px-4 py-2 rounded-md transition-colors"
         >
           <Plus className="inline-block w-4 h-4 mr-1" /> Add
         </button>
@@ -115,13 +115,13 @@ const AddSection = () => {
         {userCV?.otherSection?.map((section, index) => (
           <div
             key={index}
-            className={`relative border p-4 rounded-lg shadow-sm cursor-pointer hover:shadow-md transition-all ${selectedSectionIndex === index ? "border-blue-600" : "border-gray-200"
+            className={`relative border p-4 rounded-lg shadow-sm cursor-pointer hover:shadow-md transition-all ${selectedSectionIndex === index ? "border-[#ff8757]" : "border-[#210F37]/50"
               }`}
             onClick={() =>
               setSelectedSectionIndex(selectedSectionIndex === index ? null : index)
             }
           >
-            <div className="text-lg font-semibold text-gray-800">{section.sectionName}</div>
+            <div className="text-lg font-semibold text-[#210F37]">{section.sectionName}</div>
             <button
               className="absolute top-2 right-2 text-red-600 hover:text-red-700"
               onClick={(e) => {
@@ -138,7 +138,7 @@ const AddSection = () => {
 
       {selectedSectionIndex !== null && (
         <div className="mt-8 border-t pt-6">
-          <h3 className="text-xl font-bold mb-4 text-gray-700">
+          <h3 className="text-xl font-bold mb-4 text-[#210F37]">
             Add / Delete content to your "{userCV.otherSection[selectedSectionIndex].sectionName}" section
           </h3>
 
@@ -148,11 +148,11 @@ const AddSection = () => {
               placeholder="Add content"
               value={newContentInput}
               onChange={handleContentInput}
-              className="flex-1 p-2 border border-gray-300 rounded-md shadow-sm"
+              className="flex-1 p-2 border border-[#210F37] rounded-md shadow-sm focus:border-[#ff8757] focus:outline-none"
             />
             <button
               onClick={() => submitSectionValue(selectedSectionIndex)}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md"
+              className="bg-[#ff8757] hover:bg-[#210F37] text-white px-4 py-2 rounded-md transition-colors"
             >
               Add
             </button>
@@ -162,7 +162,7 @@ const AddSection = () => {
             {userCV.otherSection[selectedSectionIndex].sectionValues.map((val, idx) => (
               <li
                 key={idx}
-                className="flex items-center justify-between bg-gray-100 p-2 rounded-md"
+                className="flex items-center justify-between bg-[#210F37]/10 p-2 rounded-md"
               >
                 <span>{val}</span>
                 <button

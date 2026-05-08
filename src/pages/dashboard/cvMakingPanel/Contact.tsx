@@ -72,7 +72,7 @@ const Contact = () => {
 
   return (
     <div className="p-4 h-full w-full">
-      <div className="text-2xl text-[#213448] font-bold ">
+      <div className="text-2xl text-[#210F37] font-bold ">
         <i className="fas fa-align-left mr-2"></i>Contact info
       </div>
       <div className="mt-3 flex flex-wrap gap-3">
@@ -82,7 +82,7 @@ const Contact = () => {
           name="phoneNumber"
           onChange={handleInput}
           placeholder="your phone number"
-          className="h-12 w-[300px] border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
         />
         <input
           type="text"
@@ -90,7 +90,7 @@ const Contact = () => {
           value={contactValues.emailId} // Bind value to state
           onChange={handleInput}
           placeholder="your email"
-          className="h-12 w-[300px] border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
         />
         <input
           type="text"
@@ -98,7 +98,7 @@ const Contact = () => {
           value={contactValues.linkedInId} // Bind value to state
           onChange={handleInput}
           placeholder="linkedIn profile link"
-          className="h-12 w-[300px] border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
         />
         <input
           type="text"
@@ -106,7 +106,7 @@ const Contact = () => {
           value={contactValues.githubId} // Bind value to state
           onChange={handleInput}
           placeholder="github link"
-          className="h-12 w-[300px] border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
         />
         <input
           type="text"
@@ -114,7 +114,7 @@ const Contact = () => {
           value={contactValues.portfolioLink} // Bind value to state
           onChange={handleInput}
           placeholder="portfolio link"
-          className="h-12 w-[300px] border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
         />
         <input
           type="text"
@@ -122,10 +122,10 @@ const Contact = () => {
           value={contactValues.address} // Bind value to state
           onChange={handleInput}
           placeholder="your current address"
-          className="h-12 w-[300px] border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
         />
         <button
-          className="h-12 w-[200px] mt-5 text-white bg-gray-600 hover:bg-gray-700 border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-12 w-[200px] mt-5 text-white bg-[#210F37] hover:bg-[#ff8757] border border-[#210F37] rounded-md p-2 text-xl block transition-colors"
           onClick={submitData}
         >
           Update

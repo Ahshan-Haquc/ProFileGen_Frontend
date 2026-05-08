@@ -68,7 +68,7 @@ const Profile = () => {
 
   return (
     <div className="p-4 h-full min-w-full">
-      <div className="text-2xl text-[#213448] font-bold">
+      <div className="text-2xl text-[#210F37] font-bold">
         <i className="fas fa-user mr-2"></i>Add Basic Info
       </div>
       <div className="mt-3 flex flex-col gap-3">
@@ -76,7 +76,7 @@ const Profile = () => {
           type="text"
           name="name"
           placeholder="Enter your name"
-          className="h-12 border border-gray-400 rounded-md p-2 text-xl"
+          className="h-12 border border-[#210F37] rounded-md p-2 text-xl focus:border-[#ff8757] focus:outline-none"
           onChange={handleInput}
           value={inputValue.name} // Controlled component: value comes from state
         />
@@ -84,11 +84,11 @@ const Profile = () => {
           type="text"
           name="profession"
           placeholder="Enter your profession"
-          className="h-12 border border-gray-400 rounded-md p-2 text-xl"
+          className="h-12 border border-[#210F37] rounded-md p-2 text-xl focus:border-[#ff8757] focus:outline-none"
           onChange={handleInput}
           value={inputValue.profession} // Controlled component: value comes from state
         />
-        <label className="flex items-center gap-3 h-12 border border-gray-500 rounded-md px-4 text-xl cursor-pointer hover:bg-gray-100 justify-center">
+        <label className="flex items-center gap-3 h-12 border border-[#210F37] rounded-md px-4 text-xl cursor-pointer hover:bg-[#210F37]/10 justify-center transition-colors">
           <i className="fas fa-upload"></i>
           {image ? (
             `You selected: ${image.name} `
@@ -98,7 +98,7 @@ const Profile = () => {
           <input type="file" className="hidden" onChange={handleImageChange} />
         </label>
         <button
-          className="h-12 w-[200px] bg-gray-600 hover:bg-gray-700 text-white rounded-md p-2 text-xl"
+          className="h-12 w-[200px] bg-[#210F37] hover:bg-[#ff8757] text-white rounded-md p-2 text-xl transition-colors"
           onClick={handleSubmit}
         >
           Update

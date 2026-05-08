@@ -99,7 +99,7 @@ const Home = () => {
             className="h-[250px] w-[250px] sm:h-[300px] sm:w-[300px]"
           />
           <div className="text-center lg:text-left">
-            <h2 className="text-4xl font-extrabold text-gradient bg-gradient-to-r from-[#4F1C51] via-[#7B2FF2] to-[#F357A8] bg-clip-text text-transparent">ProFileGen</h2>
+            <h2 className="text-4xl font-extrabold text-gradient bg-gradient-to-r from-[#210F37] to-[#ff8757] bg-clip-text text-transparent">ProFileGen</h2>
             <div className="text-sm sm:text-base text-gray-400">
               Build Resumes/CV That Speak for Your Skills
             </div>
@@ -113,7 +113,7 @@ const Home = () => {
               to="/viewFormalCV"
               className="w-full p-6 h-[180px] rounded-xl text-white font-semibold tracking-wide
       shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105
-      bg-gradient-to-tr from-pink-500 to-purple-600 border border-pink-400
+      bg-gradient-to-tr from-[#210F37] to-[#ff8757] border border-[#ff8757]
       flex flex-col items-center justify-center space-y-3"
               data-aos="fade-up" data-aos-duration="8000"
             >
@@ -125,7 +125,7 @@ const Home = () => {
               to="/viewFormalCV2"
               className="w-full p-6 h-[180px] rounded-xl text-white font-semibold tracking-wide
       shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105
-      bg-gradient-to-tr from-pink-500 to-purple-600 border border-pink-400
+      bg-gradient-to-tr from-[#210F37] to-[#ff8757] border border-[#ff8757]
       flex flex-col items-center justify-center space-y-3"
               data-aos="fade-up" data-aos-duration="8000"
             >
@@ -137,7 +137,7 @@ const Home = () => {
               to="/viewCV"
               className="w-full p-6 h-[180px] rounded-xl text-white font-semibold tracking-wide
       shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105
-      bg-gradient-to-tr from-pink-500 to-purple-600 border border-pink-400
+      bg-gradient-to-tr from-[#210F37] to-[#ff8757] border border-[#ff8757]
       flex flex-col items-center justify-center space-y-3"
               data-aos="fade-up" data-aos-duration="8000"
             >
@@ -150,7 +150,7 @@ const Home = () => {
 
         {/* customize section div  */}
         <div className="w-full max-w-7xl px-4 py-2 md:py-6 my-10  rounded-xl">
-          <h2 className="text-4xl font-extrabold text-center mb-8 text-gradient bg-gradient-to-r from-[#4F1C51] via-[#7B2FF2] to-[#F357A8] bg-clip-text text-transparent" data-aos="zoom-in">Customize Sections</h2>
+          <h2 className="text-4xl font-extrabold text-center mb-8 text-gradient bg-gradient-to-r from-[#210F37] to-[#ff8757] bg-clip-text text-transparent" data-aos="zoom-in">Customize Sections</h2>
           {isKnownArrayFieldsWillShow && (<p className="text-center text-sm text-gray-500 mb-4" data-aos="zoom-in" data-aos-delay="100">* Click on any section box and insert your info to edit its content</p>)}
 
           <div className="flex flex-wrap gap-4 justify-center " data-aos="zoom-in" data-aos-delay="200">

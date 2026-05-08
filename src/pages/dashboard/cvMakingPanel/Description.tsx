@@ -43,7 +43,7 @@ const Description = () => {
 
   return (
     <div className="p-4 h-full min-w-full flex-grow">
-      <div className="text-2xl text-[#213448] font-bold ">
+      <div className="text-2xl text-[#210F37] font-bold ">
         <i className="fa-solid fa-square-pen mr-2"></i>About you
       </div>
       <div className="mt-3 w-full flex flex-col flex-wrap gap-3">
@@ -51,12 +51,12 @@ const Description = () => {
           rows={5}
           value={inputValue}
           placeholder="Tell us about yourself..."
-          className="h-[200px] w-full border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-[200px] w-full border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
           onChange={handleInput}
         />
 
         <button
-          className="h-12 w-[200px] text-white bg-gray-600 hover:bg-gray-700 border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-12 w-[200px] text-white bg-[#210F37] hover:bg-[#ff8757] border border-[#210F37] rounded-md p-2 text-xl block transition-colors"
           onClick={submitData}
         >
           Update
