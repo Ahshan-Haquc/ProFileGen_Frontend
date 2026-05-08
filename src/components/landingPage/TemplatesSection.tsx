@@ -9,12 +9,12 @@ import { RootState } from '@/redux/store';
 import { useNavigate } from 'react-router-dom';
 
 const templatesData = [
-  { id: 1, name: "The Executive", style: "Minimalist & Bold", category: "Corporate" },
-  { id: 2, name: "The Modernist", style: "Creative & Fluid", category: "Startup" },
-  { id: 3, name: "The Scholar", style: "Academic & Detailed", category: "Education" },
-  { id: 4, name: "The Artisan", style: "Visual & Unique", category: "Design" },
-  { id: 5, name: "The Catalyst", style: "High-Impact & Modern", category: "Tech" },
-  { id: 6, name: "The Financier", style: "Structured & Clean", category: "Banking" },
+  { id: 1, name: "The Executive", style: "Minimalist & Bold", category: "Corporate", imgUrl:"/sampleCV.webp" },
+  { id: 2, name: "The Modernist", style: "Creative & Fluid", category: "Startup", imgUrl:"/sampleCV.webp" },
+  { id: 3, name: "The Scholar", style: "Academic & Detailed", category: "Education", imgUrl:"/sampleCV.webp" },
+  { id: 4, name: "The Artisan", style: "Visual & Unique", category: "Design", imgUrl:"/sampleCV.webp" },
+  { id: 5, name: "The Catalyst", style: "High-Impact & Modern", category: "Tech", imgUrl:"/sampleCV.webp" },
+  { id: 6, name: "The Financier", style: "Structured & Clean", category: "Banking", imgUrl:"/sampleCV.webp" },
 ];
 
 const CompactAutoTemplates = () => {
@@ -52,7 +52,7 @@ const CompactAutoTemplates = () => {
           </div>
 
           <div className="flex items-center gap-3">
-             <Button onClick={() => { user ? navigate('/dashboard') : navigate('/signup') }} size="lg" className="bg-[#210F37] hover:bg-[#4F1C51] text-white px-8 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 gap-2">
+             <Button onClick={() => { user ? navigate('/dashboard') : navigate('/signup') }} size="lg" className="bg-[#210F37]  text-white px-8 rounded-full shadow-lg transition-all  active:scale-95 gap-2">
                 Create My Resume <CornerDownRight size={18} />
              </Button>
           </div>
@@ -77,7 +77,7 @@ const CompactAutoTemplates = () => {
                     {/* CV Image Container */}
                     <div className="relative aspect-[3/4.5] rounded-xl overflow-hidden mb-5 border border-gray-50 group-hover:border-[#DCA06D]/10 transition-all duration-300">
                       <img
-                        src="/sampleCV.webp"
+                        src={template.imgUrl}
                         alt={`Sample CV Template - ${template.name}`}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out"
                       />

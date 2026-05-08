@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react";
-import LeftSide from "../../components/LeftSide";
-import RightSide from "../../components/RightSide";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useUserCV } from "../../context/UserCVContext";
-import Loading from "../../commonComponents/Loading";
-import { loadingOnPageLoad } from "../../controllers/loadingOnPageLoad";
 import { toPng } from "html-to-image";
 import html2canvas from "html2canvas";
+import { useUserCV } from "@/context/UserCVContext";
+import { loadingOnPageLoad } from "@/controllers/loadingOnPageLoad";
+import Loading from "@/commonComponents/Loading";
+import LeftSide from "@/components/LeftSide";
+import RightSide from "@/components/RightSide";
 
 const ViewCV = () => {
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,7 @@ const ViewCV = () => {
         to={"/"}
         className="fixed bottom-20 right-4 h-10 w-10 rounded-full hover:bg-black bg-amber-600 text-white flex justify-center items-center"
       >
-        <i class="fa-solid fa-arrow-left"></i>
+        <i className="fa-solid fa-arrow-left"></i>
       </NavLink>
       <div className=" p-[100px] mx-auto bg-gray-100">
         <div ref={pageRef} className="flex">

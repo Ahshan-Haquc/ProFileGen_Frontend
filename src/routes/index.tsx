@@ -1,39 +1,15 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
-// layouts
-
-import Profile from "../pages/dashboard/Profile";
-import Contact from "../pages/dashboard/Contact";
-import Description from "../pages/dashboard/Description";
-import Skills from "../pages/dashboard/Skills";
-import Projects from "../pages/dashboard/Projects";
-import Experience from "../pages/dashboard/Experience";
-import Education from "../pages/dashboard/Education";
-import Acheivements from "../pages/dashboard/Acheivements";
-import Activities from "../pages/dashboard/Activities";
-import Reference from "../pages/dashboard/Reference";
-import AddSection from "../pages/dashboard/AddSection";
-
-// admin
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminManageUsers from "../pages/admin/AdminManageUsers";
-
-// public pages
-import ViewCV from "../pages/public/ViewCV";
-import ViewFormalCV from "../pages/public/ViewFormalCV";
-import ViewFormalCV2 from "../pages/public/ViewFormalCV2";
-
-// auth guard
 import ProtectedRoute from "../context/ProtectedRoute";
 import NotFoundPage from "../commonComponents/NotFoundPage";
-import LandingPage from "../pages/LandingPage";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import SignupAdmin from "../pages/auth/SignupAdmin";
 import AppLayout from "../layouts/AppLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import CVDashboard from "@/pages/dashboard/mainPanel/CVDashboard";
-import Home from "@/pages/dashboard/Home";
 import MyCVs from "@/pages/dashboard/mainPanel/MyCVs";
 import PricingSection from "@/components/landingPage/PricingSection";
 import Layout from "@/components/layout/LandingLayout";
@@ -43,13 +19,25 @@ import ResumeHelp from "@/pages/public/ResumeHelp";
 import AboutPage from "@/pages/public/AboutPage";
 import MyPricing from "@/pages/dashboard/mainPanel/MyPricing";
 import SuccessSubscription from "@/pages/dashboard/mainPanel/SuccessSubscription";
+import LandingPage from "@/pages/public/LandingPage";
+import ViewCV from "@/pages/dashboard/cvMakingPanel/ViewCV";
+import ViewFormalCV from "@/pages/dashboard/cvMakingPanel/ViewFormalCV";
+import ViewFormalCV2 from "@/pages/dashboard/cvMakingPanel/ViewFormalCV2";
+import Home from "@/pages/dashboard/cvMakingPanel/Home";
+import Profile from "@/pages/dashboard/cvMakingPanel/Profile";
+import Contact from "@/pages/dashboard/cvMakingPanel/Contact";
+import Description from "@/pages/dashboard/cvMakingPanel/Description";
+import Skills from "@/pages/dashboard/cvMakingPanel/Skills";
+import Projects from "@/pages/dashboard/cvMakingPanel/Projects";
+import Experience from "@/pages/dashboard/cvMakingPanel/Experience";
+import Education from "@/pages/dashboard/cvMakingPanel/Education";
+import Acheivements from "@/pages/dashboard/cvMakingPanel/Acheivements";
+import Activities from "@/pages/dashboard/cvMakingPanel/Activities";
+import Reference from "@/pages/dashboard/cvMakingPanel/Reference";
+import AddSection from "@/pages/dashboard/cvMakingPanel/AddSection";
 
 const routes = createBrowserRouter([
   //   PUBLIC ROUTES  
-  // {
-  //   path: "/",
-  //   element: <LandingPage />,
-  // },
   {
     path : "/",
     element: <LandingLayout/>,
@@ -76,6 +64,7 @@ const routes = createBrowserRouter([
       }
     ]
   },
+  // auth routes 
   {
     path: "/login",
     element: <Login />,
@@ -125,10 +114,6 @@ const routes = createBrowserRouter([
       {
         element: <AppLayout />,
         children: [
-          // {
-          //   path: "home",
-          //   element: <Home />,
-          // },
           {
             path: "home/:cvId",
             element: <Home />,

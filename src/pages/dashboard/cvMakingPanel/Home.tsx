@@ -1,24 +1,20 @@
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext";
-import welcomeImage from "../../assets/Welcome.png";
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { toast } from 'react-toastify';
+import animationData from "../../../assets/homePageAnimation.json";
 
 // for lottie animation 
 import Lottie from "lottie-react";
-import animationData from "../../assets/homePageAnimation.json";
-
-import SectionBox from "../../components/dashboard/home/SectionBox";
 import { useEffect, useState } from "react";
-import Loading from "../../commonComponents/Loading";
-import OnboardingSteps from "../../sections/OnboardingSteps";
-import Features from "../../commonComponents/Features";
 import {
   useGetCurrentWorkingCVQuery,
   useDeleteMainSectionContentInsideMutation,
-} from "../../redux/features/dashboard/dashboardApi";
+} from "@/redux/features/dashboard/dashboardApi";
+import Loading from "@/commonComponents/Loading";
+import SectionBox from "@/components/dashboard/home/SectionBox";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);

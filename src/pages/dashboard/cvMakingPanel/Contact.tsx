@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext";
-import toastShow from "../../utils/toastShow";
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
+import toastShow from "@/utils/toastShow";
 import { useNavigate } from "react-router-dom";
-import { useUpdateUserContactMutation } from "../../redux/features/dashboard/dashboardApi";
+import { useUpdateUserContactMutation } from "@/redux/features/dashboard/dashboardApi";
+import { setUserCV } from "@/redux/features/cv/cvSlice";
 
 const Contact = () => {
   const { user } = useAuthUser();

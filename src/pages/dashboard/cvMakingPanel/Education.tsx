@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext";
-import toastShow from "../../utils/toastShow";
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
+import toastShow from "@/utils/toastShow";
 import {
   useUpdateUserEducationMutation,
   useDeleteItemsMutation,
-} from "../../redux/features/dashboard/dashboardApi";
+} from "@/redux/features/dashboard/dashboardApi";
 
 const Education = () => {
   const { user } = useAuthUser();

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useUserCV } from "../../context/UserCVContext";
 import { Trash2, Plus } from "lucide-react"; // optional, use heroicons/lucide if available
-import toastShow from "../../utils/toastShow";
+
 import {
-  useAddNewSectionMutation,
   useDeleteSectionMutation,
   useAddSectionValueMutation,
   useDeleteSectionValueMutation,
-} from "../../redux/features/dashboard/dashboardApi";
+  useAddNewSectionMutation,
+} from "@/redux/features/dashboard/dashboardApi";
+import { useUserCV } from "@/context/UserCVContext";
+import toastShow from "@/utils/toastShow";
 
 const AddSection = () => {
   const { userCV, setUserCV } = useUserCV();

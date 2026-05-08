@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"; // Import useEffect
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext"; // Assuming you have this context for userCV data
-import toastShow from "../../utils/toastShow";
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
+import toastShow from "@/utils/toastShow";
 import { useNavigate } from "react-router-dom";
-import { useUpdateUserProfileMutation } from "../../redux/features/dashboard/dashboardApi";
+import { useUpdateUserProfileMutation } from "@/redux/features/dashboard/dashboardApi";
 
 const Profile = () => {
   const { user } = useAuthUser();

@@ -1,10 +1,10 @@
 import React from "react";
-import SkillsAddByCategory from "../../components/dashboard/skills/SkillsAddByCategory";
-import { useSkillsContext } from "../../context/SkillsAddingContext";
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext";
-import toastShow from "../../utils/toastShow";
-import { useUpdateUserSkillsMutation } from "../../redux/features/skills/skillsApi";
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
+import toastShow from "@/utils/toastShow";
+import { useUpdateUserSkillsMutation } from "@/redux/features/skills/skillsApi";
+import { useSkillsContext } from "@/context/SkillsAddingContext";
+import SkillsAddByCategory from "@/components/dashboard/skills/SkillsAddByCategory";
 
 const Skills = () => {
   const { user } = useAuthUser();
@@ -122,7 +122,7 @@ const Skills = () => {
       setUserCV(data.updatedCV);
     } catch (error) {
       console.log("Error submitting skills:", error);
-      toastShow("Skill update failed due to network error");
+      toastShow("Skill update failed due to network error", "error");
     }
   };
 

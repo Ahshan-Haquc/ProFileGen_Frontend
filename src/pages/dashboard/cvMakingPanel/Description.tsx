@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"; // Import useEffect
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext";
-import { useUpdateUserDescriptionMutation } from "../../redux/features/dashboard/dashboardApi";
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
+import { useUpdateUserDescriptionMutation } from "@/redux/features/dashboard/dashboardApi";
 
 const Description = () => {
   const { user } = useAuthUser();
@@ -48,9 +48,9 @@ const Description = () => {
       </div>
       <div className="mt-3 w-full flex flex-col flex-wrap gap-3">
         <textarea
-          type="text"
-          value={inputValue} // Use 'value' instead of 'defaultValue'
-          placeholder="Tell us about yourself..." // Good practice to have a general placeholder
+          rows={5}
+          value={inputValue}
+          placeholder="Tell us about yourself..."
           className="h-[200px] w-full border border-gray-400 rounded-md p-2 text-xl block"
           onChange={handleInput}
         />
