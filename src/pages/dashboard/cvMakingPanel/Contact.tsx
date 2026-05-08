@@ -62,7 +62,7 @@ const Contact = () => {
       if (data.updatedCV) {
         setUserCV(data.updatedCV);
       }
-      setContactValues({});
+      setContactValues(null);
       navigate("/home");
     } catch (error) {
       console.error("Error in submission:", error); // Use console.error for errors
