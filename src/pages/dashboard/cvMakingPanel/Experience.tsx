@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext";
-import toastShow from "../../utils/toastShow";
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
+import toastShow from "@/utils/toastShow";
 import {
   useUpdateUserExperienceMutation,
   useDeleteItemsMutation,
-} from "../../redux/features/dashboard/dashboardApi";
+} from "@/redux/features/dashboard/dashboardApi";
 
 const Experience = () => {
   const { user } = useAuthUser();
@@ -124,7 +124,7 @@ const Experience = () => {
           <option value="Other">Other</option>
         </select>
         <textarea
-          type="text"
+          rows={5}
           name="jobDescription"
           onChange={handleInput}
           placeholder="write what you did"

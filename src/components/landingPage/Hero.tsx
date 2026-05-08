@@ -2,13 +2,13 @@ import React from 'react';
 import { Star, Rocket, CheckCircle2, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from '../ui/button';
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
-  // Color Palette Reference:
-  // Primary Dark: #210F37 (Text/Buttons)
-  // Deep Purple: #4F1C51 (Accents)
-  // Muted Rose: #A55B4B (Highlights)
-  // Warm Sand: #DCA06D (Secondary Buttons/Accents)
+  const user = useSelector((state: RootState) => state.auth.user);
+  const navigate = useNavigate();
 
   return (
     <section className="relative w-full min-h-[100vh] flex items-center justify-center overflow-hidden bg-white px-4 py-22 md:py-24">
@@ -41,10 +41,10 @@ const Hero = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button size="lg" className="bg-[#210F37] hover:bg-[#4F1C51] text-white px-8 py-7 text-lg rounded-xl transition-all hover:scale-105 shadow-xl">
-                Get started for free ✨
+              <Button onClick={() => { user ? navigate('/dashboard') : navigate('/signup') }} size="lg" className="bg-[#210F37] hover:bg-[#4F1C51] text-white px-8 py-7 text-lg rounded-xl transition-all hover:scale-105 shadow-xl">
+                Get started for free
               </Button>
-              <Button variant="outline" size="lg" className="border-[#DCA06D] text-[#A55B4B] hover:bg-[#DCA06D]/10 px-8 py-7 text-lg rounded-xl transition-all">
+              <Button onClick={()=> navigate("/templates")} variant="outline" size="lg" className="border-[#DCA06D] text-[#A55B4B] hover:bg-[#DCA06D]/10 px-8 py-7 text-lg rounded-xl transition-all">
                 View Templates
               </Button>
             </div>

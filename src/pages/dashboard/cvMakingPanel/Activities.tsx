@@ -1,11 +1,8 @@
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
+import toastShow from "@/utils/toastShow";
+import { useDeleteItemsMutation, useUpdateUserActivitiesMutation } from "@/redux/features/dashboard/dashboardApi";
 import React, { useState, useEffect } from "react";
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext";
-import toastShow from "../../utils/toastShow";
-import {
-  useUpdateUserActivitiesMutation,
-  useDeleteItemsMutation,
-} from "../../redux/features/dashboard/dashboardApi";
 
 const Activities = () => {
   const { user } = useAuthUser();

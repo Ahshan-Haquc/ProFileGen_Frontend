@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext";
 import { useState } from "react";
-import toastShow from "../../utils/toastShow";
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
+import toastShow from "@/utils/toastShow";
 import {
   useUpdateUserProjectsMutation,
   useDeleteItemsMutation,
-} from "../../redux/features/dashboard/dashboardApi";
+} from "@/redux/features/dashboard/dashboardApi";
 
 const Projects = () => {
   const { user } = useAuthUser();
@@ -69,7 +69,7 @@ const Projects = () => {
           className="h-12 w-full border border-gray-400 rounded-md p-2 text-xl block"
         />
         <textarea
-          type="text"
+          rows={10}
           name="projectDescription"
           onChange={handleInput}
           placeholder="write about your project"

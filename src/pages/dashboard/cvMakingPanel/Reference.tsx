@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext";
-import toastShow from "../../utils/toastShow";
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
+import toastShow from "@/utils/toastShow";
 import {
   useUpdateUserReferenceMutation,
   useDeleteItemsMutation,
-} from "../../redux/features/dashboard/dashboardApi";
+} from "@/redux/features/dashboard/dashboardApi";
 
 const Reference = () => {
   const { user } = useAuthUser();

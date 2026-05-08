@@ -1,24 +1,20 @@
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext";
-import welcomeImage from "../../assets/Welcome.png";
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { toast } from 'react-toastify';
+import animationData from "../../../assets/homePageAnimation.json";
 
 // for lottie animation 
 import Lottie from "lottie-react";
-import animationData from "../../assets/homePageAnimation.json";
-
-import SectionBox from "../../components/dashboard/home/SectionBox";
 import { useEffect, useState } from "react";
-import Loading from "../../commonComponents/Loading";
-import OnboardingSteps from "../../sections/OnboardingSteps";
-import Features from "../../commonComponents/Features";
 import {
   useGetCurrentWorkingCVQuery,
   useDeleteMainSectionContentInsideMutation,
-} from "../../redux/features/dashboard/dashboardApi";
+} from "@/redux/features/dashboard/dashboardApi";
+import Loading from "@/commonComponents/Loading";
+import SectionBox from "@/components/dashboard/home/SectionBox";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -94,12 +90,7 @@ const Home = () => {
       {/* loading showing */}
       {loading && <Loading loadingMessage="Loading..." />}
       <div className="h-full w-full pb-4 flex flex-col justify-center items-center  relative">
-        {/* go to dashboard button */}
-        <NavLink to="/cvDashboard" className="absolute top-1 right-4 bg-purple-600 text-white px-4 py-2 rounded-lg shadow hover:bg-purple-700 transition">
 
-          <i className="fas fa-arrow-left mr-2"></i> Dashboard
-
-        </NavLink>
 
         {/* title text  */}
         <div className="flex flex-col lg:flex-row items-center justify-center w-full px-4 mt-6 gap-4" data-aos="zoom-in" data-aos-duration="8000">
@@ -180,10 +171,6 @@ const Home = () => {
           </div>
         </div>
 
-        <OnboardingSteps />
-
-        {/* Features of this website */}
-        <Features />
 
 
       </div>

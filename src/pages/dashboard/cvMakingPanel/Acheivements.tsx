@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useAuthUser } from "../../context/AuthContext";
-import { useUserCV } from "../../context/UserCVContext";
-import toastShow from "../../utils/toastShow";
-import {
-  useUpdateUserAchievementMutation,
-  useDeleteItemsMutation,
-} from "../../redux/features/dashboard/dashboardApi";
+import { useDeleteItemsMutation, useUpdateUserAchievementMutation } from "@/redux/features/dashboard/dashboardApi";
+import { useAuthUser } from "@/context/AuthContext";
+import { useUserCV } from "@/context/UserCVContext";
+import toastShow from "@/utils/toastShow";
 
 const Acheivements = () => {
   const { user } = useAuthUser();

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useUserCV } from "../../context/UserCVContext";
 import { NavLink } from "react-router-dom";
 import jsPDF from "jspdf";
 import domtoimage from "dom-to-image";
-import Loading from "../../commonComponents/Loading";
-import { loadingOnPageLoad } from "../../controllers/loadingOnPageLoad";
 import { toPng } from "html-to-image";
+import { useUserCV } from "@/context/UserCVContext";
+import { loadingOnPageLoad } from "@/controllers/loadingOnPageLoad";
+import Loading from "@/commonComponents/Loading";
 
 const ViewFormalCV = () => {
   const [loading, setLoading] = useState(true);
