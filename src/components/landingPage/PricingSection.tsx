@@ -8,7 +8,7 @@ import { RootState } from '@/redux/store';
 
 const tiers = [
   {
-    name: "Starter",
+    name: "Free",
     price: "0",
     description: "Perfect for a quick job application.",
     features: ["3 Premium CV Generations", "Basic PDF Export", "Mobile Responsive Editor", "Email Support"],

@@ -32,16 +32,16 @@ import Signup from "../pages/auth/Signup";
 import SignupAdmin from "../pages/auth/SignupAdmin";
 import AppLayout from "../layouts/AppLayout";
 import AdminLayout from "../layouts/AdminLayout";
-import CVDashboard from "@/pages/dashboard/CVDashboard";
+import CVDashboard from "@/pages/dashboard/mainPanel/CVDashboard";
 import Home from "@/pages/dashboard/Home";
-import MyCVs from "@/pages/dashboard/MyCVs";
+import MyCVs from "@/pages/dashboard/mainPanel/MyCVs";
 import PricingSection from "@/components/landingPage/PricingSection";
 import Layout from "@/components/layout/LandingLayout";
 import LandingLayout from "@/components/layout/LandingLayout";
 import TemplatesPage from "@/pages/public/TemplatesPage";
 import ResumeHelp from "@/pages/public/ResumeHelp";
 import AboutPage from "@/pages/public/AboutPage";
-import MyPricing from "@/pages/dashboard/MyPricing";
+import MyPricing from "@/pages/dashboard/mainPanel/MyPricing";
 import SuccessSubscription from "@/pages/dashboard/mainPanel/SuccessSubscription";
 
 const routes = createBrowserRouter([

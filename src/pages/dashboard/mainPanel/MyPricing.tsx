@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 const tiers = [
     {
-        name: "Starter",
+        name: "Free",
         key: "starter",
         price: "0",
         description: "Perfect for a quick job application.",
@@ -49,6 +49,7 @@ export default function MyPricing() {
     const navigate = useNavigate();
 
     const currentPlan = data?.subscription?.plan || "starter";
+    tiers[0].buttonText = data?.subscription?.isTrialUsed?"Already Taken" : "Get Started";
 
     const handleSubscribe = async (planKey: string) => {
         // Free plan — no Stripe checkout needed
@@ -157,7 +158,7 @@ export default function MyPricing() {
 
                                     {/* 🚀 Button Logic */}
                                     <Button
-                                        disabled={isCurrent}
+                                        disabled={isCurrent || tier.buttonText=="Already Taken"}
                                         onClick={() => handleSubscribe(tier.key)}
                                         className={`w-full py-7 rounded-2xl font-bold text-lg transition-all active:scale-95 ${isCurrent
                                                 ? "bg-gray-300 text-gray-600 cursor-not-allowed"
