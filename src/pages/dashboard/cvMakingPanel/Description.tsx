@@ -20,7 +20,7 @@ const Description = () => {
     setInputValue(e.target.value);
   };
 
-  const [updateUserDescription] = useUpdateUserDescriptionMutation();
+  const [updateUserDescription, { isLoading }] = useUpdateUserDescriptionMutation();
 
   // submitting in backend
   const submitData = async () => {
@@ -48,18 +48,19 @@ const Description = () => {
       </div>
       <div className="mt-3 w-full flex flex-col flex-wrap gap-3">
         <textarea
-          rows={5}
+          rows={15}
           value={inputValue}
           placeholder="Tell us about yourself..."
-          className="h-[200px] w-full border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
+          className="w-full h-50  p-5 border border-gray-200 rounded-2xl text-lg focus:border-[#ff8757] focus:ring-4 focus:ring-[#ff8757]/10 outline-none transition-all"
           onChange={handleInput}
         />
 
         <button
           className="h-12 w-[200px] text-white bg-[#210F37] hover:bg-[#ff8757] border border-[#210F37] rounded-md p-2 text-xl block transition-colors"
           onClick={submitData}
+          disabled={isLoading}
         >
-          Update
+          {isLoading ? "Saving..." : "Save Changes"}
         </button>
       </div>
     </div>

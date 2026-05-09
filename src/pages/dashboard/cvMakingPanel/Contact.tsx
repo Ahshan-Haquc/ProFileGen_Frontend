@@ -4,11 +4,21 @@ import { useUserCV } from "@/context/UserCVContext";
 import toastShow from "@/utils/toastShow";
 import { useNavigate } from "react-router-dom";
 import { useUpdateUserContactMutation } from "@/redux/features/dashboard/dashboardApi";
-import { setUserCV } from "@/redux/features/cv/cvSlice";
+import { 
+  Phone, 
+  Mail, 
+  Linkedin, 
+  Github, 
+  Globe, 
+  MapPin, 
+  Save, 
+  Loader2,
+  Contact2
+} from "lucide-react";
 
 const Contact = () => {
   const { user } = useAuthUser();
-  const { userCV } = useUserCV();
+  const { userCV, setUserCV } = useUserCV(); // Ensure setUserCV is available here
   const navigate = useNavigate();
   const [contactValues, setContactValues] = useState({
     phoneNumber: "",
@@ -19,7 +29,6 @@ const Contact = () => {
     address: "",
   });
 
-  // Use useEffect to initialize contactValues when userCV changes
   useEffect(() => {
     if (userCV) {
       setContactValues({
@@ -31,107 +40,116 @@ const Contact = () => {
         address: userCV.address || "",
       });
     }
-  }, [userCV]); // Dependency array: re-run when userCV object changes
+  }, [userCV]);
 
-  // handling input
   const handleInput = (e) => {
-    const { name, value } = e.target; // Destructure name and value from e.target
-
+    const { name, value } = e.target;
     setContactValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
   };
 
-  const [updateUserContact] = useUpdateUserContactMutation();
+  const [updateUserContact, { isLoading }] = useUpdateUserContactMutation();
 
-  // submitting in backend
   const submitData = async () => {
     try {
       const data = await updateUserContact({
         cvId: userCV._id,
-        phoneNumber: contactValues.phoneNumber,
-        emailId: contactValues.emailId,
-        linkedInId: contactValues.linkedInId,
-        githubId: contactValues.githubId,
-        portfolioLink: contactValues.portfolioLink,
-        address: contactValues.address,
+        ...contactValues
       }).unwrap();
 
-      toastShow("Updated successfully!", "success");
+      toastShow("Contact details updated!", "success");
       if (data.updatedCV) {
         setUserCV(data.updatedCV);
       }
-      setContactValues(null);
       navigate("/home");
     } catch (error) {
-      console.error("Error in submission:", error); // Use console.error for errors
-      toastShow("Update failed due to a network error.", "error");
+      console.error("Error in submission:", error);
+      toastShow("Update failed. Please check your connection.", "error");
     }
   };
 
+  const inputFields = [
+    { name: "phoneNumber", label: "Phone Number", placeholder: "+1 234 567 890", icon: Phone },
+    { name: "emailId", label: "Professional Email", placeholder: "alex@example.com", icon: Mail },
+    { name: "linkedInId", label: "LinkedIn Profile", placeholder: "linkedin.com/in/username", icon: Linkedin },
+    { name: "githubId", label: "GitHub Profile", placeholder: "github.com/username", icon: Github },
+    { name: "portfolioLink", label: "Portfolio Website", placeholder: "www.yourwebsite.com", icon: Globe },
+    { name: "address", label: "Current Address", placeholder: "City, Country", icon: MapPin },
+  ];
+
   return (
-    <div className="p-4 h-full w-full">
-      <div className="text-2xl text-[#210F37] font-bold ">
-        <i className="fas fa-align-left mr-2"></i>Contact info
+    <div className="p-6 h-full max-w-4xl mx-auto">
+      {/* Header Section */}
+      <div className="flex items-center gap-3 mb-8">
+        <div className="p-3 bg-[#210F37]/5 rounded-xl">
+          <Contact2 className="text-[#210F37]" size={28} />
+        </div>
+        <div>
+          <h2 className="text-3xl font-black text-[#210F37] tracking-tight">
+            Contact Information
+          </h2>
+          <p className="text-gray-500 text-sm">How should recruiters reach out to you?</p>
+        </div>
       </div>
-      <div className="mt-3 flex flex-wrap gap-3">
-        <input
-          type="text"
-          value={contactValues.phoneNumber} // Bind value to state
-          name="phoneNumber"
-          onChange={handleInput}
-          placeholder="your phone number"
-          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
-        />
-        <input
-          type="text"
-          name="emailId"
-          value={contactValues.emailId} // Bind value to state
-          onChange={handleInput}
-          placeholder="your email"
-          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
-        />
-        <input
-          type="text"
-          name="linkedInId"
-          value={contactValues.linkedInId} // Bind value to state
-          onChange={handleInput}
-          placeholder="linkedIn profile link"
-          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
-        />
-        <input
-          type="text"
-          name="githubId"
-          value={contactValues.githubId} // Bind value to state
-          onChange={handleInput}
-          placeholder="github link"
-          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
-        />
-        <input
-          type="text"
-          name="portfolioLink"
-          value={contactValues.portfolioLink} // Bind value to state
-          onChange={handleInput}
-          placeholder="portfolio link"
-          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
-        />
-        <input
-          type="text"
-          name="address"
-          value={contactValues.address} // Bind value to state
-          onChange={handleInput}
-          placeholder="your current address"
-          className="h-12 w-[300px] border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
-        />
-        <button
-          className="h-12 w-[200px] mt-5 text-white bg-[#210F37] hover:bg-[#ff8757] border border-[#210F37] rounded-md p-2 text-xl block transition-colors"
-          onClick={submitData}
-        >
-          Update
-        </button>
+
+      {/* Form Grid */}
+      <div className="bg-white rounded-[2rem] border border-gray-100 p-6 md:p-8 shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {inputFields.map((field) => (
+            <div key={field.name} className="flex flex-col gap-2">
+              <label className="text-xs font-black uppercase tracking-widest text-gray-400 ml-1">
+                {field.label}
+              </label>
+              <div className="relative group">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ff8757] transition-colors">
+                  <field.icon size={18} />
+                </div>
+                <input
+                  type="text"
+                  name={field.name}
+                  value={contactValues[field.name]}
+                  onChange={handleInput}
+                  placeholder={field.placeholder}
+                  className="w-full h-14 pl-12 pr-4 bg-gray-50 border border-transparent rounded-2xl text-lg text-[#210F37] focus:bg-white focus:border-[#ff8757] focus:ring-4 focus:ring-[#ff8757]/10 outline-none transition-all placeholder:text-gray-300"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Action Button Section */}
+        <div className="mt-10 pt-6 border-t border-gray-50 flex flex-col sm:flex-row items-center gap-4">
+          <button
+            className={`h-14 px-10 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all active:scale-95 shadow-lg ${
+              isLoading 
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed" 
+              : "bg-[#210F37] hover:bg-[#ff8757] text-white shadow-[#210F37]/10"
+            }`}
+            onClick={submitData}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 size={20} className="animate-spin" />
+                Saving Changes...
+              </>
+            ) : (
+              <>
+                <Save size={20} />
+                Save Changes
+              </>
+            )}
+          </button>
+          
+          <p className="text-xs text-gray-400 max-w-[200px] leading-tight">
+            All your contact details are synced across all your resume versions.
+          </p>
+        </div>
       </div>
     </div>
   );
 };
+
 export default Contact;
