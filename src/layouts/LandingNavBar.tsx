@@ -58,9 +58,9 @@ const LandingNavBar: React.FC = () => {
 
                     {/* Logo */}
                     <Link to="/" className="flex items-center space-x-2 group">
-                        {/* <div className="bg-[#210F37] p-1.5 rounded-lg group-hover:bg-[#4F1C51] transition-colors">
-                            <Sparkles className="text-white w-5 h-5" />
-                        </div> */}
+                        <div className="">
+                            <img className="w-10 h-10" src="/ProFileGenLogo.png" alt="ProFileGen" />
+                        </div>
                         <span className="text-xl md:text-2xl 2xl:text-3xl font-black text-[#000000] tracking-tight">
                             Pro<span className="text-[#5a1e10]">File</span><span className="text-[#A55B4B]">Gen</span>
                         </span>
