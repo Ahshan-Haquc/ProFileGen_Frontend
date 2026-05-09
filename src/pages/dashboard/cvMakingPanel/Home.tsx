@@ -149,6 +149,7 @@ const Home = () => {
 
 
         {/* customize section div  */}
+        {knownArrayFields.length > 0 && (
         <div className="w-full max-w-7xl px-4 py-2 md:py-6 my-10  rounded-xl">
           <h2 className="text-4xl font-extrabold text-center mb-8 text-gradient bg-gradient-to-r from-[#210F37] to-[#ff8757] bg-clip-text text-transparent" data-aos="zoom-in">Customize Sections</h2>
           {isKnownArrayFieldsWillShow && (<p className="text-center text-sm text-gray-500 mb-4" data-aos="zoom-in" data-aos-delay="100">* Click on any section box and insert your info to edit its content</p>)}
@@ -166,13 +167,10 @@ const Home = () => {
                   />
                 )
               );
-
             })}
           </div>
         </div>
-
-
-
+        )} 
       </div>
     </>
   );
