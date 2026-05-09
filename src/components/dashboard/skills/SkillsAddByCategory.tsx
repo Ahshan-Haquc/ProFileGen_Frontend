@@ -35,7 +35,7 @@ const SkillsAddByCategory = ({ category, values }) => {
 
   return (
     <div>
-      <div className="mt-4 text-lg p-1 bg-gray-100">
+      <div className="mt-4 text-lg p-1 bg-[#210F37]/10 text-[#210F37] rounded">
         <i className="fa-solid fa-list"></i> {category}
       </div>
       <div className="py-3 flex flex-wrap gap-3">
@@ -54,7 +54,7 @@ const SkillsAddByCategory = ({ category, values }) => {
       </div>
 
       <button
-        className="h-fit w-fit py-1 px-3 bg-black text-white rounded-md hover:bg-gray-600"
+        className="h-fit w-fit py-1 px-3 bg-[#210F37] text-white rounded-md hover:bg-[#ff8757] transition-colors"
         onClick={showNewInputForAddSkill}
       >
         {inputBoxShowingStatus ? (
@@ -79,11 +79,11 @@ const SkillsAddByCategory = ({ category, values }) => {
           type="text"
           value={newSkill}
           onChange={handleNewSkillInput}
-          className="h-8 w-fit p-2 border border-gray-700 rounded-lg"
+          className="h-8 w-fit p-2 border border-[#210F37] rounded-lg focus:border-[#ff8757] focus:outline-none"
           placeholder="New skill name" // Added placeholder for better UX
         />
         <button
-          className="h-fit w-fit ml-2 py-1 px-3 bg-green-400 text-white rounded-md hover:bg-gray-600"
+          className="h-fit w-fit ml-2 py-1 px-3 bg-[#ff8757] text-white rounded-md hover:bg-[#210F37] transition-colors"
           onClick={AddNewSkill}
         >
           <i className="fa-solid fa-plus"></i>

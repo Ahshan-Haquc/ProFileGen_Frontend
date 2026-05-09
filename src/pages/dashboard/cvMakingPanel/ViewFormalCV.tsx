@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import domtoimage from "dom-to-image";
 import { toPng } from "html-to-image";
@@ -9,6 +9,7 @@ import Loading from "@/commonComponents/Loading";
 
 const ViewFormalCV = () => {
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const [loadingForDownloadPDF, setLoadingForDownloadPDF] = useState(false);
 
   const { userCV } = useUserCV();
@@ -243,12 +244,12 @@ const ViewFormalCV = () => {
       </div>
 
       {/* Back to Dashboard Button */}
-      <NavLink
-        to={"/"}
+      <button
+        onClick={() => navigate(-1)}
         className="fixed bottom-20 right-4 h-10 w-10 rounded-full hover:bg-black bg-amber-600 text-white flex justify-center items-center"
       >
         <i className="fa-solid fa-arrow-left"></i>
-      </NavLink>
+      </button>
     </>
   );
 };

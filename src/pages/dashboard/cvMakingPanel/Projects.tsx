@@ -57,7 +57,7 @@ const Projects = () => {
   //defined in controller/deleteItems
   return (
     <div className="p-4 h-full min-w-full overflow-x-hidden">
-      <div className="text-2xl text-blue-700 font-bold ">
+      <div className="text-2xl text-[#210F37] font-bold ">
         <i className="fas fa-tasks mr-2"></i>Add Your Project
       </div>
       <div className="mt-3 flex flex-col flex-wrap gap-3">
@@ -66,25 +66,25 @@ const Projects = () => {
           name="projectName"
           onChange={handleInput}
           placeholder="enter your project name"
-          className="h-12 w-full border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-12 w-full border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
         />
         <textarea
           rows={10}
           name="projectDescription"
           onChange={handleInput}
           placeholder="write about your project"
-          className="h-[300px] w-full border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-[300px] w-full border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
         />
         <input
           type="text"
           name="projectToolsAndTechnologies"
           onChange={handleInput}
           placeholder="tools & technologies used , eg: HTML,CSS,JS...."
-          className="h-12 w-full border border-gray-400 rounded-md p-2 text-xl block"
+          className="h-12 w-full border border-[#210F37] rounded-md p-2 text-xl block focus:border-[#ff8757] focus:outline-none"
         />
         <div className="flex justify-end">
           <button
-            className="h-12 w-[200px] text-white bg-gray-600 hover:bg-gray-700 border border-gray-400 rounded-md p-2 text-xl block"
+            className="h-12 w-[200px] text-white bg-[#210F37] hover:bg-[#ff8757] border border-[#210F37] rounded-md p-2 text-xl block transition-colors"
             onClick={submitData}
           >
             <i className="fas fa-plus mr-2"></i>Add
@@ -97,14 +97,14 @@ const Projects = () => {
       <div className="overflow-x-auto rounded-lg shadow-md">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
-            <tr className="bg-gray-100 border-b border-gray-300">
-              <th className="w-1/7 py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+            <tr className="bg-[#210F37]/10 border-b border-gray-300">
+              <th className="w-1/7 py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase tracking-wider">
                 Serial
               </th>
-              <th className="w-5/7 py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+              <th className="w-5/7 py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase tracking-wider">
                 Project Title
               </th>
-              <th className="w-1/7 py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+              <th className="w-1/7 py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase tracking-wider">
                 Action
               </th>
             </tr>

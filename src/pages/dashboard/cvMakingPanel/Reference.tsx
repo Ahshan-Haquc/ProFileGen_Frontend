@@ -56,7 +56,7 @@ const Reference = () => {
 
   return (
     <div className="p-4 h-full min-w-full overflow-x-hidden">
-      <div className="text-2xl text-blue-700 font-bold ">
+      <div className="text-2xl text-[#210F37] font-bold ">
         <i className="fas fa-user-check mr-2"></i>Add Your Reference
       </div>
 
@@ -66,32 +66,32 @@ const Reference = () => {
           name="referenceName"
           onChange={handleInput}
           placeholder="Reference Name"
-          className="h-12 w-full border border-gray-400 rounded-md p-2 text-xl"
+          className="h-12 w-full border border-[#210F37] rounded-md p-2 text-xl focus:border-[#ff8757] focus:outline-none"
         />
         <input
           type="text"
           name="referenceCompany"
           onChange={handleInput}
           placeholder="Company / Organization"
-          className="h-12 w-full border border-gray-400 rounded-md p-2 text-xl"
+          className="h-12 w-full border border-[#210F37] rounded-md p-2 text-xl focus:border-[#ff8757] focus:outline-none"
         />
         <input
           type="email"
           name="referenceEmail"
           onChange={handleInput}
           placeholder="Reference Email"
-          className="h-12 w-full border border-gray-400 rounded-md p-2 text-xl"
+          className="h-12 w-full border border-[#210F37] rounded-md p-2 text-xl focus:border-[#ff8757] focus:outline-none"
         />
         <input
           type="text"
           name="referencePhone"
           onChange={handleInput}
           placeholder="Reference Phone Number"
-          className="h-12 w-full border border-gray-400 rounded-md p-2 text-xl"
+          className="h-12 w-full border border-[#210F37] rounded-md p-2 text-xl focus:border-[#ff8757] focus:outline-none"
         />
         <div className="flex justify-end">
           <button
-            className="h-12 w-[200px] text-white bg-gray-600 hover:bg-gray-700 rounded-md text-xl"
+            className="h-12 w-[200px] text-white bg-[#210F37] hover:bg-[#ff8757] rounded-md text-xl transition-colors"
             onClick={submitData}
           >
             Add
@@ -106,23 +106,23 @@ const Reference = () => {
       <div className="overflow-x-auto rounded-lg shadow-md">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
-            <tr className="bg-gray-100 border-b border-gray-300">
-              <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase">
+            <tr className="bg-[#210F37]/10 border-b border-gray-300">
+              <th className="py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase">
                 #
               </th>
-              <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase">
+              <th className="py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase">
                 Name
               </th>
-              <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase">
+              <th className="py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase">
                 Company
               </th>
-              <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase">
+              <th className="py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase">
                 Email
               </th>
-              <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase">
+              <th className="py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase">
                 Phone
               </th>
-              <th className="py-3 px-6 text-left text-xs font-medium text-gray-600 uppercase">
+              <th className="py-3 px-6 text-left text-xs font-medium text-[#210F37] uppercase">
                 Action
               </th>
             </tr>

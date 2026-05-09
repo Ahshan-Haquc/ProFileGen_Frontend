@@ -1,26 +1,29 @@
-import React, { useState, useEffect } from "react"; // Import useEffect
+import React, { useState, useEffect } from "react";
 import { useAuthUser } from "@/context/AuthContext";
 import { useUserCV } from "@/context/UserCVContext";
 import toastShow from "@/utils/toastShow";
 import { useNavigate } from "react-router-dom";
 import { useUpdateUserProfileMutation } from "@/redux/features/dashboard/dashboardApi";
+import { Camera, Upload, User, Briefcase, Check } from "lucide-react";
 
 const Profile = () => {
   const { user } = useAuthUser();
-  const { userCV, setUserCV } = useUserCV(); // Get userCV data
+  const { userCV, setUserCV } = useUserCV();
   const [inputValue, setInputValue] = useState({ name: "", profession: "" });
   const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null); // Local state for image preview
   const navigate = useNavigate();
 
-  // Use useEffect to set initial input values from userCV data
   useEffect(() => {
     if (userCV) {
       setInputValue({
-        name: userCV.name || "", // Initialize with existing name, or empty string
-        profession: userCV.profession || "", // Initialize with existing profession, or empty string
+        name: userCV.name || "",
+        profession: userCV.profession || "",
       });
+      // If user already has a photo in userCV, we could set initial preview here
+      if (userCV.photo) setPreview(userCV.photo);
     }
-  }, [userCV]); // Re-run when userCV changes
+  }, [userCV]);
 
   const handleInput = (e) => {
     setInputValue((prev) => ({
@@ -30,10 +33,14 @@ const Profile = () => {
   };
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file)); // Generate preview URL
+    }
   };
 
-  const [updateUserProfile] = useUpdateUserProfileMutation();
+  const [updateUserProfile, {isLoading}] = useUpdateUserProfileMutation();
 
   const handleSubmit = async () => {
     if (!inputValue.name || !inputValue.profession) {
@@ -65,43 +72,86 @@ const Profile = () => {
     }
   };
 
-
   return (
-    <div className="p-4 h-full min-w-full">
-      <div className="text-2xl text-[#213448] font-bold">
-        <i className="fas fa-user mr-2"></i>Add Basic Info
+    <div className="p-6 h-full max-w-2xl mx-auto">
+      <div className="flex items-center gap-3 mb-8">
+        <div className="p-3 bg-[#210F37]/5 rounded-xl">
+          <User className="text-[#210F37]" size={28} />
+        </div>
+        <h2 className="text-3xl font-black text-[#210F37] tracking-tight">
+          Basic Info
+        </h2>
       </div>
-      <div className="mt-3 flex flex-col gap-3">
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter your name"
-          className="h-12 border border-gray-400 rounded-md p-2 text-xl"
-          onChange={handleInput}
-          value={inputValue.name} // Controlled component: value comes from state
-        />
-        <input
-          type="text"
-          name="profession"
-          placeholder="Enter your profession"
-          className="h-12 border border-gray-400 rounded-md p-2 text-xl"
-          onChange={handleInput}
-          value={inputValue.profession} // Controlled component: value comes from state
-        />
-        <label className="flex items-center gap-3 h-12 border border-gray-500 rounded-md px-4 text-xl cursor-pointer hover:bg-gray-100 justify-center">
-          <i className="fas fa-upload"></i>
-          {image ? (
-            `You selected: ${image.name} `
-          ) : (
-            <span>Choose your photo</span>
-          )}
-          <input type="file" className="hidden" onChange={handleImageChange} />
-        </label>
+
+      <div className="flex flex-col gap-6">
+        {/* --- IMPROVED IMAGE SECTION --- */}
+        <div className="flex flex-col items-center sm:flex-row gap-6 p-6 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
+          <div className="relative group">
+            <div className="h-28 w-28 rounded-full border-4 border-white shadow-md overflow-hidden bg-gray-200 flex items-center justify-center">
+              {preview ? (
+                <img src={preview} alt="Profile" className="h-full w-full object-cover" />
+              ) : (
+                <User size={40} className="text-gray-400" />
+              )}
+            </div>
+            <label className="absolute bottom-0 right-0 p-2 bg-[#ff8757] text-white rounded-full shadow-lg cursor-pointer hover:scale-110 transition-transform">
+              <Camera size={16} />
+              <input type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
+            </label>
+          </div>
+
+          <div className="flex-1 text-center sm:text-left">
+            <h4 className="text-lg font-bold text-[#210F37]">Choose your CV's photo</h4>
+            <p className="text-sm text-gray-500 mb-3">
+              {image ? `Selected: ${image.name}` : "Upload a professional headshot (JPG, PNG)"}
+            </p>
+            {!image && (
+              <label className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-gray-200 text-sm font-bold text-[#210F37] hover:bg-[#210F37] hover:text-white transition-all cursor-pointer shadow-sm">
+                <Upload size={16} /> Choose Image
+                <input type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
+              </label>
+            )}
+            {image && (
+              <div className="inline-flex items-center gap-2 text-emerald-600 text-sm font-bold bg-emerald-50 px-3 py-1 rounded-full">
+                <Check size={14} /> Ready to update
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* --- INPUT FIELDS --- */}
+        <div className="grid gap-4">
+          <div className="relative">
+            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              className="w-full h-14 pl-12 pr-4 border border-gray-200 rounded-2xl text-lg focus:border-[#ff8757] focus:ring-4 focus:ring-[#ff8757]/10 outline-none transition-all"
+              onChange={handleInput}
+              value={inputValue.name}
+            />
+          </div>
+
+          <div className="relative">
+            <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <input
+              type="text"
+              name="profession"
+              placeholder="Profession (e.g. Software Engineer)"
+              className="w-full h-14 pl-12 pr-4 border border-gray-200 rounded-2xl text-lg focus:border-[#ff8757] focus:ring-4 focus:ring-[#ff8757]/10 outline-none transition-all"
+              onChange={handleInput}
+              value={inputValue.profession}
+            />
+          </div>
+        </div>
+
         <button
-          className="h-12 w-[200px] bg-gray-600 hover:bg-gray-700 text-white rounded-md p-2 text-xl"
+          className="mt-4 h-14 w-full sm:w-[220px] bg-[#210F37] hover:bg-[#ff8757] text-white rounded-2xl font-bold text-lg shadow-lg shadow-[#210F37]/10 transition-all active:scale-95"
           onClick={handleSubmit}
+          disabled={isLoading}
         >
-          Update
+          {isLoading ? "Saving..." : "Save Changes"}
         </button>
       </div>
     </div>

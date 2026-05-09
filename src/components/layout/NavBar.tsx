@@ -59,7 +59,7 @@ const NavBar = () => {
     return (
         <div className="w-full min-h-16 relative z-40">
             {/* Main Header: White Background */}
-            <header className="w-full h-16 bg-white text-[#210F37] px-4 flex justify-between items-center shadow-sm border-b border-gray-100">
+            <header className="w-full h-16 bg-white text-[#210F37] px-4 flex justify-between items-center shadow-none md:shadow-sm border-b border-gray-100">
 
                 {/* Left — hamburger + brand */}
                 <div className="flex items-center gap-3">

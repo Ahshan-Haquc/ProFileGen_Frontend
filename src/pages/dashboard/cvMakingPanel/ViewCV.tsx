@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toPng } from "html-to-image";
 import html2canvas from "html2canvas";
 import { useUserCV } from "@/context/UserCVContext";
@@ -11,6 +11,7 @@ import RightSide from "@/components/RightSide";
 
 const ViewCV = () => {
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const { userCV, setUserCV } = useUserCV();
   useEffect(() => {
     document.title = "Modern CV";
@@ -42,12 +43,12 @@ const ViewCV = () => {
         <i className="fa-solid fa-download"></i>
       </div>
       {/* click to go dashboard again  */}
-      <NavLink
-        to={"/"}
+      <button
+        onClick={() => navigate(-1)}
         className="fixed bottom-20 right-4 h-10 w-10 rounded-full hover:bg-black bg-amber-600 text-white flex justify-center items-center"
       >
         <i className="fa-solid fa-arrow-left"></i>
-      </NavLink>
+      </button>
       <div className=" p-[100px] mx-auto bg-gray-100">
         <div ref={pageRef} className="flex">
           <LeftSide />
