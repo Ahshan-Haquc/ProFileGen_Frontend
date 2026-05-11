@@ -1,7 +1,6 @@
 import { baseApi } from "../../api/baseApi";
 import { setUser } from "./authSlice";
 
-
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getMe: builder.query<any, void>({
@@ -15,6 +14,7 @@ export const authApi = baseApi.injectEndpoints({
           dispatch(setUser(null));
         }
       },
+      
     }),
     loginUser: builder.mutation<any, any>({
       query: (credentials) => ({
