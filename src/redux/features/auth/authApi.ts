@@ -1,7 +1,6 @@
 import { baseApi } from "../../api/baseApi";
 import { setUser } from "./authSlice";
 
-
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getMe: builder.query<any, void>({
@@ -15,6 +14,7 @@ export const authApi = baseApi.injectEndpoints({
           dispatch(setUser(null));
         }
       },
+      
     }),
     loginUser: builder.mutation<any, any>({
       query: (credentials) => ({
@@ -62,6 +62,28 @@ export const authApi = baseApi.injectEndpoints({
         body: userData,
       }),
     }),
+    // reset password Api
+    forgotPasswordRequest: builder.mutation({
+      query: (data) => ({
+        url: "/auth/forgot-password",
+        method: "POST",
+        body: data, // { email }
+      }),
+    }),
+    verifyOtp: builder.mutation({
+      query: (data) => ({
+        url: "/auth/verify-otp",
+        method: "POST",
+        body: data, // { email, otp }
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: "/auth/reset-password",
+        method: "POST",
+        body: data, // { email, otp, password }
+      }),
+    }),
     logoutUser: builder.mutation<any, void>({
       query: () => ({
         url: "/auth/userLogout",
@@ -85,4 +107,7 @@ export const {
   useSignupUserMutation,
   useAdminSignupMutation,
   useLogoutUserMutation,
+  useForgotPasswordRequestMutation,
+  useVerifyOtpMutation,
+  useResetPasswordMutation,
 } = authApi;
