@@ -2,26 +2,28 @@ import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+import { REGEXP_ONLY_DIGITS } from "input-otp"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
-  Mail, 
-  Lock, 
-  KeyRound, 
-  CheckCircle2, 
-  XCircle, 
-  Loader2, 
-  ArrowRight 
+import {
+  Mail,
+  Lock,
+  KeyRound,
+  CheckCircle2,
+  Loader2,
 } from "lucide-react";
 import toastShow from "@/utils/toastShow";
 import { useForgotPasswordRequestMutation, useResetPasswordMutation, useVerifyOtpMutation } from "@/redux/features/auth/authApi";
 
-const ForgotPasswordModal = () => {
+const ForgotPasswordModal = ({ open, setOpen }: { open: boolean, setOpen: (open: boolean) => void }) => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -35,16 +37,26 @@ const ForgotPasswordModal = () => {
   const handleNextStep = async () => {
     try {
       if (step === 1) {
-        await requestOtp({ email }).unwrap();
+        const res = await requestOtp({ email }).unwrap();
+        if(!res.success){
+          return toastShow(res.message, "error");
+        }
         setStep(2);
       } else if (step === 2) {
-        await verifyOtp({ email, otp }).unwrap();
+        const res = await verifyOtp({ email, otp }).unwrap();
+        if(!res.success){
+          return toastShow(res.message, "error");
+        }
         setStep(3);
       } else if (step === 3) {
+        if(passwords.new.length<6 || passwords.confirm.length<6) return toastShow("Passwords must be at least 6 characters long", "error");
         if (passwords.new !== passwords.confirm) {
           return toastShow("Passwords do not match", "error");
         }
-        await resetPassword({ email, otp, password: passwords.new }).unwrap();
+        const res = await resetPassword({ email, otp, password: passwords.new }).unwrap();
+        if(!res.success){
+          return toastShow(res.message, "error");
+        }
         setStep(4);
       }
     } catch (err) {
@@ -53,14 +65,9 @@ const ForgotPasswordModal = () => {
   };
 
   return (
-    <Dialog onOpenChange={() => setStep(1)}>
-      <DialogTrigger asChild>
-        <button className="text-sm text-gray-500 hover:text-[#ff8757] transition-colors duration-200">
-          Forgot password?
-        </button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={() => setOpen(false)}>
       <DialogContent className="sm:max-w-[400px] rounded-[2rem] p-8">
-        
+
         {/* Step 1: Email */}
         {step === 1 && (
           <div className="space-y-6">
@@ -73,9 +80,9 @@ const ForgotPasswordModal = () => {
             </div>
             <div className="space-y-2">
               <Label className="font-bold text-[#210F37]">Email Address</Label>
-              <Input 
-                placeholder="name@example.com" 
-                value={email} 
+              <Input
+                placeholder="name@example.com"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-12 rounded-xl border-gray-200"
               />
@@ -93,19 +100,57 @@ const ForgotPasswordModal = () => {
               <div className="bg-purple-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-[#210F37]">
                 <KeyRound size={32} />
               </div>
-              <DialogTitle className="text-2xl font-black text-[#210F37]">Verify Code</DialogTitle>
-              <p className="text-gray-500 text-sm mt-2">We sent a 6-digit code to <span className="font-bold text-[#210F37]">{email}</span></p>
+              <DialogTitle className="text-2xl font-black text-[#210F37]">
+                Verify Code
+              </DialogTitle>
+              <p className="text-gray-500 text-sm mt-2">
+                We sent a 6-digit code to{" "}
+                <span className="font-bold text-[#210F37]">{email}</span>
+              </p>
             </div>
-            <Input 
-              placeholder="0 0 0 0 0 0" 
-              maxLength={6}
-              value={otp} 
-              onChange={(e) => setOtp(e.target.value)}
-              className="h-14 text-center text-2xl tracking-[0.5em] font-black rounded-xl border-gray-200"
-            />
-            <Button onClick={handleNextStep} className="w-full h-12 bg-[#210F37] hover:bg-[#ff8757] rounded-xl font-bold" disabled={isVerifying}>
-              {isVerifying ? <Loader2 className="animate-spin mr-2" /> : "Verify OTP"}
-            </Button>
+
+            {/* Centered OTP Input */}
+            <div className="flex justify-center">
+              <InputOTP
+                maxLength={6}
+                value={otp}
+                onChange={(value) => setOtp(value)}
+                pattern={REGEXP_ONLY_DIGITS}
+              >
+                <InputOTPGroup className="gap-2">
+                  <InputOTPSlot index={0} className="h-12 w-10 sm:w-12 rounded-xl border-[#210F37]/20" />
+                  <InputOTPSlot index={1} className="h-12 w-10 sm:w-12 rounded-xl border-[#210F37]/20" />
+                  <InputOTPSlot index={2} className="h-12 w-10 sm:w-12 rounded-xl border-[#210F37]/20" />
+                  <InputOTPSlot index={3} className="h-12 w-10 sm:w-12 rounded-xl border-[#210F37]/20" />
+                  <InputOTPSlot index={4} className="h-12 w-10 sm:w-12 rounded-xl border-[#210F37]/20" />
+                  <InputOTPSlot index={5} className="h-12 w-10 sm:w-12 rounded-xl border-[#210F37]/20" />
+                </InputOTPGroup>
+              </InputOTP>
+            </div>
+
+            <div className="space-y-3">
+              <Button
+                onClick={handleNextStep}
+                className="w-full h-12 bg-[#210F37] hover:bg-[#ff8757] rounded-xl font-bold transition-all"
+                disabled={isVerifying || otp.length < 6}
+              >
+                {isVerifying ? (
+                  <Loader2 className="animate-spin mr-2" />
+                ) : (
+                  "Verify OTP"
+                )}
+              </Button>
+
+              <p className="text-center text-xs text-gray-400">
+                Didn't receive the code?{" "}
+                <button
+                  onClick={() => setStep(1)}
+                  className="text-[#ff8757] font-bold hover:underline"
+                >
+                  Resend
+                </button>
+              </p>
+            </div>
           </div>
         )}
 
@@ -121,11 +166,11 @@ const ForgotPasswordModal = () => {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label className="font-bold">New Password</Label>
-                <Input type="password" value={passwords.new} onChange={(e) => setPasswords({...passwords, new: e.target.value})} className="h-12 rounded-xl" />
+                <Input type="password" value={passwords.new} onChange={(e) => setPasswords({ ...passwords, new: e.target.value })} className="h-12 rounded-xl" />
               </div>
               <div className="space-y-2">
                 <Label className="font-bold">Confirm Password</Label>
-                <Input type="password" value={passwords.confirm} onChange={(e) => setPasswords({...passwords, confirm: e.target.value})} className="h-12 rounded-xl" />
+                <Input type="password" value={passwords.confirm} onChange={(e) => setPasswords({ ...passwords, confirm: e.target.value })} className="h-12 rounded-xl" />
               </div>
             </div>
             <Button onClick={handleNextStep} className="w-full h-12 bg-[#210F37] hover:bg-[#ff8757] rounded-xl font-bold" disabled={isResetting}>

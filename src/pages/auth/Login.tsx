@@ -6,9 +6,11 @@ import { FaEnvelope, FaLock, FaFileAlt } from "react-icons/fa";
 import { Home } from "lucide-react";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { useGoogleLoginUserMutation } from "../../redux/features/auth/authApi";
+import ForgotPasswordModal from "@/components/landingPage/ForgotPasswordModal";
 
 const Login = () => {
   const [formUser, setFormUser] = useState({ email: "", password: "" });
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [loginUser, { isLoading: loading }] = useLoginUserMutation();
   const [googleLoginUser] = useGoogleLoginUserMutation();
@@ -24,6 +26,7 @@ const Login = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    
     try {
       const response = await loginUser({
         email: formUser.email,
@@ -81,9 +84,9 @@ const Login = () => {
             </div>
 
             <div className="w-full text-right mt-2">
-              <NavLink to="#" className="text-sm text-gray-500 hover:text-[#00bcd4] transition-colors duration-200">
+              <button onClick={() => setOpen(true)} className="text-sm text-gray-500 hover:text-[#00bcd4] transition-colors duration-200">
                 Forgot password?
-              </NavLink>
+              </button>
             </div>
 
             <button
@@ -101,11 +104,10 @@ const Login = () => {
               <div className="flex-grow border-t border-gray-300"></div>
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-center w-full ">
               <GoogleLogin
                 onSuccess={async (credentialResponse) => {
                   try {
-
                     const response = await googleLoginUser({
                       credential: credentialResponse.credential,
                     }).unwrap();
@@ -162,6 +164,7 @@ const Login = () => {
           </p>
         </div>
       </div>
+      <ForgotPasswordModal open={open} setOpen={setOpen} />
     </div>
   );
 };
