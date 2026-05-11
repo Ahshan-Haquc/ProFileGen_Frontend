@@ -8,15 +8,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import { SideBarVisibleInPhoneProvider } from "./context/SideBarShowInPhone";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <SideBarVisibleInPhoneProvider>
         <AuthProvider>
           <App />
         </AuthProvider>
       </SideBarVisibleInPhoneProvider>
+      </GoogleOAuthProvider>
     </Provider>
     {/* showing toast alert notification */}
     <ToastContainer

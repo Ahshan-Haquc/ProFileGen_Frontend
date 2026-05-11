@@ -1,10 +1,11 @@
 import { baseApi } from "../../api/baseApi";
 import { setUser } from "./authSlice";
 
+
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getMe: builder.query<any, void>({
-      query: () => "/me",
+      query: () => "/auth/me",
       providesTags: ["Auth"],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
@@ -17,7 +18,23 @@ export const authApi = baseApi.injectEndpoints({
     }),
     loginUser: builder.mutation<any, any>({
       query: (credentials) => ({
-        url: "/userLogin",
+        url: "/auth/userLogin",
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: ["Auth", "User", "CV", "Skills"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.user || data.userInfo) {
+            dispatch(setUser(data.user || data.userInfo));
+          }
+        } catch (error) {}
+      },
+    }),
+    googleLoginUser: builder.mutation<any, any>({
+      query: (credentials) => ({
+        url: "/auth/googleLogin",
         method: "POST",
         body: credentials,
       }),
@@ -33,7 +50,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
     signupUser: builder.mutation<any, any>({
       query: (userData) => ({
-        url: "/userSignup",
+        url: "/auth/userSignup",
         method: "POST",
         body: userData,
       }),
@@ -47,7 +64,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
     logoutUser: builder.mutation<any, void>({
       query: () => ({
-        url: "/userLogout",
+        url: "/auth/userLogout",
         method: "GET",
       }),
       invalidatesTags: ["Auth", "User", "CV", "Skills"],
@@ -64,6 +81,7 @@ export const authApi = baseApi.injectEndpoints({
 export const {
   useGetMeQuery,
   useLoginUserMutation,
+  useGoogleLoginUserMutation,
   useSignupUserMutation,
   useAdminSignupMutation,
   useLogoutUserMutation,

@@ -4,11 +4,14 @@ import { useLoginUserMutation } from "../../redux/features/auth/authApi";
 import toastShow from "../../utils/toastShow";
 import { FaEnvelope, FaLock, FaFileAlt } from "react-icons/fa";
 import { Home } from "lucide-react";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLoginUserMutation } from "../../redux/features/auth/authApi";
 
 const Login = () => {
   const [formUser, setFormUser] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   const [loginUser, { isLoading: loading }] = useLoginUserMutation();
+  const [googleLoginUser] = useGoogleLoginUserMutation();
 
   useEffect(() => {
     document.title = "Login - ProFileGen";
@@ -86,10 +89,50 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full p-4 font-bold text-white bg-[#210F37] rounded-md shadow-md hover:bg-[#20273a] transition-all duration-300 hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full p-4 font-bold text-white bg-[#210F37] rounded-md shadow-md hover:bg-[#20273a] transition-all duration-300 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
+
+            {/* Divider */}
+            <div className="flex items-center my-4">
+              <div className="flex-grow border-t border-gray-300"></div>
+              <span className="px-3 text-gray-400 text-sm">OR</span>
+              <div className="flex-grow border-t border-gray-300"></div>
+            </div>
+
+            <div className="flex justify-center">
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  try {
+
+                    const response = await googleLoginUser({
+                      credential: credentialResponse.credential,
+                    }).unwrap();
+
+                    toastShow("Google Login Successful", "success");
+
+                    if (response.user.role === "admin") {
+                      navigate("/adminDashboard");
+                    } else {
+                      navigate("/dashboard");
+                    }
+
+                  } catch (err: any) {
+                    console.error(err);
+
+                    toastShow(
+                      err.data?.message || "Google Login Failed",
+                      "error"
+                    );
+                  }
+                }}
+
+                onError={() => {
+                  toastShow("Google Login Failed", "error");
+                }}
+              />
+            </div>
           </form>
 
           <p className="mt-8 text-sm text-center text-gray-600">
@@ -100,7 +143,7 @@ const Login = () => {
           </p>
           <div className="mt-3 mx-auto w-[10%]">
             <NavLink to="/" className="text-[#4F1C51] font-bold hover:underline transition-colors  hover:bg-gray-300 duration-200 hover:scale-105">
-              <Home className=""/>
+              <Home className="" />
             </NavLink>
           </div>
         </div>
