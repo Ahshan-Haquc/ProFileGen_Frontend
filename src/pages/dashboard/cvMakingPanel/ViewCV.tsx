@@ -13,9 +13,10 @@ const ViewCV = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { userCV, setUserCV } = useUserCV();
+  
   useEffect(() => {
-    document.title = "Modern CV";
-  }, [userCV]);
+    document.title = userCV?.title || "Modern CV";
+  }, [userCV?.title]);
 
   const pageRef = useRef(null);
   const handleScreenshot = async () => {

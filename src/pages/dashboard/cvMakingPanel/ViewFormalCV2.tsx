@@ -116,24 +116,32 @@ const UserCVDisplayLayout1 = () => {
       {/* now from here i will display only that sections or part which is filled by user means not empty */}
       <div className="bg-gray-100 min-h-screen min-w-screen  p-6">
         <div ref={pageRef} className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10" >
-          <div className="text-center">
-            <img
-              src={images}
-              alt="Profile"
-              className="w-32 h-32 mx-auto rounded-full object-cover"
-            />
-            <h1 className="text-3xl font-bold mt-4">{name}</h1>
-            <h2 className="text-lg text-gray-600">{profession}</h2>
-            <p className="text-sm text-gray-600">{address}</p>
-            <div className="flex justify-center gap-4 mt-2 text-sm text-blue-600">
-              <a href={`mailto:${emailId}`}>{emailId}</a>
-              <a href={linkedInId}>LinkedIn</a>
-              <a href={githubId}>GitHub</a>
-              <a href={portfolioLink}>Portfolio</a>
-            </div>
-          </div>
+          {(images || name || profession || address || emailId || linkedInId || githubId || portfolioLink) && (
+            <>
+              <div className="text-center">
+                {images && (
+                  <img
+                    src={images}
+                    alt="Profile"
+                    className="w-32 h-32 mx-auto rounded-full object-cover"
+                  />
+                )}
+                {name && <h1 className="text-3xl font-bold mt-4">{name}</h1>}
+                {profession && <h2 className="text-lg text-gray-600">{profession}</h2>}
+                {address && <p className="text-sm text-gray-600">{address}</p>}
+                {(emailId || linkedInId || githubId || portfolioLink) && (
+                  <div className="flex justify-center gap-4 mt-2 text-sm text-blue-600 flex-wrap">
+                    {emailId && <a href={`mailto:${emailId}`}>{emailId}</a>}
+                    {linkedInId && <a href={linkedInId}>LinkedIn</a>}
+                    {githubId && <a href={githubId}>GitHub</a>}
+                    {portfolioLink && <a href={portfolioLink}>Portfolio</a>}
+                  </div>
+                )}
+              </div>
 
-          <hr className="my-6" />
+              <hr className="my-6" />
+            </>
+          )}
 
           {description && (
             <section>

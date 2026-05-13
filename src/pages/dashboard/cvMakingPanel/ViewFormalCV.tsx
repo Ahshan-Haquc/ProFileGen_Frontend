@@ -104,33 +104,41 @@ const ViewFormalCV = () => {
           className="max-w-4xl mx-auto bg-white p-8 shadow-md rounded-md text-[#213448]"
         >
           {/* HEADER */}
-          <div className="text-center mb-6">
-            <img
-              src={userCV.images}
-              alt="Profile"
-              className="w-32 h-32 rounded-full mx-auto object-cover border-2 border-gray-400"
-            />
-            <h1 className="text-3xl font-bold mt-4">{userCV.name}</h1>
-            <h2 className="text-xl text-gray-600">{userCV.profession}</h2>
-          </div>
+          {(userCV.images || userCV.name || userCV.profession) && (
+            <div className="text-center mb-6">
+              {userCV.images && (
+                <img
+                  src={userCV.images}
+                  alt="Profile"
+                  className="w-32 h-32 rounded-full mx-auto object-cover border-2 border-gray-400"
+                />
+              )}
+              {userCV.name && <h1 className="text-3xl font-bold mt-4">{userCV.name}</h1>}
+              {userCV.profession && <h2 className="text-xl text-gray-600">{userCV.profession}</h2>}
+            </div>
+          )}
 
           {/* PROFILE SUMMARY */}
-          <div className="mb-6">
-            <h3 className="text-2xl font-semibold border-b border-gray-300 pb-1">
-              Profile Summary
-            </h3>
-            <p className="mt-2">{userCV.description}</p>
-          </div>
+          {userCV.description && (
+            <div className="mb-6">
+              <h3 className="text-2xl font-semibold border-b border-gray-300 pb-1">
+                Profile Summary
+              </h3>
+              <p className="mt-2">{userCV.description}</p>
+            </div>
+          )}
 
           {/* CONTACT INFO */}
-          <div className="grid grid-cols-2 gap-4 mb-6 text-gray-700">
-            <p><strong>Email:</strong> {userCV.emailId}</p>
-            <p><strong>Phone:</strong> {userCV.phoneNumber}</p>
-            <p><strong>LinkedIn:</strong> {userCV.linkedInId}</p>
-            <p><strong>GitHub:</strong> {userCV.githubId}</p>
-            <p><strong>Portfolio:</strong> {userCV.portfolioLink}</p>
-            <p><strong>Address:</strong> {userCV.address}</p>
-          </div>
+          {(userCV.emailId || userCV.phoneNumber || userCV.linkedInId || userCV.githubId || userCV.portfolioLink || userCV.address) && (
+            <div className="grid grid-cols-2 gap-4 mb-6 text-gray-700">
+              {userCV.emailId && <p><strong>Email:</strong> {userCV.emailId}</p>}
+              {userCV.phoneNumber && <p><strong>Phone:</strong> {userCV.phoneNumber}</p>}
+              {userCV.linkedInId && <p><strong>LinkedIn:</strong> {userCV.linkedInId}</p>}
+              {userCV.githubId && <p><strong>GitHub:</strong> {userCV.githubId}</p>}
+              {userCV.portfolioLink && <p><strong>Portfolio:</strong> {userCV.portfolioLink}</p>}
+              {userCV.address && <p><strong>Address:</strong> {userCV.address}</p>}
+            </div>
+          )}
 
           {/* SKILLS */}
           {userCV.skills && (
