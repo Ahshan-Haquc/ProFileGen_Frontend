@@ -1,11 +1,9 @@
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
 import { Edit, Eye, LayoutDashboard, LogOut } from "lucide-react";
-import { useSideBarVisible } from "../../context/SideBarShowInPhone";
-import { useAuthUser } from "../../context/AuthContext";
+import { useSideBarVisible, useAuthUser, useUserCV } from "@/redux/hooks";
 import { useLogoutUserMutation } from "../../redux/features/dashboard/dashboardApi";
-import { useUserCV } from "../../context/UserCVContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUpdateCVTitleMutation } from "@/redux/features/cv/cvApi";
 import toastShow from "@/utils/toastShow";
 
@@ -18,9 +16,17 @@ const NavBar = () => {
     const { setIsSidebarVisible } = useSideBarVisible();
     const [isEditing, setIsEditing] = useState(false);
 
-    const [title, setTitle] = useState(userCV.title);
+    const safeUserCV = userCV || {};
+    const [title, setTitle] = useState(() => safeUserCV.title || "");
     const [loading, setLoading] = useState(false);
     const [updateCVTitle] = useUpdateCVTitleMutation();
+
+    useEffect(() => {
+      if (!isEditing) {
+        const newTitle = safeUserCV.title || "";
+        setTitle((currentTitle) => (currentTitle !== newTitle ? newTitle : currentTitle));
+      }
+    }, [safeUserCV.title, isEditing]);
 
 
     const logout = async () => {
@@ -34,18 +40,18 @@ const NavBar = () => {
     };
 
     const handleCancel = () => {
-        setTitle(userCV.title);
+        setTitle(safeUserCV.title || "");
         setIsEditing(false);
     };
 
     const handleSubmit = async () => {
-        if (!title.trim() || title === userCV.title) {
+        if (!title.trim() || title === safeUserCV.title) {
             setIsEditing(false);
             return;
         }
         try {
             setLoading(true);
-            const response = await updateCVTitle({ cvId: userCV._id, newTitle: title.trim() }).unwrap();
+            const response = await updateCVTitle({ cvId: safeUserCV._id, newTitle: title.trim() }).unwrap();
             if (response.success) toastShow(response.message, "success");
             else toastShow(response.message, "error");
         } catch {

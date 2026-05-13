@@ -1,7 +1,7 @@
 import React from "react";
-import { useSkillsContext } from "../../../context/SkillsAddingContext";
-import { useAuthUser } from "../../../context/AuthContext";
-import { useUserCV } from "../../../context/UserCVContext";
+import { useSkillsContext } from "@/redux/hooks";
+import { useAuthUser } from "@/redux/hooks";
+import { useUserCV } from "@/redux/hooks";
 import { useUpdateUserSkillsMutation } from "../../../redux/features/skills/skillsApi";
 
 const SaveSkillsButton = () => {

@@ -1,4 +1,4 @@
-import { useSkillsContext } from "../../../context/SkillsAddingContext";
+import { useSkillsContext } from "@/redux/hooks";
 
 const SkillsAdd = ({ name, identifier, num, category }) => {
   const { skills, setSkills } = useSkillsContext();

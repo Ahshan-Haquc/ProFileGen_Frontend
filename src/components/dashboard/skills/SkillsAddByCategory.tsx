@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SkillsAdd from "./SkillsAdd";
-import { useSkillsContext } from "../../../context/SkillsAddingContext";
+import { useSkillsContext } from "@/redux/hooks";
 
 const SkillsAddByCategory = ({ category, values }) => {
   const [inputBoxShowingStatus, setInputBoxShowingStatus] = useState(false);

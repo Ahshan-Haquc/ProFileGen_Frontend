@@ -1,6 +1,6 @@
 import React from "react";
 import Title from "./Headings";
-import { useUserCV } from "../context/UserCVContext";
+import { useUserCV } from "@/redux/hooks";
 
 const Projects = () => {
   const { userCV } = useUserCV();

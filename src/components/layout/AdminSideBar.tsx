@@ -6,7 +6,7 @@ import {
     Settings,
     LogOut,
 } from "lucide-react";
-import { useAuthUser } from '../../context/AuthContext';
+import { useAuthUser } from '@/redux/hooks';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useLogoutUserMutation } from '../../redux/features/dashboard/dashboardApi';
 

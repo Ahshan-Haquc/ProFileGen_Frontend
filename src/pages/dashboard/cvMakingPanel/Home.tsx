@@ -1,5 +1,5 @@
-import { useAuthUser } from "@/context/AuthContext";
-import { useUserCV } from "@/context/UserCVContext";
+import { useAuthUser } from "@/redux/hooks";
+import { useUserCV } from "@/redux/hooks";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -44,9 +44,11 @@ const Home = () => {
 
   useEffect(() => {
     if (cvId && currentWorkingCVData?.success) {
-      setUserCV(currentWorkingCVData.userCurrentCV);
+      if (currentWorkingCVData.userCurrentCV?._id !== userCV?._id) {
+        setUserCV(currentWorkingCVData.userCurrentCV);
+      }
     }
-  }, [currentWorkingCVData, cvId, setUserCV]);
+  }, [currentWorkingCVData, cvId, setUserCV, userCV?._id]);
 
   // Only redirect to cvDashboard if cvId was explicitly provided but data fetching failed
   useEffect(() => {

@@ -1,5 +1,5 @@
-import { useAuthUser } from "@/context/AuthContext";
-import { useUserCV } from "@/context/UserCVContext";
+import { useAuthUser } from "@/redux/hooks";
+import { useUserCV } from "@/redux/hooks";
 import toastShow from "@/utils/toastShow";
 import { useDeleteItemsMutation, useUpdateUserActivitiesMutation } from "@/redux/features/dashboard/dashboardApi";
 import React, { useState, useEffect } from "react";

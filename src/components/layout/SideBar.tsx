@@ -1,7 +1,7 @@
 // // components/layout/SideBar.jsx
 // import { NavLink, useParams } from "react-router-dom";
-// import { useSideBarVisible } from "../../context/SideBarShowInPhone";
-// import { useUserCV } from "../../context/UserCVContext";
+// import { useSideBarVisible } from "@/redux/hooks";
+// import { useUserCV } from "@/redux/hooks";
 // import {
 //     Home,
 //     User,
@@ -290,8 +290,8 @@
 
 // components/layout/SideBar.jsx
 import { NavLink, useParams } from "react-router-dom";
-import { useSideBarVisible } from "../../context/SideBarShowInPhone";
-import { useUserCV } from "../../context/UserCVContext";
+import { useSideBarVisible } from "@/redux/hooks";
+import { useUserCV } from "@/redux/hooks";
 import {
     Home,
     User,

@@ -1,9 +1,9 @@
 import React from "react";
-import { useAuthUser } from "@/context/AuthContext";
-import { useUserCV } from "@/context/UserCVContext";
+import { useAuthUser } from "@/redux/hooks";
+import { useUserCV } from "@/redux/hooks";
 import toastShow from "@/utils/toastShow";
 import { useUpdateUserSkillsMutation } from "@/redux/features/skills/skillsApi";
-import { useSkillsContext } from "@/context/SkillsAddingContext";
+import { useSkillsContext } from "@/redux/hooks";
 import SkillsAddByCategory from "@/components/dashboard/skills/SkillsAddByCategory";
 import { 
   Wrench, 

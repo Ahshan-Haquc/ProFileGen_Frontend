@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"; // Import useEffect
-import { useAuthUser } from "@/context/AuthContext";
-import { useUserCV } from "@/context/UserCVContext";
+import { useAuthUser } from "@/redux/hooks";
+import { useUserCV } from "@/redux/hooks";
 import { useUpdateUserDescriptionMutation } from "@/redux/features/dashboard/dashboardApi";
 
 const Description = () => {

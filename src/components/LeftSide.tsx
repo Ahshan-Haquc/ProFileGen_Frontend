@@ -3,7 +3,7 @@ import myImage from "../assets/MyImage.jpg";
 import Title from "./Headings";
 import ContactText from "./ContactText";
 import Skills from "./Skills";
-import { useUserCV } from "../context/UserCVContext";
+import { useUserCV } from "@/redux/hooks";
 
 const LeftSide = () => {
   const { userCV } = useUserCV();

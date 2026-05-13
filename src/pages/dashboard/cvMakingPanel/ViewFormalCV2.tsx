@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import domtoimage from "dom-to-image";
 import { toPng } from "html-to-image";
-import { useUserCV } from "@/context/UserCVContext";
+import { useUserCV } from "@/redux/hooks";
 import { loadingOnPageLoad } from "@/controllers/loadingOnPageLoad";
 import Loading from "@/commonComponents/Loading";
 
