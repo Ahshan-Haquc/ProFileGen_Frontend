@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useAuthUser } from "@/context/AuthContext";
-import { useUserCV } from "@/context/UserCVContext";
+import { useAuthUser } from "@/redux/hooks";
+import { useUserCV } from "@/redux/hooks";
 import toastShow from "@/utils/toastShow";
 import {
   useUpdateUserProjectsMutation,

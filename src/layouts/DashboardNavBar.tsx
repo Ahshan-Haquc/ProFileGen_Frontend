@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuthUser } from "@/context/AuthContext";
+import { useAuthUser } from "@/redux/hooks";
 import { useLogoutUserMutation } from "@/redux/features/auth/authApi";
 import toastShow from "@/utils/toastShow";
 import { useNavigate, useLocation } from "react-router-dom";

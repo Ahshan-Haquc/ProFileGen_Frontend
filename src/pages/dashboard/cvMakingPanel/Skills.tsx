@@ -1,9 +1,9 @@
-import React from "react";
-import { useAuthUser } from "@/context/AuthContext";
-import { useUserCV } from "@/context/UserCVContext";
+import React, { useEffect } from "react";
+import { useAuthUser } from "@/redux/hooks";
+import { useUserCV } from "@/redux/hooks";
 import toastShow from "@/utils/toastShow";
 import { useUpdateUserSkillsMutation } from "@/redux/features/skills/skillsApi";
-import { useSkillsContext } from "@/context/SkillsAddingContext";
+import { useSkillsContext } from "@/redux/hooks";
 import SkillsAddByCategory from "@/components/dashboard/skills/SkillsAddByCategory";
 import { 
   Wrench, 
@@ -20,22 +20,46 @@ import {
 
 const Skills = () => {
   const { user } = useAuthUser();
-  const { skills } = useSkillsContext();
+  const { skills, setSkills } = useSkillsContext();
   const { userCV, setUserCV } = useUserCV();
   const [updateUserSkills, { isLoading }] = useUpdateUserSkillsMutation();
 
-  // Data arrays (Keep your existing arrays here - omitted for brevity)
-  const frontendSkillNames = ["HTML", "CSS", "JavaScript", "TypeScript", "React.js", "Next.js", "Vue.js", "Angular", "Svelte", "jQuery", "Tailwind CSS", "Bootstrap", "Sass/SCSS", "Less", "Webpack", "Vite"];
-  const backendSkillNames = ["Node.js", "Express.js", "NestJS", "Koa.js", "PHP", "Laravel", "Python", "Django", "Flask", "Ruby on Rails", "Java (Spring Boot)", "Go (Gin, Echo)", "C# (.NET)", "GraphQL"];
-  const uIuXNames = ["Figma", "Adobe XD", "Canva", "Sketch", "Adobe Photoshop", "Adobe Illustrator"];
-  const databaseNames = ["MongoDB", "MySQL", "PostgreSQL", "Redis", "Cassandra", "Firebase Firestore", "AWS DynamoDB", "SQL Server"];
-  const toolsAndTechnologiesNames = ["Postman", "Git & GitHub", "GitLab", "Bitbucket", "Docker", "Kubernetes", "OpenAI API", "VS Code", "npm", "Yarn", "Jenkins", "GitHub Actions", "GitLab CI/CD", "AWS (Amazon Web Services)", "Google Cloud Platform (GCP)", "Microsoft Azure", "Jira", "Confluence", "Slack", "Zoom", "Jest", "React Testing Library", "Cypress"];
-  const softSkillName = ["Communication", "Problem-Solving", "Teamwork & Collaboration", "Adaptability", "Time Management", "Critical Thinking", "Attention to Detail", "Creativity", "Leadership", "Presentation Skills", "MS Office (Word, Excel, PowerPoint)", "Video Editing", "2D Animation", "Photo Editing"];
+  const getCvId = () => {
+    if (userCV?._id) {
+      return userCV._id;
+    }
+
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem("userCV");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          return parsed?._id || "";
+        }
+      } catch (err) {
+        console.error("Failed to parse stored userCV", err);
+      }
+    }
+
+    return "";
+  };
+
+  useEffect(() => {
+    if (Object.keys(skills || {}).length === 0 && Object.keys(userCV?.skills || {}).length > 0) {
+      setSkills(userCV.skills);
+    }
+  }, [skills, setSkills, userCV?.skills]);
 
   const submitData = async () => {
+    const cvId = getCvId();
+    if (!cvId) {
+      toastShow("Unable to save skills: CV id is missing.", "error");
+      return;
+    }
+
     try {
       const data = await updateUserSkills({
-        cvId: userCV._id,
+        cvId,
         skills,
       }).unwrap();
       toastShow(data.message, "success");
@@ -46,13 +70,21 @@ const Skills = () => {
     }
   };
 
+  // Data arrays (Keep your existing arrays here - omitted for brevity)
+  const frontendSkillNames = ["HTML", "CSS", "JavaScript", "TypeScript", "React.js", "Next.js", "Vue.js", "Angular", "Svelte", "jQuery", "Tailwind CSS", "Bootstrap", "Sass/SCSS", "Less", "Webpack", "Vite"];
+  const backendSkillNames = ["Node.js", "Express.js", "NestJS", "Koa.js", "PHP", "Laravel", "Python", "Django", "Flask", "Ruby on Rails", "Java (Spring Boot)", "Go (Gin, Echo)", "C# (.NET)", "GraphQL"];
+  const uIuXNames = ["Figma", "Adobe XD", "Canva", "Sketch", "Adobe Photoshop", "Adobe Illustrator"];
+  const databaseNames = ["MongoDB", "MySQL", "PostgreSQL", "Redis", "Cassandra", "Firebase Firestore", "AWS DynamoDB", "SQL Server"];
+  const toolsAndTechnologiesNames = ["Postman", "Git & GitHub", "GitLab", "Bitbucket", "Docker", "Kubernetes", "OpenAI API", "VS Code", "npm", "Yarn", "Jenkins", "GitHub Actions", "GitLab CI/CD", "AWS (Amazon Web Services)", "Google Cloud Platform (GCP)", "Microsoft Azure", "Jira", "Confluence", "Slack", "Zoom", "Jest", "React Testing Library", "Cypress"];
+  const softSkillName = ["Communication", "Problem-Solving", "Teamwork & Collaboration", "Adaptability", "Time Management", "Critical Thinking", "Attention to Detail", "Creativity", "Leadership", "Presentation Skills", "MS Office (Word, Excel, PowerPoint)", "Video Editing", "2D Animation", "Photo Editing"];
+
   const categories = [
-    { title: "Frontend", icon: <Code2 size={20} />, data: frontendSkillNames },
-    { title: "Backend", icon: <Layers size={20} />, data: backendSkillNames },
-    { title: "UI/UX", icon: <Palette size={20} />, data: uIuXNames },
-    { title: "Database", icon: <Database size={20} />, data: databaseNames },
-    { title: "Tools & Tech", icon: <Cpu size={20} />, data: toolsAndTechnologiesNames },
-    { title: "Soft Skills", icon: <Lightbulb size={20} />, data: softSkillName },
+    { title: "Frontend", icon: <Code2 size={20} />, data: frontendSkillNames, key: "Frontend" },
+    { title: "Backend", icon: <Layers size={20} />, data: backendSkillNames, key: "Backend" },
+    { title: "UI/UX", icon: <Palette size={20} />, data: uIuXNames, key: "UIUX" },
+    { title: "Database", icon: <Database size={20} />, data: databaseNames, key: "Database" },
+    { title: "Tools & Tech", icon: <Cpu size={20} />, data: toolsAndTechnologiesNames, key: "ToolsAndTechnology" },
+    { title: "Soft Skills", icon: <Lightbulb size={20} />, data: softSkillName, key: "SoftSkills" },
   ];
 
   return (
@@ -101,7 +133,8 @@ const Skills = () => {
             
             <div className="min-h-[100px]">
               <SkillsAddByCategory 
-                category={cat.title.replace(/\s/g, "")} 
+                category={cat.key}
+                label={cat.title}
                 values={cat.data} 
               />
             </div>

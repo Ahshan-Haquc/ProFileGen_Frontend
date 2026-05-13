@@ -5,7 +5,7 @@ import Education from "./Education";
 import Acheivement from "./Acheivement";
 import ExtracurricularActivities from "./ExtracurricularActivities";
 import Projects from "./Projects";
-import { useUserCV } from "../context/UserCVContext";
+import { useUserCV } from "@/redux/hooks";
 
 const RightSide = () => {
   const { userCV } = useUserCV();

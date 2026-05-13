@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useLogoutUserMutation } from "@/redux/features/auth/authApi";
 import { setUser } from "@/redux/features/auth/authSlice";
 import toastShow from "@/utils/toastShow";
-import { useAuthUser } from "@/context/AuthContext";
+import { useAuthUser } from "@/redux/hooks";
 
 const LandingNavBar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);

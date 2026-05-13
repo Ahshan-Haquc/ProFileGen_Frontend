@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toPng } from "html-to-image";
 import html2canvas from "html2canvas";
-import { useUserCV } from "@/context/UserCVContext";
+import { useUserCV } from "@/redux/hooks";
 import { loadingOnPageLoad } from "@/controllers/loadingOnPageLoad";
 import Loading from "@/commonComponents/Loading";
 import LeftSide from "@/components/LeftSide";
@@ -13,9 +13,10 @@ const ViewCV = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { userCV, setUserCV } = useUserCV();
+  
   useEffect(() => {
-    document.title = "Modern CV";
-  }, [userCV]);
+    document.title = userCV?.title || "Modern CV";
+  }, [userCV?.title]);
 
   const pageRef = useRef(null);
   const handleScreenshot = async () => {

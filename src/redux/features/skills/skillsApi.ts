@@ -18,7 +18,7 @@ export const skillsApi = baseApi.injectEndpoints({
     updateUserSkills: builder.mutation<any, any>({
       query: (body) => ({
         url: "/updateUserSkills",
-        method: "PATCH",
+        method: "POST",
         body,
       }),
       invalidatesTags: ["Skills", "CV"],

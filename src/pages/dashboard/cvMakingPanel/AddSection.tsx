@@ -7,7 +7,7 @@ import {
   useDeleteSectionValueMutation,
   useAddNewSectionMutation,
 } from "@/redux/features/dashboard/dashboardApi";
-import { useUserCV } from "@/context/UserCVContext";
+import { useUserCV } from "@/redux/hooks";
 import toastShow from "@/utils/toastShow";
 import { toast } from "react-toastify";
 

@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuthUser } from "./AuthContext";
+import { useAuthUser } from "@/redux/hooks";
 
 const ProtectedRoute = () => {
   const { user } = useAuthUser();
