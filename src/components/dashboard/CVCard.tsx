@@ -101,40 +101,40 @@ export default function CVCard({ cv, onToggleFavorite, onDelete }) {
                 <div>Updated: {new Date(cv.updatedAt).toLocaleString()}</div>
             </div> */}
             {/* Improved Meta Section */}
-<div className="mb-6 flex items-center justify-between border-t border-gray-100 pt-4">
-    
-    {/* Updated Date */}
-    <div className="flex items-center gap-2 ">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#DCA06D]/10 text-[#4F1C51]">
-             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 0-9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/><path d="M12 7v5l2 2"/></svg>
-        </div>
-        <div className="flex flex-col">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 leading-none">Last Edit</span>
-            <span className="text-xs font-semibold text-[#4F1C51]">
-                {new Date(cv.updatedAt).toLocaleDateString()}
-            </span>
-        </div>
-        
-    </div>
+            <div className="mb-6 flex items-center justify-between border-t border-gray-100 pt-4">
 
-    {/* Vertical Divider */}
-    <div className="h-8 w-[1px] bg-gray-100" />
+                {/* Updated Date */}
+                <div className="flex items-center gap-2 ">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#DCA06D]/10 text-[#4F1C51]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 0-9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" /><path d="M16 16h5v5" /><path d="M12 7v5l2 2" /></svg>
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 leading-none">Last Edit</span>
+                        <span className="text-xs font-semibold text-[#4F1C51]">
+                            {new Date(cv.updatedAt).toLocaleDateString()}
+                        </span>
+                    </div>
 
-    {/* Created Date */}
-    <div className="flex items-center gap-2">
-        
-        <div className="flex flex-col">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 leading-none">Created</span>
-            <span className="text-xs font-semibold text-[#210F37]">
-                {new Date(cv.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
-            </span>
-        </div>
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#A55B4B]/5 text-[#A55B4B]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        </div>
-    </div>
-    
-</div>
+                </div>
+
+                {/* Vertical Divider */}
+                <div className="h-8 w-[1px] bg-gray-100" />
+
+                {/* Created Date */}
+                <div className="flex items-center gap-2">
+
+                    <div className="flex flex-col">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 leading-none">Created</span>
+                        <span className="text-xs font-semibold text-[#210F37]">
+                            {new Date(cv.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </span>
+                    </div>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#A55B4B]/5 text-[#A55B4B]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                    </div>
+                </div>
+
+            </div>
 
             {/* Actions */}
             <div className="flex items-center gap-2 flex-wrap">
