@@ -9,11 +9,37 @@ const SaveSkillsButton = () => {
   const { userCV, setUserCV } = useUserCV();
   const [updateUserSkills] = useUpdateUserSkillsMutation();
 
+  const getCvId = () => {
+    if (userCV?._id) {
+      return userCV._id;
+    }
+
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem("userCV");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          return parsed?._id || "";
+        }
+      } catch (err) {
+        console.error("Failed to parse stored userCV", err);
+      }
+    }
+
+    return "";
+  };
+
   const handleSave = async () => {
+    const cvId = getCvId();
+    if (!cvId) {
+      alert("Unable to save skills: CV id is missing.");
+      return;
+    }
+
     try {
       const data = await updateUserSkills({
-        cvId: userCV._id,
-        skills: skills,
+        cvId,
+        skills,
       }).unwrap();
 
       alert(data.message);

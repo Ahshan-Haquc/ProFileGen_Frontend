@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SkillsAdd from "./SkillsAdd";
 import { useSkillsContext } from "@/redux/hooks";
 
-const SkillsAddByCategory = ({ category, values }) => {
+const SkillsAddByCategory = ({ category, label, values }) => {
   const [inputBoxShowingStatus, setInputBoxShowingStatus] = useState(false);
   const [newSkill, setNewSkill] = useState("");
   const { skills, setSkills } = useSkillsContext();
@@ -23,10 +23,11 @@ const SkillsAddByCategory = ({ category, values }) => {
       return;
     }
 
-    setSkills((prev) => ({
-      ...prev,
-      [category]: [...(prev[category] || []), newSkill.trim()],
-    }));
+    const currentCategorySkills: string[] = (skills[category] as string[]) || [];
+    setSkills({
+      ...skills,
+      [category]: [...currentCategorySkills, newSkill.trim()],
+    });
     alert("Skill added successfully!"); // More descriptive alert
 
     setNewSkill(""); // clear input field
@@ -36,7 +37,7 @@ const SkillsAddByCategory = ({ category, values }) => {
   return (
     <div>
       <div className="mt-4 text-lg p-1 bg-[#210F37]/10 text-[#210F37] rounded">
-        <i className="fa-solid fa-list"></i> {category}
+        <i className="fa-solid fa-list"></i> {label}
       </div>
       <div className="py-3 flex flex-wrap gap-3">
         {values.map((skillName, index) => {

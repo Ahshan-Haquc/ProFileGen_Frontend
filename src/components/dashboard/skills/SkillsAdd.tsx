@@ -5,30 +5,24 @@ const SkillsAdd = ({ name, identifier, num, category }) => {
 
   const handleInput = (e) => {
     const isChecked = e.target.checked;
-    const categoryName = e.target.getAttribute("categoryname");
+    const categoryName = e.target.dataset.categoryname;
     const value = e.target.value;
 
-    setSkills((prev) => {
-      const currentCategorySkills = prev[categoryName] || [];
+    const currentCategorySkills: string[] = (skills[categoryName] as string[]) || [];
 
-      if (isChecked) {
-        // Add only if not already present
-        if (!currentCategorySkills.includes(value)) {
-          return {
-            ...prev,
-            [categoryName]: [...currentCategorySkills, value],
-          };
-        }
-      } else {
-        // Remove the unchecked value
-        return {
-          ...prev,
-          [categoryName]: currentCategorySkills.filter((skill) => skill !== value),
-        };
+    if (isChecked) {
+      if (!currentCategorySkills.includes(value)) {
+        setSkills({
+          ...skills,
+          [categoryName]: [...currentCategorySkills, value],
+        });
       }
-
-      return prev;
-    });
+    } else {
+      setSkills({
+        ...skills,
+        [categoryName]: currentCategorySkills.filter((skill) => skill !== value),
+      });
+    }
   };
 
   return (
@@ -37,7 +31,7 @@ const SkillsAdd = ({ name, identifier, num, category }) => {
         type="checkbox"
         id={identifier + num}
         name={identifier + num}
-        categoryname={category}
+        data-categoryname={category}
         value={name}
         onChange={handleInput}
       />
