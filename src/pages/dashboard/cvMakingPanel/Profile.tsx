@@ -62,7 +62,7 @@ const Profile = () => {
       if (data.success) {
         toastShow(data.message, "success");
         if (data.updatedCV) setUserCV(data.updatedCV);
-        navigate("/");
+        navigate(`/home/${userCV._id}`)
       } else {
         toastShow("Failed: " + data.message, "error");
       }

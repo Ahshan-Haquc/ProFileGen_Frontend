@@ -63,7 +63,6 @@ const Contact = () => {
       if (data.updatedCV) {
         setUserCV(data.updatedCV);
       }
-      navigate("/home");
     } catch (error) {
       console.error("Error in submission:", error);
       toastShow("Update failed. Please check your connection.", "error");

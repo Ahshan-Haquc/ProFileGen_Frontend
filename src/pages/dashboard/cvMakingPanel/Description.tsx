@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"; // Import useEffect
 import { useAuthUser } from "@/redux/hooks";
 import { useUserCV } from "@/redux/hooks";
 import { useUpdateUserDescriptionMutation } from "@/redux/features/dashboard/dashboardApi";
+import toastShow from "@/utils/toastShow";
 
 const Description = () => {
   const { user } = useAuthUser();
@@ -31,13 +32,13 @@ const Description = () => {
       }).unwrap();
 
       if (data.success) {
-        alert("Updated successfully!");
+        toastShow("Updated successfully!","success");
       } else {
-        alert("Update failed. Please try again.");
+        toastShow("Update failed. Please try again.","error");
       }
     } catch (error) {
       console.error("Error in my submission:", error); // Use console.error for errors
-      alert("Update failed due to a network error.");
+      toastShow("Update failed due to a network error.","error");
     }
   };
 

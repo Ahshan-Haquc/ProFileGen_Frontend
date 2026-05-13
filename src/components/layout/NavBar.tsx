@@ -139,7 +139,7 @@ const NavBar = () => {
                 <div className="flex items-center gap-2">
                     {/* Preview */}
                     <NavLink
-                        to={`/home/${cvId}`}
+                        to={`/home/${userCV._id}`}
                         className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs xl:text-sm 2xl:text-base font-semibold
                                    text-[#210F37]/80 hover:text-[#ff8757] hover:bg-[#ff8757]/5
                                    border border-gray-200 hover:border-[#ff8757]/30
