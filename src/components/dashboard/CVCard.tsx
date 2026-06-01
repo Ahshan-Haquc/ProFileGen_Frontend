@@ -150,12 +150,12 @@ export default function CVCard({ cv, onToggleFavorite, onDelete }) {
                 >
                     <Eye className="h-4 w-4" /> Preview
                 </NavLink>
-                <NavLink
+                {/* <NavLink
                     to={`/home/${cv._id}`}
                     className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                 >
                     <Download className="h-4 w-4" /> Download
-                </NavLink>
+                </NavLink> */}
                 <button
                     onClick={() => onDelete(cv._id)}
                     className="inline-flex items-center gap-2 rounded-lg bg-[#4F1C51] px-3 py-2 text-sm font-medium text-white hover:bg-black transition duration-300"
