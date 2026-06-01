@@ -1,4 +1,4 @@
-# ProFileGen Frontend
+# ProFileGen (SaaS Platform) Frontend
 
 ProFileGen is a modern resume and portfolio builder designed to help users create professional CVs quickly and confidently. This frontend repository contains the complete React + TypeScript application for the user-facing interface, dashboard, template selection, and profile editing experience.<br><br>
 <br>
