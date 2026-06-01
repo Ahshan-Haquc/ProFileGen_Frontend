@@ -1,12 +1,37 @@
-# React + Vite
+# ProFileGen Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ProFileGen is a modern resume and portfolio builder designed to help users create professional CVs quickly and confidently. This frontend repository contains the complete React + TypeScript application for the user-facing interface, dashboard, template selection, and profile editing experience.<br><br>
+<br>
+Live link of the project: https://profilegen-frontend.vercel.app/  <br>
+Github repository link of the backend: https://github.com/Ahshan-Haquc/ProFileGen_Backend
 
-Currently, two official plugins are available:
+## What this project does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Provides an interactive landing page with templates, pricing, and onboarding steps.
+- Includes user authentication flows for login, signup, and admin signup.
+- Offers a full dashboard for creating and customizing resumes with sections like experience, education, skills, achievements, and contact details.
+- Supports reusable UI components, responsive layout, and polished presentation for desktop and mobile.
+- Connects with backend APIs for managing user data, CV content, templates, and subscriptions.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Key features
+
+- Landing page with hero section, FAQs, pricing, and templates
+- Authentication and protected routes
+- Admin dashboard and user management
+- Dynamic resume editor with multiple CV sections
+- Mobile-friendly layout and clean design system
+
+## Tech stack
+
+- React
+- TypeScript
+- Vite
+- Redux Toolkit
+- CSS and tailwind css
+- Shadcn/ui
+- Motion
+
+## Notes
+
+This repo is the frontend application for the ProFileGen platform. This frontend is connected with a separate Express + MongoDB backend API. https://github.com/Ahshan-Haquc/ProFileGen_Backend
