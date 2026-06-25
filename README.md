@@ -20,7 +20,7 @@ Github repository link of the backend: https://github.com/Ahshan-Haquc/ProFileGe
 - Authentication and protected routes
 - Admin dashboard and user management
 - Dynamic resume editor with multiple CV sections
-- Mobile-friendly layout and clean design system
+- Mobile-friendly layout and clean design system.
 
 ## Tech stack
 
