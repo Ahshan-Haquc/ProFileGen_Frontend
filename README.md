@@ -5,6 +5,7 @@ ProFileGen is a modern resume and portfolio builder designed to help users creat
 Live link of the project: https://profilegen-frontend.vercel.app/  <br>
 Github repository link of the backend: https://github.com/Ahshan-Haquc/ProFileGen_Backend
 
+
 ## What this project does
 
 - Provides an interactive landing page with templates, pricing, and onboarding steps.
